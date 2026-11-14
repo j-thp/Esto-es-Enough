@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1080" height="1080" viewBox="0 0 1080 1080">
+  <defs>
+    <style>
+      @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&amp;display=swap');
+    </style>
+  </defs>
+  <rect width="1080" height="1080" fill="#0f0d0a"/>
+  <text
+    x="529"
+    y="540"
+    text-anchor="middle"
+    dominant-baseline="middle"
+    font-family="'Cormorant Garamond', Georgia, serif"
+    font-size="120"
+    font-weight="300"
+    letter-spacing="22"
+    fill="#d8d1bf"
+  ><tspan fill="#b69a6a">—</tspan> ENOUGH <tspan fill="#b69a6a">.</tspan></text>
+</svg>

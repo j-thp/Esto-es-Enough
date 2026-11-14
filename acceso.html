@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Acceso · Enough</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Accede o crea tu cuenta en Enough.">
+  <link rel="canonical" href="https://j-thp.github.io/Esto-es-Enough/acceso.html">
+  <meta name="robots" content="noindex">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="enough.css">
+
+  <style>
+    /* ─── Acceso — colapsado, dos columnas editorial + form ─── */
+
+    .acceso-wrap {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 36px var(--gutter) 80px;
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: 1.1fr .9fr;
+      gap: 0;
+      align-items: stretch;
+      min-height: calc(100vh - 280px);
+      border: 1px solid var(--hair-2);
+      background: rgba(230,224,209,.5);
+      backdrop-filter: blur(4px);
+    }
+
+    /* LEFT — editorial side */
+    .acceso-side {
+      padding: 56px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 32px;
+      border-right: 1px solid var(--hair-2);
+      position: relative;
+      overflow: hidden;
+    }
+    .acceso-side::before {
+      content: '';
+      position: absolute;
+      left: -20%; bottom: -30%;
+      width: 90%; height: 90%;
+      background: radial-gradient(ellipse at center,
+        color-mix(in oklch, var(--turrell-a) 22%, transparent),
+        color-mix(in oklch, var(--turrell-b) 14%, transparent) 50%,
+        transparent 75%);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+    .acceso-side > * { position: relative; z-index: 1; }
+
+    .acceso-eyebrow { font-family: var(--label-font); font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); }
+    .acceso-title {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: clamp(40px, 4.4vw, 64px);
+      line-height: .98;
+      letter-spacing: .005em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .acceso-title em { font-style: italic; letter-spacing: 0; color: var(--text-soft); }
+    .acceso-desc { font-family: var(--display-font); font-style: italic; font-size: 18px; line-height: 1.55; color: var(--muted); max-width: 38ch; }
+    .acceso-meta {
+      margin-top: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+    .acceso-meta div { padding: 14px 0; border-top: 1px solid var(--hair-2); display: flex; justify-content: space-between; gap: 10px; color: var(--muted); }
+    .acceso-meta div b { color: var(--text); font-weight: 500; }
+
+    /* RIGHT — form side */
+    .acceso-form-pane {
+      padding: 56px 48px;
+      display: flex;
+      flex-direction: column;
+      gap: 24px;
+      background: rgba(204,195,171,.4);
+      position: relative;
+    }
+    .tabs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      border-bottom: 1px solid var(--hair-2);
+    }
+    .tab {
+      background: transparent;
+      border: none;
+      padding: 12px 0 14px;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--faint);
+      cursor: pointer;
+      border-bottom: 1px solid transparent;
+      margin-bottom: -1px;
+      transition: color .2s, border-color .2s;
+      text-align: left;
+    }
+    .tab:hover { color: var(--muted); }
+    .tab.on { color: var(--text); border-bottom-color: var(--gold); }
+    .tab span { color: var(--gold); margin-right: 8px; }
+
+    form { display: none; flex-direction: column; gap: 18px; }
+    form.on { display: flex; }
+
+    .field-row { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+
+    .strength { display: flex; flex-direction: column; gap: 6px; margin-top: -10px; }
+    .strength-track { height: 2px; background: var(--hair-2); position: relative; overflow: hidden; }
+    .strength-fill { height: 100%; width: 0; background: var(--gold); transition: width .4s, background .4s; }
+    .strength-label { font-family: var(--label-font); font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: var(--faint); }
+
+    .titulo-toggle { display: flex; gap: 0; }
+    .titulo-btn {
+      flex: 1; padding: 10px 0;
+      background: transparent; border: 1px solid var(--hair-2);
+      color: var(--faint); font-family: var(--label-font); font-size: 10px;
+      letter-spacing: .22em; text-transform: uppercase; cursor: pointer;
+      transition: background .2s, border-color .2s, color .2s;
+    }
+    .titulo-btn + .titulo-btn { margin-left: -1px; }
+    .titulo-btn.on { background: var(--gold); border-color: var(--gold); color: var(--bg); }
+
+    .acceso-actions { display: flex; flex-direction: column; gap: 12px; margin-top: 8px; }
+    .acceso-actions .btn { justify-content: center; padding: 16px 24px; font-size: 11px; }
+
+    .oauth {
+      display: flex; align-items: center; gap: 12px;
+      font-family: var(--label-font); font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: var(--faint);
+      margin: 4px 0 8px;
+    }
+    .oauth::before, .oauth::after { content: ''; flex: 1; height: 1px; background: var(--hair-2); }
+    .oauth-btns { display: grid; grid-template-columns: 1fr; gap: 10px; }
+    .btn-oauth {
+      padding: 14px 16px;
+      background: transparent;
+      border: 1px solid var(--hair-2);
+      color: var(--muted);
+      font-family: var(--label-font); font-size: 10px; letter-spacing: .2em; text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color .2s, color .2s;
+    }
+    .btn-oauth:hover { border-color: var(--gold); color: var(--text); }
+
+    .acceso-foot-link {
+      display: flex; justify-content: space-between;
+      font-family: var(--label-font); font-size: 9px; letter-spacing: .22em; text-transform: uppercase; color: var(--faint);
+      margin-top: 6px;
+    }
+    .acceso-foot-link a { color: var(--muted); text-decoration: none; border-bottom: 1px solid var(--hair-2); padding-bottom: 2px; transition: color .2s, border-color .2s; }
+    .acceso-foot-link a:hover { color: var(--text); border-color: var(--gold); }
+
+    @media (max-width: 920px) {
+      .acceso-wrap { grid-template-columns: 1fr; min-height: auto; padding: 20px var(--gutter) 60px; }
+      .acceso-side { padding: 36px 28px; border-right: none; border-bottom: 1px solid var(--hair-2); gap: 24px; }
+      .acceso-form-pane { padding: 36px 28px; }
+      .field-row { grid-template-columns: 1fr; gap: 18px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav">
+    <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="fragmentos.html">Fragmentos</a></li>
+      <li><a href="acceso.html" aria-current="page">Acceso</a></li>
+    </ul>
+    <div class="nav-coords"><b>04</b> · Acceso</div>
+  </nav>
+
+  <header class="page-head">
+    <div class="head-id"><span class="num">04</span>Acceso</div>
+    <h1>Entrar al <em>archivo</em>.</h1>
+    <div class="head-meta">Privado<br>Vol. I / MMXXVI<br>Bucaramanga · CO</div>
+    <p class="head-eyebrow">Una entrada clara para quienes quieren seguir de cerca el proceso: obras en curso, referencias y notas sin editar.</p>
+  </header>
+
+  <main>
+    <div class="acceso-wrap">
+
+      <aside class="acceso-side">
+        <span class="acceso-eyebrow">— Para lectores y colaboradores</span>
+        <h2 class="acceso-title">Un punto<br>de entrada al <em>archivo</em>.</h2>
+        <p class="acceso-desc">El proceso es abierto pero lento. Sin frecuencia, sin algoritmo. Cuando hay algo que vale la pena compartir, llega aquí primero.</p>
+        <div class="acceso-meta">
+          <div><span>Acceso</span><b>Privado</b></div>
+          <div><span>Edición</span><b>00 — Apertura</b></div>
+          <div><span>Ritmo</span><b>Lento</b></div>
+          <div><span>Coste</span><b>Gratuito</b></div>
+        </div>
+      </aside>
+
+      <section class="acceso-form-pane">
+        <div class="tabs" role="tablist">
+          <button class="tab on"  type="button" role="tab" aria-selected="true"  onclick="showTab('login')"><span>01</span>Iniciar sesión</button>
+          <button class="tab"     type="button" role="tab" aria-selected="false" onclick="showTab('registro')"><span>02</span>Crear cuenta</button>
+        </div>
+
+        <form id="form-login" class="on" onsubmit="handleLogin(event)">
+          <div class="field">
+            <label for="l-email">Correo</label>
+            <input type="email" id="l-email" placeholder="tu@correo.com" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="l-pass">Contraseña</label>
+            <input type="password" id="l-pass" placeholder="••••••••" autocomplete="current-password" required>
+          </div>
+          <div class="form-msg" id="msg-login"></div>
+          <div class="acceso-actions">
+            <button type="submit" class="btn btn-solid">Iniciar sesión</button>
+          </div>
+          <div class="oauth">o continúa con</div>
+          <div class="oauth-btns">
+            <button type="button" class="btn-oauth" onclick="oauthGoogle()">Google</button>
+          </div>
+          <div class="acceso-foot-link">
+            <a href="#" onclick="event.preventDefault(); showTab('registro')">Crear cuenta nueva</a>
+            <a href="#" onclick="event.preventDefault(); recuperar()">¿Olvidaste tu contraseña?</a>
+          </div>
+        </form>
+
+        <div id="form-recovery" style="display:none; flex-direction:column; gap:18px;">
+          <p style="font-family:var(--label-font);font-size:9px;letter-spacing:.22em;text-transform:uppercase;color:var(--gold);">— Nueva contraseña</p>
+          <div class="field">
+            <label for="rec-pass">Nueva contraseña</label>
+            <input type="password" id="rec-pass" placeholder="Mínimo 8 caracteres" autocomplete="new-password">
+          </div>
+          <div class="field">
+            <label for="rec-pass2">Confirmar contraseña</label>
+            <input type="password" id="rec-pass2" placeholder="Repite tu contraseña" autocomplete="new-password">
+          </div>
+          <div class="form-msg" id="msg-recovery"></div>
+          <div class="acceso-actions">
+            <button type="button" class="btn btn-solid" onclick="confirmarRecovery()">Confirmar contraseña</button>
+          </div>
+        </div>
+
+        <form id="form-registro" onsubmit="handleRegistro(event)">
+          <div class="field-row">
+            <div class="field">
+              <label for="r-nombre">Nombre</label>
+              <input type="text" id="r-nombre" placeholder="Ana" autocomplete="given-name" required>
+            </div>
+            <div class="field">
+              <label for="r-apellido">Apellido</label>
+              <input type="text" id="r-apellido" placeholder="García" autocomplete="family-name">
+            </div>
+          </div>
+          <div class="field">
+            <label>¿Cómo quieres que te llamemos?</label>
+            <div class="titulo-toggle">
+              <button type="button" class="titulo-btn on" onclick="setTitulo(this)" data-val="Lector">Lector</button>
+              <button type="button" class="titulo-btn" onclick="setTitulo(this)" data-val="Lectora">Lectora</button>
+            </div>
+            <input type="hidden" id="r-titulo" value="Lector">
+          </div>
+          <div class="field">
+            <label for="r-email">Correo</label>
+            <input type="email" id="r-email" placeholder="tu@correo.com" autocomplete="email" required>
+          </div>
+          <div class="field">
+            <label for="r-pass">Contraseña</label>
+            <input type="password" id="r-pass" placeholder="Mínimo 8 caracteres" autocomplete="new-password" required oninput="checkStrength(this.value)">
+          </div>
+          <div class="strength">
+            <div class="strength-track"><div class="strength-fill" id="sbar"></div></div>
+            <div class="strength-label" id="shint">— Fortaleza</div>
+          </div>
+          <div class="field">
+            <label for="r-pass2">Confirmar contraseña</label>
+            <input type="password" id="r-pass2" placeholder="Repite tu contraseña" autocomplete="new-password" required>
+          </div>
+          <div class="form-msg" id="msg-registro"></div>
+          <div class="acceso-actions">
+            <button type="submit" class="btn btn-solid">Crear cuenta</button>
+          </div>
+          <div class="oauth">o continúa con</div>
+          <div class="oauth-btns">
+            <button type="button" class="btn-oauth" onclick="oauthGoogle()">Google</button>
+          </div>
+          <div class="acceso-foot-link">
+            <a href="#" onclick="event.preventDefault(); showTab('login')">Ya tengo cuenta</a>
+            <span>Al crear cuenta aceptas la política editorial</span>
+          </div>
+        </form>
+      </section>
+
+    </div>
+  </main>
+
+  <footer class="site-foot">
+    <div class="ed-mark">
+      <div class="name">ENOUGH<span class="dot">.</span></div>
+      <p class="tag">Editorial sobre atmósfera, materia y la forma de habitar el espacio.</p>
+    </div>
+
+    <div class="ed-seal" aria-hidden="true">
+      <div class="seal-inner">
+        Vol.
+        <b>I</b>
+        MMXXVI
+      </div>
+    </div>
+
+    <div class="ed-colophon">
+      <div class="col">
+        <h5>Editorial</h5>
+        <a href="index.html#manifiesto">Manifiesto</a>
+        <a href="index.html#estudios">Estudios</a>
+        <a href="blog.html">Ensayos</a>
+      </div>
+      <div class="col">
+        <h5>Archivo</h5>
+        <a href="galeria.html">Galería</a>
+        <a href="fragmentos.html">Fragmentos</a>
+      </div>
+      <div class="col">
+        <h5>Casa</h5>
+        <a href="index.html#contacto">Contacto</a>
+        <a href="acceso.html">Acceso</a>
+      </div>
+      <div class="col">
+        <h5>Tipografía</h5>
+        <span>Cormorant Garamond</span>
+        <span>DM Sans</span>
+        <span>Editado en Bucaramanga, CO</span>
+      </div>
+    </div>
+
+    <div class="ed-end">
+      <span>© MMXXVI · Enough Editorial</span>
+      <span class="center">Fin del Volumen I</span>
+      <span><a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos</a></span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2/dist/umd/supabase.js"></script>
+  <script>
+    const { createClient } = supabase;
+    const SUPA_URL = 'https://ewxrqebjqwswhpjufrop.supabase.co';
+    const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV3eHJxZWJqcXdzd2hwanVmcm9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ2NzE5NjYsImV4cCI6MjExMDI0Nzk2Nn0.0cVLfsJ0AgJIoDDKPIBDA8dzGQipAtnenlFaoy7qkzg';
+    const sb = createClient(SUPA_URL, SUPA_KEY);
+
+    function showTab(t) {
+      document.getElementById('form-login').classList.toggle('on', t === 'login');
+      document.getElementById('form-registro').classList.toggle('on', t === 'registro');
+      document.querySelectorAll('.tab').forEach((b, i) => {
+        const active = (i === 0 && t === 'login') || (i === 1 && t === 'registro');
+        b.classList.toggle('on', active);
+        b.setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+    }
+
+    function setTitulo(btn) {
+      document.querySelectorAll('.titulo-btn').forEach(b => b.classList.remove('on'));
+      btn.classList.add('on');
+      document.getElementById('r-titulo').value = btn.dataset.val;
+    }
+
+    function checkStrength(v) {
+      let s = 0;
+      if (v.length >= 8) s++;
+      if (/[A-Z]/.test(v)) s++;
+      if (/[0-9]/.test(v)) s++;
+      if (/[^A-Za-z0-9]/.test(v)) s++;
+      const pcts = [0, 28, 55, 78, 100];
+      const labels = ['— Fortaleza', '— Débil', '— Regular', '— Buena', '— Fuerte'];
+      const colors = ['var(--gold)', '#c0392b', '#e2b96a', 'var(--gold)', 'oklch(78% 0.12 145)'];
+      const bar = document.getElementById('sbar');
+      bar.style.width = pcts[s] + '%';
+      bar.style.background = colors[s];
+      document.getElementById('shint').textContent = labels[s];
+    }
+
+    function setMsg(id, text, type) {
+      const el = document.getElementById(id);
+      el.textContent = text;
+      el.className = 'form-msg' + (type ? ' ' + type : '');
+    }
+
+    async function handleLogin(e) {
+      e.preventDefault();
+      setMsg('msg-login', '— Verificando credenciales…', '');
+      const { error } = await sb.auth.signInWithPassword({
+        email: document.getElementById('l-email').value,
+        password: document.getElementById('l-pass').value,
+      });
+      if (error) {
+        const texto = error.message.includes('Invalid login credentials')
+          ? 'Correo o contraseña incorrectos'
+          : error.message.includes('Email not confirmed')
+          ? 'Confirma tu correo antes de entrar'
+          : error.message;
+        setMsg('msg-login', '— ' + texto, 'error');
+      } else {
+        setMsg('msg-login', '— Acceso concedido', 'ok');
+        setTimeout(() => window.location.href = 'dashboard.html', 800);
+      }
+    }
+
+    async function handleRegistro(e) {
+      e.preventDefault();
+      const pass  = document.getElementById('r-pass').value;
+      const pass2 = document.getElementById('r-pass2').value;
+      const email = document.getElementById('r-email').value;
+      if (pass !== pass2) { setMsg('msg-registro', '— Las contraseñas no coinciden', 'error'); return; }
+      setMsg('msg-registro', '— Creando tu cuenta…', '');
+      const { data, error } = await sb.auth.signUp({
+        email,
+        password: pass,
+        options: { data: { nombre: document.getElementById('r-nombre').value, titulo: document.getElementById('r-titulo').value } }
+      });
+      if (error) { setMsg('msg-registro', '— ' + error.message, 'error'); return; }
+      if (data?.session) {
+        setMsg('msg-registro', '— Cuenta creada. Entrando…', 'ok');
+        setTimeout(() => window.location.href = 'dashboard.html', 800);
+        return;
+      }
+      if (!data?.user) {
+        setMsg('msg-registro', '— Este correo ya tiene una cuenta. Inicia sesión.', 'error');
+        document.getElementById('l-email').value = email;
+        setTimeout(() => { showTab('login'); document.getElementById('l-pass').focus(); }, 2500);
+        return;
+      }
+      setMsg('msg-registro', '— Cuenta creada. Revisa tu correo para confirmar.', 'ok');
+      document.getElementById('l-email').value = email;
+      setTimeout(() => { showTab('login'); document.getElementById('l-pass').focus(); }, 3000);
+    }
+
+    async function oauthGoogle() {
+      await sb.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: 'https://j-thp.github.io/Esto-es-Enough/dashboard.html' }
+      });
+    }
+
+    async function recuperar() {
+      const email = document.getElementById('l-email').value;
+      if (!email) { setMsg('msg-login', '— Escribe tu correo primero', 'error'); return; }
+      setMsg('msg-login', '— Enviando enlace de recuperación…', '');
+      const { error } = await sb.auth.resetPasswordForEmail(email, {
+        redirectTo: 'https://j-thp.github.io/Esto-es-Enough/acceso.html'
+      });
+      if (error) { setMsg('msg-login', '— ' + error.message, 'error'); }
+      else { setMsg('msg-login', '— Revisa tu correo para el enlace de recuperación', 'ok'); }
+    }
+
+    function mostrarRecovery() {
+      document.querySelector('.tabs').style.display = 'none';
+      document.getElementById('form-login').style.display = 'none';
+      document.getElementById('form-registro').style.display = 'none';
+      const rec = document.getElementById('form-recovery');
+      rec.style.display = 'flex';
+      document.getElementById('rec-pass').focus();
+    }
+
+    async function confirmarRecovery() {
+      const pass  = document.getElementById('rec-pass').value;
+      const pass2 = document.getElementById('rec-pass2').value;
+      if (pass.length < 8) { setMsg('msg-recovery', '— Mínimo 8 caracteres', 'error'); return; }
+      if (pass !== pass2)  { setMsg('msg-recovery', '— Las contraseñas no coinciden', 'error'); return; }
+      setMsg('msg-recovery', '— Actualizando…', '');
+      const { error } = await sb.auth.updateUser({ password: pass });
+      if (error) { setMsg('msg-recovery', '— ' + error.message, 'error'); return; }
+      setMsg('msg-recovery', '— Contraseña actualizada. Inicia sesión.', 'ok');
+      setTimeout(() => {
+        document.getElementById('form-recovery').style.display = 'none';
+        document.querySelector('.tabs').style.removeProperty('display');
+        document.getElementById('form-login').style.removeProperty('display');
+        document.getElementById('form-registro').style.removeProperty('display');
+        showTab('login');
+      }, 2000);
+    }
+
+    /* Si hay sesión activa → mostrar aviso (salvo enlace de recuperación) */
+    (async () => {
+      if (window.location.hash.includes('type=recovery')) return;
+      const { data: { user } } = await sb.auth.getUser();
+      if (user) {
+        const nombre = (user.user_metadata?.nombre || user.user_metadata?.name || user.email.split('@')[0])
+          .replace(/[<>]/g, '');
+        const el = document.getElementById('msg-login');
+        el.className = 'form-msg ok';
+        el.textContent = `Sesión activa como ${nombre}. `;
+        const ir = document.createElement('a');
+        ir.href = 'dashboard.html';
+        ir.style.cssText = 'color:var(--gold);text-decoration:none;border-bottom:1px solid var(--hair-2)';
+        ir.textContent = 'Ir al archivo →';
+        el.appendChild(ir);
+      }
+    })();
+
+    sb.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'PASSWORD_RECOVERY') {
+        mostrarRecovery();
+        return;
+      }
+    });
+
+    // Si viene con hash #registro, abrir tab registro
+    if (window.location.hash === '#registro') showTab('registro');
+  </script>
+</body>
+</html>

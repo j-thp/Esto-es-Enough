@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <defs>
+    <style><![CDATA[
+      .bg  { fill: #0f0d0a }
+      .br  { stroke: #b69a6a }
+      .let { fill: #d8d1bf }
+    ]]></style>
+  </defs>
+  <rect class="bg" width="64" height="64"/>
+  <rect class="br" x="5" y="5" width="54" height="54" fill="none" stroke-width="0.8"/>
+  <text
+    class="let"
+    x="32" y="45"
+    text-anchor="middle"
+    font-family="'Cormorant Garamond', Georgia, serif"
+    font-weight="300"
+    font-size="38"
+  >E</text>
+</svg>

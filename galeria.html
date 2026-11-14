@@ -1,0 +1,568 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Galería · Enough</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Enough — Galería. Archivo fotográfico sobre luz, espacio y presencia. Desde Bucaramanga.">
+  <link rel="canonical" href="https://j-thp.github.io/Esto-es-Enough/galeria.html">
+  <meta property="og:title" content="Galería · Enough — Editorial">
+  <meta property="og:description" content="Archivo fotográfico sobre luz, espacio y presencia.">
+  <meta property="og:image" content="https://j-thp.github.io/Esto-es-Enough/fotos/espacios/tarde-tendida.jpg">
+  <meta property="og:url" content="https://j-thp.github.io/Esto-es-Enough/galeria.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Galería · Enough — Editorial">
+  <meta name="twitter:description" content="Archivo fotográfico sobre luz, espacio y presencia.">
+  <meta name="twitter:image" content="https://j-thp.github.io/Esto-es-Enough/fotos/espacios/tarde-tendida.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="enough.css">
+  <style>
+    /* ─── Galería — colapsada, tipo archivo / contact-sheet ─── */
+
+    .filter-strip {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 18px var(--gutter);
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      align-items: center;
+      border-bottom: 1px solid var(--hair);
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      position: relative;
+      z-index: 3;
+    }
+    .filter-strip .label {
+      grid-column: 1 / span 2;
+      color: var(--faint);
+    }
+    .filter-strip .chips {
+      grid-column: 3 / span 8;
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+    .filter-strip .right {
+      grid-column: 11 / span 2;
+      text-align: right;
+      color: var(--faint);
+    }
+    .filter-strip .right b { color: var(--text); font-weight: 500; }
+    .chip {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      border: 1px solid var(--hair-2);
+      padding: 6px 12px;
+      color: var(--muted);
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .chip:hover { color: var(--text); border-color: var(--text); }
+    .chip.on { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+
+    /* contact-sheet grid */
+    .sheet {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 28px var(--gutter) 80px;
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--hair);
+      border: 1px solid var(--hair);
+    }
+    .frame {
+      background: var(--bg);
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      cursor: pointer;
+      transition: background .25s;
+    }
+    .frame:hover { background: var(--bg-soft); }
+
+    .frame-img {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      background: var(--bg-soft);
+      overflow: hidden;
+      position: relative;
+    }
+    .frame-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(.88) contrast(1.05) saturate(.9);
+      transition: transform .9s ease, filter .6s;
+    }
+    .frame:hover .frame-img img { transform: scale(1.04); filter: brightness(.96) saturate(1); }
+
+    .frame-img.placeholder {
+      background:
+        repeating-linear-gradient(135deg, rgba(239,230,212,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+    }
+    .frame-img.tint-warm::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 60%, color-mix(in oklch, var(--turrell-b) 18%, transparent), transparent 70%);
+      mix-blend-mode: soft-light;
+    }
+    .frame-img.tint-violet::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 40%, color-mix(in oklch, var(--turrell-a) 22%, transparent), transparent 70%);
+      mix-blend-mode: soft-light;
+    }
+    .frame-img.tint-dusk::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 45%, color-mix(in oklch, var(--turrell-c) 22%, transparent), transparent 70%);
+      mix-blend-mode: soft-light;
+    }
+
+    .frame-meta {
+      padding: 10px 14px 14px;
+      display: grid;
+      grid-template-columns: 22px 1fr auto;
+      gap: 10px;
+      align-items: baseline;
+    }
+    .frame-num {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .18em;
+      color: var(--gold);
+      font-variant-numeric: tabular-nums;
+    }
+    .frame-title {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 15px;
+      color: var(--text);
+      line-height: 1.1;
+      letter-spacing: 0;
+    }
+    .frame-loc {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    /* lightbox */
+    .lb {
+      position: fixed; inset: 0; z-index: 9000;
+      background: rgba(8,7,5,.96);
+      display: grid;
+      grid-template-columns: 1fr 380px;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .35s ease;
+      /* forzar paleta oscura dentro del lightbox independientemente del tema */
+      --text:      #d8d1bf;
+      --text-soft: #b8b1a0;
+      --muted:     rgba(216,209,191,.65);
+      --faint:     rgba(216,209,191,.40);
+      --hair:      rgba(216,209,191,.10);
+      --hair-2:    rgba(216,209,191,.18);
+      --gold:      #c08043;
+      --bg-soft:   #1f1f22;
+      --panel:     #1f1f22;
+    }
+    .lb.open { opacity: 1; pointer-events: all; }
+    .lb-stage {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 60px;
+      overflow: hidden;
+    }
+    .lb-stage::before {
+      content: '';
+      position: absolute;
+      left: 50%; top: 50%;
+      width: 70%; height: 70%;
+      transform: translate(-50%, -50%);
+      background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-a) 18%, transparent), transparent 65%);
+      filter: blur(80px);
+      pointer-events: none;
+    }
+    .lb-stage img {
+      position: relative;
+      max-width: 100%;
+      max-height: 100%;
+      object-fit: contain;
+    }
+    .lb-stage .lb-frame.placeholder {
+      width: min(70vh, 80%);
+      aspect-ratio: 4/5;
+      background:
+        repeating-linear-gradient(135deg, rgba(239,230,212,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+      border: 1px solid var(--hair);
+    }
+    .lb-info {
+      padding: 88px 36px 36px;
+      border-left: 1px solid var(--hair-2);
+      background: rgba(15,13,10,.5);
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .lb-eyebrow {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .lb-title {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 1.05;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+    .lb-desc {
+      font-size: 14px;
+      line-height: 1.85;
+      color: var(--muted);
+    }
+    .lb-cap {
+      margin-top: auto;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 12px;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .lb-cap div {
+      padding: 12px 0;
+      border-top: 1px solid var(--hair-2);
+    }
+    .lb-cap b { display: block; color: var(--text); font-weight: 500; margin-top: 4px; }
+    .lb-controls {
+      position: fixed;
+      bottom: 28px; left: 28px;
+      display: flex;
+      gap: 8px;
+      z-index: 9100;
+    }
+    .lb-controls button {
+      width: 44px; height: 44px;
+      background: rgba(15,13,10,.7);
+      border: 1px solid var(--hair-2);
+      color: var(--text);
+      font: 300 18px var(--body-font);
+      cursor: pointer;
+      transition: background .2s, border-color .2s;
+    }
+    .lb-controls button:hover { background: var(--bg-soft); border-color: var(--gold); }
+    .lb-close {
+      position: fixed; top: 22px; right: 22px;
+      width: 44px; height: 44px;
+      background: rgba(15,13,10,.7);
+      border: 1px solid var(--hair-2);
+      color: var(--text);
+      font: 300 22px var(--body-font);
+      cursor: pointer;
+      z-index: 9100;
+      transition: background .2s, color .2s;
+    }
+    .lb-close:hover { background: var(--gold); color: var(--bg); }
+    .lb-counter {
+      position: fixed;
+      top: 28px; left: 28px;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--faint);
+      z-index: 9100;
+    }
+    .lb-counter b { color: var(--text); font-weight: 500; }
+
+    @media (max-width: 920px) {
+      .filter-strip { grid-template-columns: 1fr; gap: 10px; padding: 14px var(--gutter); }
+      .filter-strip .label, .filter-strip .chips, .filter-strip .right { grid-column: 1 / span 1; text-align: left; }
+      .sheet { grid-template-columns: repeat(2, 1fr); padding: 20px var(--gutter) 60px; }
+      .lb { grid-template-columns: 1fr; grid-template-rows: 1fr auto; }
+      .lb-stage { padding: 48px 20px 20px; min-height: 60vh; }
+      .lb-info { border-left: none; border-top: 1px solid var(--hair-2); padding: 24px 20px; }
+    }
+    @media (max-width: 520px) {
+      .sheet { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav">
+    <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="galeria.html" aria-current="page">Galería</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="fragmentos.html">Fragmentos</a></li>
+      <li><a href="acceso.html">Acceso</a></li>
+    </ul>
+    <div class="nav-coords"><b>01</b> · Galería</div>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <header class="page-head">
+    <div class="head-id"><span class="num">01</span>Galería</div>
+    <h1>Luz, materia<br>y <em>atmósfera</em>.</h1>
+    <div class="head-meta">15 piezas<br>2024 — 2026<br>Bucaramanga · CO</div>
+    <p class="head-eyebrow">Una colección en formación. Cada imagen es una observación: el modo en que la luz baja, el peso de una sombra, el desgaste de una superficie que guarda tiempo.</p>
+  </header>
+
+  <div class="filter-strip">
+    <div class="label">Filtrar por</div>
+    <div class="chips" id="chips">
+      <button class="chip on" data-filter="all">Todo · 15</button>
+      <button class="chip" data-filter="luz">Luz</button>
+      <button class="chip" data-filter="materia">Materia</button>
+      <button class="chip" data-filter="umbral">Umbral</button>
+      <button class="chip" data-filter="vacio">Vacío</button>
+      <button class="chip" data-filter="ritmo">Ritmo</button>
+    </div>
+    <div class="right">Vista <b>Contact</b></div>
+  </div>
+
+  <main>
+    <div class="sheet" id="sheet"></div>
+  </main>
+
+  <!-- Lightbox -->
+  <div class="lb" id="lb" role="dialog" aria-modal="true">
+    <div class="lb-counter" id="lb-counter"></div>
+    <button class="lb-close" id="lb-close" aria-label="Cerrar">×</button>
+    <div class="lb-stage" id="lb-stage"></div>
+    <div class="lb-info">
+      <div class="lb-eyebrow">Enough · Archivo</div>
+      <h2 class="lb-title" id="lb-title"></h2>
+      <p class="lb-desc" id="lb-desc"></p>
+      <div class="lb-cap">
+        <div>Locación<b id="lb-loc"></b></div>
+        <div>Año<b id="lb-year"></b></div>
+        <div>Hora<b id="lb-time"></b></div>
+        <div>Categoría<b id="lb-cat"></b></div>
+      </div>
+    </div>
+    <div class="lb-controls">
+      <button id="lb-prev" aria-label="Anterior">←</button>
+      <button id="lb-next" aria-label="Siguiente">→</button>
+    </div>
+  </div>
+
+  <footer class="site-foot">
+    <div class="ed-mark">
+      <div class="name">ENOUGH<span class="dot">.</span></div>
+      <p class="tag">Editorial sobre atmósfera, materia y la forma de habitar el espacio.</p>
+    </div>
+
+    <div class="ed-seal" aria-hidden="true">
+      <div class="seal-inner">
+        Vol.
+        <b>I</b>
+        MMXXVI
+      </div>
+    </div>
+
+    <div class="ed-colophon">
+      <div class="col">
+        <h5>Editorial</h5>
+        <a href="index.html#manifiesto">Manifiesto</a>
+        <a href="index.html#estudios">Estudios</a>
+        <a href="blog.html">Ensayos</a>
+      </div>
+      <div class="col">
+        <h5>Archivo</h5>
+        <a href="galeria.html">Galería</a>
+        <a href="fragmentos.html">Fragmentos</a>
+      </div>
+      <div class="col">
+        <h5>Casa</h5>
+        <a href="index.html#contacto">Contacto</a>
+        <a href="acceso.html">Acceso</a>
+      </div>
+      <div class="col">
+        <h5>Tipografía</h5>
+        <span>Cormorant Garamond</span>
+        <span>DM Sans</span>
+        <span>Editado en Bucaramanga, CO</span>
+      </div>
+    </div>
+
+    <div class="ed-end">
+      <span>© MMXXVI · Enough Editorial</span>
+      <span class="center">Fin del Volumen I</span>
+      <span><a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos</a></span>
+    </div>
+  </footer>
+
+  <script>
+    const items = [
+      { src: './fotos/espacios/tarde-tendida.jpg',   tint: 'tint-warm',   num: '01', title: 'Tarde tendida',  loc: 'Bucaramanga', year: 2026, time: '18:47', cat: 'luz',
+        desc: 'La luz baja en oblicuo y endurece la sombra contra el muro.' },
+      { src: './fotos/galeria/proyecto25.jpg',       tint: 'tint-violet', num: '02', title: 'Aire suspendido', loc: 'Patio',       year: 2026, time: '11:04', cat: 'luz',
+        desc: 'Una columna de luz cae desde el lucernario. El aire se vuelve material. La habitación contiene el día.' },
+      { src: './fotos/galeria/proyecto5.jpg',        tint: 'tint-dusk',   num: '03', title: 'Borde de azul',  loc: 'Umbral',      year: 2026, time: '18:47', cat: 'umbral',
+        desc: 'La penumbra antes de la noche. El espacio se vuelve denso, lento. El cuerpo se queda más tiempo del previsto.' },
+      { src: './fotos/galeria/proyecto10.jpg',       tint: '',            num: '04', title: 'Profundidad',    loc: 'Panamá',      year: 2026, time: '14:22', cat: 'materia',
+        desc: 'Texturas, sombras y superficies.' },
+      { src: './fotos/galeria/proyecto12.jpg',       tint: 'tint-warm',   num: '05', title: 'Reposo',         loc: 'Sala',        year: 2025, time: '17:30', cat: 'vacio',
+        desc: 'La calma como cualidad espacial y no solo como estilo.' },
+      { src: './fotos/galeria/proyecto13.jpg',       tint: '',            num: '06', title: 'Materia',        loc: 'Pared',       year: 2025, time: '15:10', cat: 'materia',
+        desc: 'Observación de acabados, tactilidad y peso visual.' },
+      { src: './fotos/galeria/proyecto14.jpg',       tint: 'tint-violet', num: '07', title: 'Umbral',         loc: 'Pasillo',     year: 2025, time: '12:00', cat: 'umbral',
+        desc: 'El borde entre entrar y permanecer también diseña experiencia.' },
+      { src: './fotos/galeria/proyecto15.jpg',       tint: '',            num: '08', title: 'Vacío',          loc: 'Habitación',  year: 2025, time: '09:18', cat: 'vacio',
+        desc: 'Lo que no se llena puede ser también una decisión de carácter.' },
+      { src: './fotos/galeria/proyecto16.jpg',       tint: 'tint-dusk',   num: '09', title: 'Ritmo',          loc: 'Fachada',     year: 2024, time: '16:40', cat: 'ritmo',
+        desc: 'Una secuencia visual donde la repetición construye atmósfera.' },
+      { src: './fotos/galeria/proyecto8.jpg',        tint: '',            num: '10', title: 'Calma',          loc: 'Patio',       year: 2024, time: '07:05', cat: 'vacio',
+        desc: 'Luz contenida, composición sobria y una presencia silenciosa.' },
+      { src: './fotos/galeria/proyecto19.jpg',       tint: 'tint-warm',   num: '11', title: 'Tensión',        loc: 'Esquina',     year: 2024, time: '13:25', cat: 'materia',
+        desc: 'Contrastes leves para producir una emoción más profunda que lo obvio.' },
+      { src: './fotos/galeria/proyecto20.jpg',       tint: '',            num: '12', title: 'Silencio',       loc: 'Sala',        year: 2024, time: '06:32', cat: 'vacio',
+        desc: 'Espacios que no necesitan exceso para sentirse completos.' },
+      { src: './fotos/galeria/proyecto9.jpg',        tint: 'tint-violet', num: '13', title: 'Huella',         loc: 'Piso',        year: 2024, time: '10:50', cat: 'materia',
+        desc: 'Rastros de uso, desgaste y memoria como parte del lenguaje espacial.' },
+      { src: './fotos/galeria/proyecto23.jpg',       tint: '',            num: '14', title: 'Densidad',       loc: 'Muro',        year: 2024, time: '17:14', cat: 'materia',
+        desc: 'Capas de materia y sombra que agregan espesor emocional.' },
+      { src: './fotos/galeria/proyecto24.jpg',       tint: 'tint-dusk',   num: '15', title: 'Luz',            loc: 'Ventana',     year: 2024, time: '19:01', cat: 'luz',
+        desc: 'Una observación sobre cómo la luz ordena y da sentido al espacio.' },
+    ];
+
+    const sheet = document.getElementById('sheet');
+    const chips = document.querySelectorAll('.chip');
+    let currentFilter = 'all';
+    let visibleItems = items;
+
+    function render() {
+      visibleItems = currentFilter === 'all' ? items : items.filter(i => i.cat === currentFilter);
+      sheet.innerHTML = visibleItems.map((it, idx) => {
+        const tint = it.tint ? ' ' + it.tint : '';
+        const img = it.src
+          ? `<img src="${it.src}" alt="${it.title}" loading="lazy">`
+          : '';
+        const placeholder = it.src ? '' : ' placeholder';
+        return `
+          <article class="frame" data-i="${idx}">
+            <div class="frame-img${placeholder}${tint}">${img}</div>
+            <div class="frame-meta">
+              <span class="frame-num">${it.num}</span>
+              <span class="frame-title">${it.title}</span>
+              <span class="frame-loc">${it.loc}</span>
+            </div>
+          </article>`;
+      }).join('');
+      sheet.querySelectorAll('.frame').forEach(f => {
+        f.addEventListener('click', () => openLB(Number(f.dataset.i)));
+      });
+    }
+
+    chips.forEach(c => c.addEventListener('click', () => {
+      chips.forEach(x => x.classList.toggle('on', x === c));
+      currentFilter = c.dataset.filter;
+      render();
+    }));
+
+    // Lightbox
+    const lb = document.getElementById('lb');
+    const lbStage = document.getElementById('lb-stage');
+    const lbTitle = document.getElementById('lb-title');
+    const lbDesc = document.getElementById('lb-desc');
+    const lbLoc = document.getElementById('lb-loc');
+    const lbYear = document.getElementById('lb-year');
+    const lbTime = document.getElementById('lb-time');
+    const lbCat = document.getElementById('lb-cat');
+    const lbCounter = document.getElementById('lb-counter');
+    let lbIndex = 0;
+
+    function paintLB() {
+      const it = visibleItems[lbIndex];
+      if (!it) return;
+      const tint = it.tint ? ' ' + it.tint : '';
+      lbStage.innerHTML = it.src
+        ? `<img src="${it.src}" alt="${it.title}">`
+        : `<div class="lb-frame placeholder${tint}"></div>`;
+      lbTitle.textContent = it.title;
+      lbDesc.textContent = it.desc;
+      lbLoc.textContent = it.loc;
+      lbYear.textContent = it.year;
+      lbTime.textContent = it.time;
+      lbCat.textContent = it.cat;
+      lbCounter.innerHTML = `<b>${String(lbIndex+1).padStart(2,'0')}</b> / ${String(visibleItems.length).padStart(2,'0')}`;
+    }
+    function openLB(i) { lbIndex = i; paintLB(); lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
+    function closeLB() { lb.classList.remove('open'); document.body.style.overflow = ''; }
+    function step(d) { lbIndex = (lbIndex + d + visibleItems.length) % visibleItems.length; paintLB(); }
+
+    document.getElementById('lb-close').addEventListener('click', closeLB);
+    document.getElementById('lb-prev').addEventListener('click', () => step(-1));
+    document.getElementById('lb-next').addEventListener('click', () => step(1));
+    lb.addEventListener('click', e => { if (e.target === lb) closeLB(); });
+    document.addEventListener('keydown', e => {
+      if (!lb.classList.contains('open')) return;
+      if (e.key === 'Escape') closeLB();
+      if (e.key === 'ArrowLeft') step(-1);
+      if (e.key === 'ArrowRight') step(1);
+    });
+
+    render();
+  </script>
+  <script>
+    (function(){
+      var btn = document.querySelector('.nav-toggle');
+      var ul  = document.querySelector('.site-nav ul');
+      if (!btn || !ul) return;
+      btn.addEventListener('click', function(){
+        var open = ul.classList.toggle('nav-open');
+        btn.setAttribute('aria-expanded', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+      });
+      ul.querySelectorAll('a').forEach(function(a){
+        a.addEventListener('click', function(){
+          ul.classList.remove('nav-open');
+          btn.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        });
+      });
+    })();
+  </script>
+  <script>
+    (function() {
+      if (localStorage.getItem('sb-ewxrqebjqwswhpjufrop-auth-token')) {
+        const l = document.querySelector('.site-nav a[href="acceso.html"]');
+        if (l) { l.href = 'dashboard.html'; l.textContent = 'Archivo'; }
+      }
+    })();
+  </script>
+</body>
+</html>

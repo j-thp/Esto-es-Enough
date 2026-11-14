@@ -1,0 +1,612 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Producto · Enough</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Enough — Producto editorial. Edición limitada.">
+  <link rel="canonical" href="https://j-thp.github.io/Esto-es-Enough/producto.html">
+  <meta property="og:title" content="Producto · Enough — Editorial">
+  <meta property="og:description" content="Edición limitada. Enough Editorial.">
+  <meta property="og:image" content="https://j-thp.github.io/Esto-es-Enough/fotos/espacios/tarde-tendida.jpg">
+  <meta property="og:url" content="https://j-thp.github.io/Esto-es-Enough/producto.html">
+  <meta property="og:type" content="product">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Producto · Enough — Editorial">
+  <meta name="twitter:description" content="Edición limitada. Enough Editorial.">
+  <meta name="twitter:image" content="https://j-thp.github.io/Esto-es-Enough/fotos/espacios/tarde-tendida.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="enough.css">
+
+  <style>
+    /* ─── Producto — colapsado, ficha técnica editorial ─── */
+
+    .producto-bar {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 96px var(--gutter) 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--hair);
+      position: relative;
+      z-index: 3;
+      gap: 16px;
+      flex-wrap: wrap;
+    }
+    .producto-bar .crumbs {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .producto-bar .crumbs a {
+      color: var(--muted);
+      text-decoration: none;
+      margin-right: 8px;
+      transition: color .2s;
+    }
+    .producto-bar .crumbs a:hover { color: var(--text); }
+    .producto-bar .crumbs span { margin-right: 8px; }
+    .producto-bar .crumbs b { color: var(--text); font-weight: 500; }
+
+    .producto {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 36px var(--gutter) 80px;
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: 1.15fr .85fr;
+      gap: 56px;
+      align-items: start;
+    }
+
+    /* IMAGE column */
+    .pr-media {
+      position: sticky;
+      top: 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    .pr-hero {
+      width: 100%;
+      aspect-ratio: 4 / 5;
+      background: var(--bg-soft);
+      border: 1px solid var(--hair);
+      overflow: hidden;
+      position: relative;
+    }
+    .pr-hero img { width: 100%; height: 100%; object-fit: cover; filter: brightness(.92) contrast(1.04); }
+    .pr-hero.placeholder {
+      background:
+        repeating-linear-gradient(135deg, rgba(28,24,20,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+    }
+    .pr-hero.tint-warm::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 50%, color-mix(in oklch, var(--turrell-b) 22%, transparent), transparent 65%);
+      mix-blend-mode: soft-light;
+    }
+    .pr-hero.tint-violet::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 50%, color-mix(in oklch, var(--turrell-a) 25%, transparent), transparent 65%);
+      mix-blend-mode: soft-light;
+    }
+    .pr-thumbs {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+    }
+    .pr-thumb {
+      aspect-ratio: 1 / 1;
+      background: var(--bg-soft);
+      border: 1px solid var(--hair);
+      cursor: pointer;
+      transition: border-color .2s;
+      position: relative;
+    }
+    .pr-thumb:hover, .pr-thumb.on { border-color: var(--gold); }
+    .pr-thumb.placeholder {
+      background:
+        repeating-linear-gradient(135deg, rgba(28,24,20,.04) 0 1px, transparent 1px 18px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+    }
+    .pr-thumb.tint-warm::after,
+    .pr-thumb.tint-violet::after {
+      content:''; position:absolute; inset:0;
+      mix-blend-mode: soft-light;
+    }
+    .pr-thumb.tint-warm::after { background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-b) 22%, transparent), transparent 70%); }
+    .pr-thumb.tint-violet::after { background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-a) 25%, transparent), transparent 70%); }
+
+    /* INFO column */
+    .pr-info {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+    .pr-meta {
+      display: flex;
+      gap: 14px;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .pr-meta .sep { color: var(--faint); }
+    .pr-meta .vol { color: var(--faint); }
+    .pr-name {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: clamp(36px, 4vw, 56px);
+      line-height: .98;
+      letter-spacing: .005em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .pr-name em {
+      font-style: italic;
+      letter-spacing: 0;
+      color: var(--text-soft);
+    }
+
+    .pr-price {
+      display: flex;
+      align-items: baseline;
+      gap: 16px;
+      padding: 18px 0 18px;
+      border-top: 1px solid var(--hair-2);
+      border-bottom: 1px solid var(--hair-2);
+    }
+    .pr-price .amt {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 32px;
+      line-height: 1;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0;
+    }
+    .pr-price .cur {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .pr-price .stock {
+      margin-left: auto;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pr-price .stock::before {
+      content: '';
+      width: 7px; height: 7px;
+      background: oklch(78% 0.12 145);
+      border-radius: 50%;
+      box-shadow: 0 0 10px oklch(78% 0.12 145 / .6);
+    }
+
+    .pr-lede {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-size: 19px;
+      line-height: 1.5;
+      color: var(--text);
+      max-width: 38ch;
+    }
+
+    .pr-body {
+      font-size: 14.5px;
+      line-height: 1.85;
+      color: var(--muted);
+      max-width: 56ch;
+    }
+    .pr-body p + p { margin-top: 14px; }
+
+    .pr-spec {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0;
+      margin-top: 8px;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .pr-spec div {
+      padding: 12px 0;
+      border-top: 1px solid var(--hair-2);
+      display: flex;
+      justify-content: space-between;
+      gap: 14px;
+    }
+    .pr-spec div:nth-last-child(-n+2) { border-bottom: 1px solid var(--hair-2); }
+    .pr-spec .k { color: var(--faint); }
+    .pr-spec .v { color: var(--text); font-weight: 500; text-align: right; }
+
+    .pr-actions {
+      display: flex;
+      gap: 12px;
+      margin-top: 8px;
+      flex-wrap: wrap;
+    }
+    .pr-actions .btn-solid { flex: 1; min-width: 200px; justify-content: center; padding: 18px 24px; font-size: 11px; }
+    .pr-actions .btn-ghost { padding: 18px 22px; }
+
+    .pr-note {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+      color: var(--faint);
+      display: flex;
+      gap: 14px;
+      align-items: center;
+    }
+    .pr-note::before { content: '·'; color: var(--gold); }
+
+    /* RELATED */
+    .related {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 80px var(--gutter) 40px;
+      position: relative;
+      z-index: 3;
+      border-top: 1px solid var(--hair);
+    }
+    .related-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: end;
+      margin-bottom: 32px;
+    }
+    .related-head h3 {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 32px;
+      letter-spacing: .005em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .related-head h3 em { font-style: italic; letter-spacing: 0; color: var(--text-soft); }
+    .related-head .right {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .related-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 24px;
+    }
+    .rel-card {
+      text-decoration: none;
+      color: inherit;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: opacity .2s;
+    }
+    .rel-card:hover { opacity: .8; }
+    .rel-img {
+      width: 100%;
+      aspect-ratio: 4 / 3;
+      background: var(--bg-soft);
+      border: 1px solid var(--hair);
+      position: relative;
+    }
+    .rel-img.placeholder {
+      background:
+        repeating-linear-gradient(135deg, rgba(28,24,20,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+    }
+    .rel-img.tint-warm::after,
+    .rel-img.tint-violet::after,
+    .rel-img.tint-dusk::after {
+      content:''; position:absolute; inset:0;
+      mix-blend-mode: soft-light;
+    }
+    .rel-img.tint-warm::after { background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-b) 18%, transparent), transparent 70%); }
+    .rel-img.tint-violet::after { background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-a) 22%, transparent), transparent 70%); }
+    .rel-img.tint-dusk::after { background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-c) 20%, transparent), transparent 70%); }
+
+    .rel-meta {
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+    .rel-meta .num { color: var(--gold); }
+    .rel-meta .price { color: var(--muted); }
+    .rel-name {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 1.05;
+      color: var(--text);
+    }
+    .rel-name em { font-style: italic; color: var(--text-soft); }
+
+    @media (max-width: 920px) {
+      .producto { grid-template-columns: 1fr; gap: 36px; padding: 24px var(--gutter) 60px; }
+      .pr-media { position: static; }
+      .related-grid { grid-template-columns: 1fr; gap: 32px; }
+      .pr-actions .btn-solid { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Tienda desactivada temporalmente — redirige a inicio -->
+  <script>window.location.replace('index.html');</script>
+
+  <nav class="site-nav">
+    <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="tienda.html" aria-current="page">Tienda</a></li>
+      <li><a href="fragmentos.html">Fragmentos</a></li>
+      <li><a href="acceso.html">Acceso</a></li>
+    </ul>
+    <div class="nav-coords"><b id="pr-cur-num">05.01</b> · Pieza</div>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <div class="producto-bar">
+    <nav class="crumbs">
+      <a href="index.html">Enough</a><span>/</span><a href="tienda.html">Tienda</a><span>/</span><b id="pr-crumb">—</b>
+    </nav>
+    <a href="tienda.html" class="back-link">Volver al catálogo</a>
+  </div>
+
+  <main class="producto" id="producto">
+    <!-- rendered below -->
+  </main>
+
+  <section class="related">
+    <div class="related-head">
+      <h3>Del mismo <em>archivo</em>.</h3>
+      <div class="right">3 piezas · seleccionadas</div>
+    </div>
+    <div class="related-grid" id="related"></div>
+  </section>
+
+  <footer class="site-foot">
+    <div class="ed-mark">
+      <div class="name">ENOUGH<span class="dot">.</span></div>
+      <p class="tag">Editorial sobre atmósfera, materia y la forma de habitar el espacio.</p>
+    </div>
+
+    <div class="ed-seal" aria-hidden="true">
+      <div class="seal-inner">Vol. <b>I</b> MMXXVI</div>
+    </div>
+
+    <div class="ed-colophon">
+      <div class="col">
+        <h5>Editorial</h5>
+        <a href="index.html#manifiesto">Manifiesto</a>
+        <a href="index.html#estudios">Estudios</a>
+        <a href="blog.html">Ensayos</a>
+      </div>
+      <div class="col">
+        <h5>Archivo</h5>
+        <a href="galeria.html">Galería</a>
+        <a href="fragmentos.html">Fragmentos</a>
+      </div>
+      <div class="col">
+        <h5>Casa</h5>
+        <a href="index.html#contacto">Contacto</a>
+        <a href="acceso.html">Acceso</a>
+      </div>
+      <div class="col">
+        <h5>Tipografía</h5>
+        <span>Cormorant Garamond</span>
+        <span>DM Sans</span>
+        <span>Editado en Bucaramanga, CO</span>
+      </div>
+    </div>
+
+    <div class="ed-end">
+      <span>© MMXXVI · Enough Editorial</span>
+      <span class="center">Fin del Volumen I</span>
+      <span><a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos</a></span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2/dist/umd/supabase.js"></script>
+  <script>
+    const { createClient } = supabase;
+    const sb = createClient(
+      'https://ewxrqebjqwswhpjufrop.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV3eHJxZWJqcXdzd2hwanVmcm9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ2NzE5NjYsImV4cCI6MjExMDI0Nzk2Nn0.0cVLfsJ0AgJIoDDKPIBDA8dzGQipAtnenlFaoy7qkzg',
+    );
+    sb.auth.getUser().then(({ data: { user }, error }) => {
+      if (error || !user) window.location.href = 'acceso.html';
+    });
+
+    /* ─── INACTIVIDAD: logout a los 30 min ─── */
+    (function() {
+      const LIMITE = 30 * 60 * 1000;
+      async function cerrarPorInactividad() {
+        await sb.auth.signOut();
+        window.location.href = 'acceso.html';
+      }
+      let t = setTimeout(cerrarPorInactividad, LIMITE);
+      ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'click'].forEach(ev =>
+        document.addEventListener(ev, () => { clearTimeout(t); t = setTimeout(cerrarPorInactividad, LIMITE); }, { passive: true })
+      );
+    })();
+
+    // Same catalog as tienda
+    const products = [
+      { id: 'vol-1', num: '01', name: 'Vol. I — Apertura', em: '', cat: 'Ensayo', fmt: 'PDF · 84 p.', price: 2000, tint: 'tint-warm',
+        lede: 'Primer volumen del editorial. Diez ensayos sobre atmósfera, materia y la forma de habitar.',
+        desc: ['El editorial nace como un archivo en formación: textos, observaciones y fotografías propias que documentan la relación entre el cuerpo y el espacio cuando todo se vuelve quieto.',
+               'Esta primera entrega reúne diez ensayos cortos, cinco fotografías originales y tres notas de proceso. Diseñado para leerse despacio, en cualquier orden, sin frecuencia.'],
+        specs: [['Tipo','Ensayo digital'],['Páginas','84'],['Formato','PDF (A4 + A5)'],['Idioma','Español'],['Edición','01 / MMXXVI'],['Entrega','Inmediata']] },
+      { id: 'archivo-2024', num: '02', name: 'Archivo 2024', em: '', cat: 'Archivo', fmt: 'ZIP · 240 imgs', price: 65000, tint: '',
+        lede: 'Selección curada del archivo fotográfico del año, en alta resolución y con notas.',
+        desc: ['240 imágenes seleccionadas a lo largo de 2024 en Bucaramanga y alrededores. Cada serie viene con un breve texto de campo y referencias.',
+               'Distribuidas en carpetas temáticas: luz, materia, umbral, vacío, ritmo. Todo en alta resolución, listo para impresión o referencia.'],
+        specs: [['Tipo','Archivo fotográfico'],['Imágenes','240'],['Resolución','3000 × 4000 px'],['Formato','ZIP (TIFF + JPG)'],['Notas','Incluidas'],['Entrega','Inmediata']] },
+      { id: 'wallpapers-luz', num: '03', name: 'Wallpapers — Luz', em: 'Luz', cat: 'Wallpapers', fmt: '6 archivos', price: 18000, tint: 'tint-violet',
+        lede: 'Seis fondos digitales basados en observaciones lumínicas del archivo.',
+        desc: ['Seis composiciones derivadas de observaciones reales del archivo. Cada wallpaper está optimizado para escritorio (5K) y móvil (4K).',
+               'Pensadas para acompañar trabajo profundo sin distraer.'],
+        specs: [['Tipo','Wallpapers'],['Cantidad','6'],['Resoluciones','5K + 4K'],['Formato','PNG'],['Edición','03 / MMXXVI'],['Entrega','Inmediata']] },
+      { id: 'fragmentos', num: '04', name: 'Fragmentos', em: '', cat: 'Ensayo', fmt: 'PDF · 32 p.', price: 22000, tint: '',
+        lede: 'Notas sobre atmósferas, ausencias y umbrales. Sin orden, sin frecuencia.',
+        desc: ['Una colección de fragmentos cortos publicados a lo largo del año. Pequeños textos casi diarios sobre la experiencia del espacio.',
+               'Diseñado para leerse en sesiones breves, una página a la vez.'],
+        specs: [['Tipo','Cuaderno digital'],['Páginas','32'],['Formato','PDF'],['Edición','04 / MMXXVI'],['Idioma','Español'],['Entrega','Inmediata']] },
+      { id: 'print-tarde', num: '05', name: 'Print — Tarde tendida', em: 'Tarde tendida', cat: 'Impresión', fmt: 'A3 · 280 g/m²', price: 95000, tint: 'tint-warm',
+        lede: 'Impresión giclée numerada. Edición de 30 piezas con certificado.',
+        desc: ['Reproducción giclée sobre papel mate de algodón 280 g/m². Cada pieza viene firmada, numerada y acompañada de un certificado de autenticidad.',
+               'Tiempo de entrega: 7 a 10 días hábiles. Envío internacional disponible.'],
+        specs: [['Tipo','Impresión'],['Tamaño','A3 (297 × 420 mm)'],['Papel','Cotton Rag 280 g/m²'],['Edición','30 numeradas'],['Certificado','Sí'],['Entrega','7–10 días']] },
+    ];
+    // Productos 06–08 (sobre-luz, archivo-2025, wallpapers-vacio) eliminados — sin entrada en DB todavía.
+
+    function formatCOP(n) { return new Intl.NumberFormat('es-CO', { maximumFractionDigits: 0 }).format(n); }
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id') || 'vol-1';
+    const p = products.find(x => x.id === id) || products[0];
+
+    document.title = `${p.name} · Enough`;
+    document.getElementById('pr-cur-num').innerHTML = `<b>03.${p.num}</b>`;
+    document.getElementById('pr-crumb').textContent = p.name;
+
+    const nameHtml = p.em ? p.name.replace(p.em, `<em>${p.em}</em>`) : p.name;
+    const tint = p.tint ? ' ' + p.tint : '';
+    const main = document.getElementById('producto');
+    main.innerHTML = `
+      <div class="pr-media">
+        <div class="pr-hero placeholder${tint}" id="hero"></div>
+        <div class="pr-thumbs">
+          <div class="pr-thumb placeholder${tint} on"></div>
+          <div class="pr-thumb placeholder${p.tint === 'tint-warm' ? ' tint-violet' : ' tint-warm'}"></div>
+          <div class="pr-thumb placeholder"></div>
+          <div class="pr-thumb placeholder${tint}"></div>
+        </div>
+      </div>
+      <div class="pr-info">
+        <div class="pr-meta">
+          <span>${p.num}</span>
+          <span class="sep">·</span>
+          <span>${p.cat}</span>
+          <span class="sep">·</span>
+          <span class="vol">Vol. I / MMXXVI</span>
+        </div>
+        <h1 class="pr-name">${nameHtml}</h1>
+        <p class="pr-lede">${p.lede}</p>
+        <div class="pr-price">
+          <span class="amt">$ ${formatCOP(p.price)}</span>
+          <span class="cur">COP</span>
+          <span class="stock">En stock</span>
+        </div>
+        <div class="pr-body">${p.desc.map(d => `<p>${d}</p>`).join('')}</div>
+        <div class="pr-spec">
+          ${p.specs.map(([k,v]) => `<div><span class="k">${k}</span><span class="v">${v}</span></div>`).join('')}
+        </div>
+        <div class="pr-actions">
+          <button class="btn btn-solid" id="buy">Comprar ahora</button>
+          <a href="tienda.html" class="btn btn-ghost">Seguir explorando</a>
+        </div>
+        <div class="pr-note">Pago seguro · PSE, Nequi, tarjeta · Acceso al instante</div>
+      </div>
+    `;
+
+    // related
+    const related = products.filter(x => x.id !== p.id).slice(0, 3);
+    document.getElementById('related').innerHTML = related.map(r => {
+      const nh = r.em ? r.name.replace(r.em, `<em>${r.em}</em>`) : r.name;
+      const t = r.tint ? ' ' + r.tint : '';
+      return `
+        <a class="rel-card" href="producto.html?id=${r.id}">
+          <div class="rel-img placeholder${t}"></div>
+          <div class="rel-meta"><span class="num">${r.num} — ${r.cat}</span><span class="price">$ ${formatCOP(r.price)}</span></div>
+          <h4 class="rel-name">${nh}</h4>
+        </a>`;
+    }).join('');
+
+    // ── Checkout vía Edge Function (precio y firma calculados en servidor) ──
+    const SUPA_URL = 'https://ewxrqebjqwswhpjufrop.supabase.co';
+    const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV3eHJxZWJqcXdzd2hwanVmcm9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ2NzE5NjYsImV4cCI6MjExMDI0Nzk2Nn0.0cVLfsJ0AgJIoDDKPIBDA8dzGQipAtnenlFaoy7qkzg';
+
+    document.getElementById('buy').addEventListener('click', async () => {
+      const btn = document.getElementById('buy');
+      btn.textContent = 'Preparando pago…';
+      btn.disabled = true;
+
+      try {
+        const { data: { session } } = await sb.auth.getSession();
+        if (!session) { window.location.href = 'acceso.html'; return; }
+
+        const res = await fetch(`${SUPA_URL}/functions/v1/wompi-checkout`, {
+          method: 'POST',
+          headers: {
+            'Content-Type':  'application/json',
+            'Authorization': `Bearer ${session.access_token}`,
+            'apikey':        SUPA_KEY,
+          },
+          body: JSON.stringify({ slug: p.id }),
+        });
+
+        if (!res.ok) {
+          const err = await res.json().catch(() => ({}));
+          throw new Error(err.error || 'Error al preparar el pago');
+        }
+
+        const { checkout_url } = await res.json();
+        window.location.href = checkout_url;
+      } catch (err) {
+        console.error('Checkout error:', err);
+        btn.textContent = 'Error — intenta de nuevo';
+        btn.disabled = false;
+        setTimeout(() => { btn.textContent = 'Comprar ahora'; }, 2500);
+      }
+    });
+  </script>
+  <script>
+    (function(){
+      var btn = document.querySelector('.nav-toggle');
+      var ul  = document.querySelector('.site-nav ul');
+      if (!btn || !ul) return;
+      btn.addEventListener('click', function(){
+        var open = ul.classList.toggle('nav-open');
+        btn.setAttribute('aria-expanded', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+      });
+      ul.querySelectorAll('a').forEach(function(a){
+        a.addEventListener('click', function(){
+          ul.classList.remove('nav-open');
+          btn.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>

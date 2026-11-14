@@ -1,0 +1,403 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Fragmentos · Enough</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Fragmentos · Enough. Cuaderno de notas sobre ausencias, sombras y atmósferas.">
+  <link rel="canonical" href="https://j-thp.github.io/Esto-es-Enough/fragmentos.html">
+  <meta property="og:title" content="Fragmentos · Enough — Editorial">
+  <meta property="og:description" content="Cuaderno de notas sobre ausencias, sombras y atmósferas.">
+  <meta property="og:image" content="https://j-thp.github.io/Esto-es-Enough/fotos/espacios/tarde-tendida.jpg">
+  <meta property="og:url" content="https://j-thp.github.io/Esto-es-Enough/fragmentos.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fragmentos · Enough — Editorial">
+  <meta name="twitter:description" content="Cuaderno de notas sobre ausencias, sombras y atmósferas.">
+  <meta name="twitter:image" content="https://j-thp.github.io/Esto-es-Enough/fotos/espacios/tarde-tendida.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="enough.css">
+
+  <style>
+    /* ─── Fragmentos — cuaderno editorial, scroll vertical denso ─── */
+
+    .cuaderno {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 32px var(--gutter) 80px;
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: 220px 1fr;
+      gap: 60px;
+      align-items: start;
+    }
+
+    .frag-index {
+      position: sticky;
+      top: 100px;
+      display: flex;
+      flex-direction: column;
+      gap: 0;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+    .frag-index .label { color: var(--faint); padding-bottom: 14px; border-bottom: 1px solid var(--hair-2); margin-bottom: 14px; }
+    .frag-index a {
+      display: grid;
+      grid-template-columns: 30px 1fr;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid var(--hair);
+      color: var(--muted);
+      text-decoration: none;
+      transition: color .2s, padding-left .2s;
+    }
+    .frag-index a:hover { color: var(--text); padding-left: 4px; }
+    .frag-index a.active { color: var(--text); }
+    .frag-index a.active::before {
+      content: '';
+      position: absolute;
+      margin-left: -16px;
+      margin-top: 7px;
+      width: 8px; height: 1.5px;
+      background: var(--gold);
+    }
+    .frag-index .i-num { font-family: var(--display-font); font-style: italic; font-size: 14px; color: var(--gold); letter-spacing: 0; text-transform: none; }
+    .frag-index .i-ancla { font-family: var(--display-font); font-style: italic; font-size: 14px; color: inherit; letter-spacing: 0; text-transform: none; line-height: 1.1; }
+    .frag-index .toc-meta {
+      margin-top: 22px;
+      padding-top: 22px;
+      border-top: 1px solid var(--hair-2);
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      font-size: 9px;
+      letter-spacing: .25em;
+      color: var(--faint);
+    }
+    .frag-index .toc-meta div { display: flex; justify-content: space-between; }
+    .frag-index .toc-meta b { color: var(--text); font-weight: 500; }
+
+    .frag-stream { display: flex; flex-direction: column; gap: 0; }
+
+    .fragmento {
+      padding: 80px 0;
+      border-top: 1px solid var(--hair);
+      position: relative;
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 48px;
+      scroll-margin-top: 96px;
+    }
+    .fragmento:first-of-type { border-top: none; padding-top: 24px; }
+
+    .frag-meta { position: relative; display: flex; flex-direction: column; gap: 12px; }
+    .frag-num {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(72px, 8vw, 120px);
+      line-height: .9;
+      color: var(--text);
+      letter-spacing: -.02em;
+    }
+    .frag-label { font-family: var(--label-font); font-size: 10px; letter-spacing: .25em; text-transform: uppercase; color: var(--gold); }
+    .frag-date { font-family: var(--label-font); font-size: 9px; letter-spacing: .25em; text-transform: uppercase; color: var(--faint); }
+
+    .frag-body { display: flex; flex-direction: column; gap: 24px; }
+
+    .frag-ancla {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: clamp(34px, 4.4vw, 56px);
+      line-height: 1;
+      letter-spacing: .005em;
+      text-transform: uppercase;
+      color: var(--text);
+    }
+    .frag-ancla em { font-style: italic; letter-spacing: 0; color: var(--text-soft); }
+
+    .frag-text {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 300;
+      font-size: clamp(20px, 1.8vw, 26px);
+      line-height: 1.55;
+      color: var(--text);
+      max-width: 56ch;
+      text-wrap: pretty;
+    }
+    .frag-text::first-letter {
+      font-style: normal;
+      color: var(--gold);
+      font-size: 1.4em;
+      margin-right: .05em;
+      vertical-align: -.04em;
+    }
+
+    .frag-foot {
+      margin-top: 12px;
+      display: flex;
+      gap: 24px;
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .frag-foot .tag { color: var(--muted); border: 1px solid var(--hair-2); padding: 5px 10px; }
+
+    .fragmento.glow::before {
+      content: '';
+      position: absolute;
+      right: 4%; top: 30%;
+      width: 280px; height: 280px;
+      background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-a) 18%, transparent), transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: -1;
+    }
+    .fragmento.glow-warm::before {
+      content: '';
+      position: absolute;
+      left: 6%; bottom: 20%;
+      width: 320px; height: 320px;
+      background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-b) 20%, transparent), transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+      z-index: -1;
+    }
+
+    .frag-end {
+      grid-column: 1 / -1;
+      margin-top: 60px;
+      padding-top: 28px;
+      border-top: 1px solid var(--hair-2);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .frag-end .right { font-family: var(--display-font); font-style: italic; font-size: 20px; letter-spacing: 0; text-transform: none; color: var(--gold); }
+
+    @media (max-width: 920px) {
+      .cuaderno { grid-template-columns: 1fr; gap: 32px; padding: 16px var(--gutter) 60px; }
+      .frag-index { position: static; flex-direction: row; overflow-x: auto; flex-wrap: nowrap; gap: 0; padding-bottom: 6px; }
+      .frag-index .label, .frag-index .toc-meta { display: none; }
+      .frag-index a { flex: 0 0 auto; grid-template-columns: auto auto; gap: 8px; padding: 8px 14px; border-bottom: none; border: 1px solid var(--hair-2); margin-right: 6px; }
+      .frag-index a.active::before { display: none; }
+      .frag-index a.active { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+      .frag-index a.active .i-num, .frag-index a.active .i-ancla { color: var(--bg); }
+      .fragmento { grid-template-columns: 1fr; gap: 16px; padding: 56px 0; }
+      .frag-num { font-size: 68px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="site-nav">
+    <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="fragmentos.html" aria-current="page">Fragmentos</a></li>
+      <li><a href="acceso.html">Acceso</a></li>
+    </ul>
+    <div class="nav-coords"><b>03</b> · Fragmentos</div>
+  </nav>
+
+  <header class="page-head">
+    <div class="head-id"><span class="num">03</span>Fragmentos<br>Cuaderno</div>
+    <h1>Notas sobre <em>atmósfera</em>.</h1>
+    <div class="head-meta">04 fragmentos<br>Cuaderno N.º 04<br>2026 · MMXXVI</div>
+    <p class="head-eyebrow">Un cuaderno de notas sobre ausencias, sombras y umbrales. Sobre todo aquello que ocurre entre el espacio y quien lo habita.</p>
+  </header>
+
+  <main class="cuaderno">
+
+    <aside class="frag-index">
+      <span class="label">— Índice</span>
+      <a href="#ausencia" data-id="ausencia" class="active"><span class="i-num">I</span><span class="i-ancla">Ausencia</span></a>
+      <a href="#sombra"   data-id="sombra"><span class="i-num">II</span><span class="i-ancla">Sombra</span></a>
+      <a href="#umbral"   data-id="umbral"><span class="i-num">III</span><span class="i-ancla">Umbral</span></a>
+      <a href="#atmosfera" data-id="atmosfera"><span class="i-num">IV</span><span class="i-ancla">Atmósfera</span></a>
+      <div class="toc-meta">
+        <div><span>Total</span><b>04</b></div>
+        <div><span>Última</span><b>17 may.</b></div>
+        <div><span>Ritmo</span><b>Lento</b></div>
+      </div>
+    </aside>
+
+    <section class="frag-stream">
+
+      <article class="fragmento glow-warm" id="ausencia">
+        <div class="frag-meta">
+          <span class="frag-num">I</span>
+          <span class="frag-label">— Fragmento</span>
+          <span class="frag-date">28 feb. 2026</span>
+        </div>
+        <div class="frag-body">
+          <h2 class="frag-ancla"><em>Ausencia</em></h2>
+          <p class="frag-text">Hay espacios que no se habitan con el cuerpo, sino con la falta de él. Un lugar diseñado para alguien que ya no está es, en realidad, un monumento al aire que quedó atrapado entre cuatro paredes.</p>
+          <div class="frag-foot">
+            <span class="tag">Vacío</span>
+            <span class="tag">Habitar</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="fragmento glow" id="sombra">
+        <div class="frag-meta">
+          <span class="frag-num">II</span>
+          <span class="frag-label">— Fragmento</span>
+          <span class="frag-date">14 mar. 2026</span>
+        </div>
+        <div class="frag-body">
+          <h2 class="frag-ancla">Sombra</h2>
+          <p class="frag-text">La luz nos muestra lo que somos, pero es la sombra la que nos da profundidad. Un cuarto sin rincones oscuros es un espacio sin secretos; una superficie plana donde el alma no tiene dónde esconderse.</p>
+          <div class="frag-foot">
+            <span class="tag">Luz</span>
+            <span class="tag">Penumbra</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="fragmento glow-warm" id="umbral">
+        <div class="frag-meta">
+          <span class="frag-num">III</span>
+          <span class="frag-label">— Fragmento</span>
+          <span class="frag-date">22 abr. 2026</span>
+        </div>
+        <div class="frag-body">
+          <h2 class="frag-ancla"><em>Umbral</em></h2>
+          <p class="frag-text">El umbral es un espacio de transición, un lugar que no es ni aquí ni allá. Es el aire que se respira justo antes de entrar a una habitación, la pausa entre el mundo exterior y el interior. Un buen umbral prepara el cuerpo para lo que viene, como un suspiro que anuncia un cambio de escena.</p>
+          <div class="frag-foot">
+            <span class="tag">Umbral</span>
+            <span class="tag">Transición</span>
+          </div>
+        </div>
+      </article>
+
+      <article class="fragmento glow" id="atmosfera">
+        <div class="frag-meta">
+          <span class="frag-num">IV</span>
+          <span class="frag-label">— Fragmento</span>
+          <span class="frag-date">17 may. 2026</span>
+        </div>
+        <div class="frag-body">
+          <h2 class="frag-ancla">Atmósfera</h2>
+          <p class="frag-text">La atmósfera de un espacio es su esencia intangible. No se puede tocar, pero se siente en cada rincón. Es la suma de la luz, el sonido, el olor y la temperatura; el eco de las personas que lo habitan y las historias que han dejado en sus paredes.</p>
+          <div class="frag-foot">
+            <span class="tag">Atmósfera</span>
+            <span class="tag">Sensible</span>
+          </div>
+        </div>
+      </article>
+
+      <div class="frag-end">
+        <span>— Fin del cuaderno N.º 04</span>
+        <span class="right">Próximo · junio</span>
+      </div>
+
+    </section>
+  </main>
+
+  <footer class="site-foot">
+    <div class="ed-mark">
+      <div class="name">ENOUGH<span class="dot">.</span></div>
+      <p class="tag">Editorial sobre atmósfera, materia y la forma de habitar el espacio.</p>
+    </div>
+
+    <div class="ed-seal" aria-hidden="true">
+      <div class="seal-inner">
+        Vol.
+        <b>I</b>
+        MMXXVI
+      </div>
+    </div>
+
+    <div class="ed-colophon">
+      <div class="col">
+        <h5>Editorial</h5>
+        <a href="index.html#manifiesto">Manifiesto</a>
+        <a href="index.html#estudios">Estudios</a>
+        <a href="blog.html">Ensayos</a>
+      </div>
+      <div class="col">
+        <h5>Archivo</h5>
+        <a href="galeria.html">Galería</a>
+        <a href="fragmentos.html">Fragmentos</a>
+      </div>
+      <div class="col">
+        <h5>Casa</h5>
+        <a href="index.html#contacto">Contacto</a>
+        <a href="acceso.html">Acceso</a>
+      </div>
+      <div class="col">
+        <h5>Tipografía</h5>
+        <span>Cormorant Garamond</span>
+        <span>DM Sans</span>
+        <span>Editado en Bucaramanga, CO</span>
+      </div>
+    </div>
+
+    <div class="ed-end">
+      <span>© MMXXVI · Enough Editorial</span>
+      <span class="center">Fin del Volumen I</span>
+      <span><a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos</a></span>
+    </div>
+  </footer>
+
+  <script>
+    const links = document.querySelectorAll('.frag-index a');
+    links.forEach(a => {
+      a.addEventListener('click', (e) => {
+        const id = a.dataset.id;
+        const t = document.getElementById(id);
+        if (t) {
+          e.preventDefault();
+          t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          history.replaceState(null, '', '#' + id);
+        }
+      });
+    });
+
+    const fragments = document.querySelectorAll('.fragmento');
+    const obs = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const id = e.target.id;
+          links.forEach(l => l.classList.toggle('active', l.dataset.id === id));
+        }
+      });
+    }, { rootMargin: '-30% 0px -55% 0px' });
+    fragments.forEach(f => obs.observe(f));
+
+
+    const hash = window.location.hash.replace('#','');
+    if (hash) {
+      const t = document.getElementById(hash);
+      if (t) setTimeout(() => t.scrollIntoView({ behavior: 'instant', block: 'start' }), 100);
+    }
+  </script>
+  <script>
+    (function() {
+      if (localStorage.getItem('sb-ewxrqebjqwswhpjufrop-auth-token')) {
+        const l = document.querySelector('.site-nav a[href="acceso.html"]');
+        if (l) { l.href = 'dashboard.html'; l.textContent = 'Archivo'; }
+      }
+    })();
+  </script>
+</body>
+</html>

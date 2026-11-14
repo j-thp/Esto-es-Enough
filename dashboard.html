@@ -1,0 +1,994 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Archivo · Enough</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="enough.css">
+
+  <style>
+    /* ─── Loading overlay ─── */
+    #dash-loading {
+      position: fixed; inset: 0;
+      background: var(--bg);
+      z-index: 200;
+      display: flex; align-items: center; justify-content: center;
+      transition: opacity .4s ease;
+    }
+    #dash-loading.fade { opacity: 0; pointer-events: none; }
+    .loading-mark {
+      font-family: var(--display-font);
+      font-size: 2.2rem; font-weight: 300;
+      letter-spacing: .3em; text-transform: uppercase;
+      color: var(--bone-faint);
+      animation: pulso 1.8s ease-in-out infinite;
+    }
+    @keyframes pulso { 0%,100%{opacity:.18} 50%{opacity:.55} }
+
+    /* ─── Titulo toggle (modal) ─── */
+    .titulo-toggle { display: flex; gap: 0; }
+    .titulo-btn {
+      flex: 1; padding: 10px 0;
+      background: transparent; border: 1px solid var(--hair-2);
+      color: var(--faint); font-family: var(--label-font); font-size: 10px;
+      letter-spacing: .22em; text-transform: uppercase; cursor: pointer;
+      transition: background .2s, border-color .2s, color .2s;
+    }
+    .titulo-btn + .titulo-btn { margin-left: -1px; }
+    .titulo-btn.on { background: var(--gold); border-color: var(--gold); color: var(--bg); }
+
+    /* ─── Profile modal ─── */
+    #modal-perfil {
+      position: fixed; inset: 0; z-index: 100;
+      background: rgba(17,16,12,.55);
+      backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      opacity: 0; pointer-events: none;
+      transition: opacity .25s ease;
+    }
+    #modal-perfil.open { opacity: 1; pointer-events: all; }
+    .modal-box {
+      background: var(--bg-soft);
+      border: 1px solid var(--hair-2);
+      padding: 40px 44px;
+      width: min(540px, calc(100vw - 48px));
+      display: flex; flex-direction: column; gap: 24px;
+      position: relative;
+    }
+    .modal-head {
+      display: flex; justify-content: space-between; align-items: baseline;
+    }
+    .modal-head h3 {
+      font-family: var(--display-font); font-weight: 400; font-size: 26px;
+      color: var(--text);
+    }
+    .modal-head h3 em { font-style: italic; color: var(--text-soft); }
+    .modal-close {
+      background: none; border: none; color: var(--faint);
+      font-family: var(--label-font); font-size: 9px; letter-spacing: .22em;
+      text-transform: uppercase; cursor: pointer; transition: color .2s;
+    }
+    .modal-close:hover { color: var(--text); }
+    .modal-fields { display: flex; flex-direction: column; gap: 18px; }
+    .modal-msg {
+      font-family: var(--label-font); font-size: 9px; letter-spacing: .2em;
+      text-transform: uppercase; min-height: 1em;
+    }
+    .modal-msg.ok  { color: oklch(78% 0.12 145); }
+    .modal-msg.err { color: #c0392b; }
+    .modal-actions { display: flex; gap: 12px; }
+    .modal-actions .btn { flex: 1; justify-content: center; }
+
+    /* ─── Dashboard — archivo privado, denso, editorial back-office ─── */
+
+    /* Welcome banner */
+    .welcome {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 28px var(--gutter);
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      align-items: center;
+      border-bottom: 1px solid var(--hair);
+      position: relative;
+      z-index: 3;
+    }
+    .welcome .who {
+      grid-column: 1 / span 6;
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: clamp(28px, 3vw, 44px);
+      line-height: 1;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+    .welcome .who em { font-style: italic; color: var(--text-soft); }
+    .welcome .session {
+      grid-column: 7 / span 6;
+      text-align: right;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      display: flex;
+      justify-content: flex-end;
+      align-items: center;
+      gap: 24px;
+    }
+    .welcome .session .pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 12px;
+      border: 1px solid var(--hair-2);
+      color: var(--text);
+    }
+    .welcome .session .pill::before {
+      content: '';
+      width: 7px; height: 7px;
+      border-radius: 50%;
+      background: oklch(78% 0.12 145);
+      box-shadow: 0 0 8px oklch(78% 0.12 145 / .7);
+    }
+    .welcome .session a {
+      color: var(--muted);
+      text-decoration: none;
+      border-bottom: 1px solid var(--hair-2);
+      padding-bottom: 2px;
+      transition: color .2s, border-color .2s;
+    }
+    .welcome .session a:hover { color: var(--text); border-color: var(--gold); }
+    .btn-tienda {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 7px 14px;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      text-decoration: none;
+      transition: background .2s, color .2s;
+    }
+    .btn-tienda:hover { background: var(--gold); color: var(--bg); }
+
+    /* Stats row */
+    .stats {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 28px var(--gutter);
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 1px;
+      background: var(--hair);
+      border-bottom: 1px solid var(--hair);
+      position: relative;
+      z-index: 3;
+    }
+    .stat {
+      background: var(--bg);
+      padding: 20px 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+    .stat .k {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+    .stat .v {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 38px;
+      line-height: 1;
+      color: var(--text);
+      font-variant-numeric: tabular-nums;
+      letter-spacing: 0;
+    }
+    .stat .v em { font-style: italic; color: var(--text-soft); font-size: 28px; }
+    .stat .n {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+    }
+    .stat .n.up { color: oklch(78% 0.12 145); }
+
+    /* Main grid */
+    .dash {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 40px var(--gutter) 80px;
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 36px 24px;
+      position: relative;
+      z-index: 3;
+    }
+    .panel {
+      background: var(--bg-soft);
+      border: 1px solid var(--hair-2);
+      padding: 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      position: relative;
+      overflow: hidden;
+    }
+    .panel .p-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+    }
+    .panel h2 {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 24px;
+      line-height: 1.05;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+    .panel h2 em { font-style: italic; color: var(--text-soft); }
+    .panel .p-num {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+
+    /* Latest fragment (large) */
+    .frag-latest { grid-column: 1 / span 7; padding: 0; min-height: 380px; }
+    .frag-latest::before {
+      content: '';
+      position: absolute;
+      left: 30%; top: 30%;
+      width: 60%; height: 60%;
+      background: radial-gradient(ellipse at center,
+        color-mix(in oklch, var(--turrell-a) 14%, transparent),
+        transparent 70%);
+      filter: blur(60px);
+      pointer-events: none;
+    }
+    .frag-latest .frag-img {
+      width: 100%;
+      aspect-ratio: 16 / 7;
+      background:
+        repeating-linear-gradient(135deg, rgba(239,230,212,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+      position: relative;
+      border-bottom: 1px solid var(--hair-2);
+    }
+    .frag-latest .frag-img::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 50%, color-mix(in oklch, var(--turrell-b) 18%, transparent), transparent 65%);
+      mix-blend-mode: soft-light;
+    }
+    .frag-latest .frag-body {
+      padding: 28px 32px 32px;
+      display: flex;
+      flex-direction: column;
+      gap: 14px;
+      position: relative;
+      z-index: 1;
+    }
+    .frag-latest .frag-meta {
+      display: flex;
+      gap: 18px;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .frag-latest .frag-meta .sep { color: var(--faint); }
+    .frag-latest h3 {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 30px;
+      line-height: 1.05;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+    .frag-latest h3 em { font-style: italic; color: var(--text-soft); }
+    .frag-latest p {
+      font-size: 14px;
+      line-height: 1.8;
+      color: var(--muted);
+      max-width: 58ch;
+    }
+    .frag-latest .actions {
+      margin-top: 8px;
+      display: flex;
+      gap: 12px;
+    }
+
+    /* Right column panels */
+    .right-col { grid-column: 8 / span 5; display: flex; flex-direction: column; gap: 24px; }
+
+    /* Próximos */
+    .proximo .item {
+      display: grid;
+      grid-template-columns: auto 1fr auto;
+      gap: 14px;
+      padding: 14px 0;
+      border-top: 1px solid var(--hair-2);
+      align-items: baseline;
+    }
+    .proximo .item:last-child { border-bottom: 1px solid var(--hair-2); }
+    .proximo .item .when {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      font-variant-numeric: tabular-nums;
+      min-width: 64px;
+    }
+    .proximo .item .what {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-size: 17px;
+      line-height: 1.25;
+      color: var(--text);
+    }
+    .proximo .item .where {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    /* Cuenta */
+    .cuenta .row {
+      display: grid;
+      grid-template-columns: 130px 1fr;
+      gap: 16px;
+      padding: 12px 0;
+      border-top: 1px solid var(--hair-2);
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .cuenta .row:last-of-type { border-bottom: 1px solid var(--hair-2); margin-bottom: 16px; }
+    .cuenta .row .k { color: var(--faint); }
+    .cuenta .row .v { color: var(--text); font-weight: 500; }
+    .cuenta .row .v.muted { color: var(--muted); font-weight: 400; }
+
+    /* Compras */
+    .compras { grid-column: 1 / span 12; }
+    .compras-list {
+      display: grid;
+      grid-template-columns: 60px 80px 1fr 180px 140px 120px;
+      gap: 0;
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .2em;
+      text-transform: uppercase;
+    }
+    .compras-list .h-cell {
+      padding: 12px 0;
+      border-bottom: 1px solid var(--hair-2);
+      color: var(--faint);
+    }
+    .compras-list .h-cell:last-child { text-align: right; }
+    .compras-list .row {
+      display: contents;
+    }
+    .compras-list .row .c {
+      padding: 16px 0;
+      border-bottom: 1px solid var(--hair);
+      color: var(--text);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .compras-list .row .c.tnum { font-variant-numeric: tabular-nums; }
+    .compras-list .row .c.right { justify-content: flex-end; }
+    .compras-list .num { color: var(--gold); font-variant-numeric: tabular-nums; }
+    .compras-list .thumb {
+      width: 56px;
+      aspect-ratio: 1 / 1;
+      background:
+        repeating-linear-gradient(135deg, rgba(239,230,212,.04) 0 1px, transparent 1px 18px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+      border: 1px solid var(--hair);
+      position: relative;
+    }
+    .compras-list .thumb.tint-warm::after,
+    .compras-list .thumb.tint-violet::after {
+      content:''; position:absolute; inset:0;
+      mix-blend-mode: soft-light;
+    }
+    .compras-list .thumb.tint-warm::after { background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-b) 22%, transparent), transparent 70%); }
+    .compras-list .thumb.tint-violet::after { background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-a) 25%, transparent), transparent 70%); }
+    .compras-list .name {
+      font-family: var(--display-font);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 16px;
+      letter-spacing: 0;
+      text-transform: none;
+      color: var(--text);
+    }
+    .compras-list .name em { font-style: italic; color: var(--text-soft); }
+    .compras-list .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 10px;
+      border: 1px solid var(--hair-2);
+      color: var(--text);
+      font-size: 9px;
+      letter-spacing: .22em;
+    }
+    .compras-list .status.ok::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: oklch(78% 0.12 145);
+    }
+    .compras-list .status.pen::before {
+      content: '';
+      width: 6px; height: 6px;
+      border-radius: 50%;
+      background: var(--gold);
+    }
+    .compras-list .dl {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-decoration: none;
+      border: none;
+      border-bottom: 1px solid var(--hair-2);
+      padding-bottom: 2px;
+      padding-left: 0; padding-right: 0;
+      background: none;
+      cursor: pointer;
+      transition: color .2s, border-color .2s;
+    }
+    .compras-list .dl:hover { color: var(--text); border-color: var(--gold); }
+    .compras-list .dl:disabled { opacity: .5; cursor: default; }
+
+    /* Notas / recortes */
+    .notas { grid-column: 1 / span 12; }
+    .notas-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--hair);
+      border: 1px solid var(--hair);
+    }
+    .nota {
+      background: var(--bg);
+      padding: 22px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      min-height: 200px;
+    }
+    .nota .n-date {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .nota .n-q {
+      font-family: var(--display-font);
+      font-style: italic;
+      font-weight: 400;
+      font-size: 17px;
+      line-height: 1.4;
+      color: var(--text);
+    }
+    .nota .n-q .first {
+      font-size: 1.3em;
+      color: var(--gold);
+      font-style: normal;
+      margin-right: .08em;
+      vertical-align: -.04em;
+    }
+    .nota .n-foot {
+      margin-top: auto;
+      display: flex;
+      justify-content: space-between;
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    @media (max-width: 920px) {
+      .welcome { grid-template-columns: 1fr; gap: 14px; }
+      .welcome .who, .welcome .session { grid-column: 1 / span 1; }
+      .welcome .session { justify-content: flex-start; flex-wrap: wrap; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .dash { grid-template-columns: 1fr; gap: 24px; padding: 24px var(--gutter) 60px; }
+      .frag-latest, .right-col, .compras, .notas { grid-column: 1; }
+      .compras-list { grid-template-columns: 40px 1fr 1fr; }
+      .compras-list .h-cell:nth-child(2),
+      .compras-list .h-cell:nth-child(4),
+      .compras-list .h-cell:nth-child(6),
+      .compras-list .row .c:nth-child(2),
+      .compras-list .row .c:nth-child(4),
+      .compras-list .row .c:nth-child(6) { display: none; }
+      .notas-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Loading overlay -->
+  <div id="dash-loading"><span class="loading-mark">Enough</span></div>
+
+  <!-- Modal editar perfil -->
+  <div id="modal-perfil" role="dialog" aria-modal="true" aria-label="Editar perfil">
+    <div class="modal-box">
+      <div class="modal-head">
+        <h3>Editar <em>perfil</em></h3>
+        <button class="modal-close" id="modal-close-btn">✕ Cerrar</button>
+      </div>
+      <div class="modal-fields">
+        <div class="field">
+          <label for="p-nombre">Nombre</label>
+          <input type="text" id="p-nombre" placeholder="Tu nombre" autocomplete="given-name">
+        </div>
+        <div class="field">
+          <label for="p-apellido">Apellido</label>
+          <input type="text" id="p-apellido" placeholder="Tu apellido" autocomplete="family-name">
+        </div>
+        <div class="field">
+          <label for="p-email">Correo</label>
+          <input type="email" id="p-email" placeholder="tu@correo.com" autocomplete="email">
+        </div>
+        <div class="field">
+          <label>¿Cómo quieres que te llamemos?</label>
+          <div class="titulo-toggle">
+            <button type="button" class="titulo-btn on" data-val="Lector">Lector</button>
+            <button type="button" class="titulo-btn" data-val="Lectora">Lectora</button>
+          </div>
+          <input type="hidden" id="p-titulo" value="Lector">
+        </div>
+        <div class="field">
+          <label for="p-pass">Nueva contraseña <span style="color:var(--faint);font-size:9px;letter-spacing:.15em;">(dejar vacío para no cambiar)</span></label>
+          <input type="password" id="p-pass" placeholder="••••••••" autocomplete="new-password">
+        </div>
+      </div>
+      <div class="modal-msg" id="modal-msg"></div>
+      <div class="modal-actions">
+        <button class="btn btn-solid" id="btn-guardar-perfil">Guardar cambios</button>
+        <button class="btn btn-ghost" id="modal-cancel-btn">Cancelar</button>
+      </div>
+    </div>
+  </div>
+
+  <nav class="site-nav">
+    <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="fragmentos.html">Fragmentos</a></li>
+      <li><a href="dashboard.html" aria-current="page">Archivo</a></li>
+      <li><a href="#" onclick="event.preventDefault(); logout()">Salir</a></li>
+    </ul>
+    <div class="nav-coords"><b>05</b> · Archivo</div>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <header class="page-head">
+    <div class="head-id"><span class="num">05</span>Archivo<br>Privado</div>
+    <h1>Tu <em>archivo</em>.</h1>
+    <div class="head-meta">Sesión activa<br>Vol. I · MMXXVI<br><span id="head-fecha">—</span></div>
+    <p class="head-eyebrow">Tu espacio dentro de Enough. Fragmentos recientes, compras, notas y lo que viene en las próximas semanas.</p>
+  </header>
+
+  <section class="welcome">
+    <div class="who">Bienvenido de vuelta,<br><em id="user-nombre">—</em>.</div>
+    <div class="session">
+      <span class="pill">Sesión activa</span>
+      <a href="#" id="btn-logout">Cerrar sesión</a>
+    </div>
+  </section>
+
+  <section class="stats">
+    <div class="stat">
+      <span class="k">Fragmentos leídos</span>
+      <span class="v">0</span>
+      <span class="n">Sin lecturas aún</span>
+    </div>
+    <div class="stat">
+      <span class="k">Compras</span>
+      <span class="v" id="stat-compras">0</span>
+      <span class="n" id="stat-compras-detalle">Sin compras aún</span>
+    </div>
+    <div class="stat">
+      <span class="k">Guardados</span>
+      <span class="v">0</span>
+      <span class="n">Sin guardados aún</span>
+    </div>
+    <div class="stat">
+      <span class="k">Próxima edición</span>
+      <span class="v"><em>01</em></span>
+      <span class="n">Junio · Vol. I</span>
+    </div>
+  </section>
+
+  <main class="dash">
+
+
+    <!-- Right column -->
+    <div class="right-col">
+
+      <section class="panel proximo">
+        <div class="p-head">
+          <h2>Próximas <em>publicaciones</em></h2>
+          <span class="p-num">04 piezas</span>
+        </div>
+        <div>
+          <div class="item">
+            <span class="when">Jun 02</span>
+            <span class="what">Vol. I — Apertura, prólogo</span>
+            <span class="where">Ensayo</span>
+          </div>
+          <div class="item">
+            <span class="when">Jun 14</span>
+            <span class="what">Fragmento N.º 13 — <em>Aire</em></span>
+            <span class="where">Cuaderno</span>
+          </div>
+          <div class="item">
+            <span class="when">Jun 28</span>
+            <span class="what">Print — Umbral, edición de 30</span>
+            <span class="where">Tienda</span>
+          </div>
+          <div class="item">
+            <span class="when">Jul —</span>
+            <span class="what">Archivo 2025, segunda parte</span>
+            <span class="where">Tienda</span>
+          </div>
+        </div>
+      </section>
+
+      <section class="panel cuenta">
+        <div class="p-head">
+          <h2>Cuenta</h2>
+          <span class="p-num" id="cuenta-tipo">—</span>
+        </div>
+        <div>
+          <div class="row"><span class="k">Nombre</span><span class="v" id="cuenta-nombre">—</span></div>
+          <div class="row"><span class="k">Correo</span><span class="v muted" id="cuenta-email">—</span></div>
+          <div class="row"><span class="k">Tipo</span><span class="v" id="cuenta-plan">—</span></div>
+          <div class="row"><span class="k">Desde</span><span class="v muted" id="cuenta-desde">—</span></div>
+        </div>
+        <div style="display:flex; gap:10px;">
+          <button class="btn btn-ghost" id="btn-editar-perfil" style="flex:1; justify-content:center; font-size:10px;">Editar perfil</button>
+          <button class="btn btn-ghost" id="btn-logout-cuenta" style="flex:1; justify-content:center; font-size:10px;">Salir</button>
+        </div>
+      </section>
+    </div>
+
+    <!-- Compras -->
+    <section class="panel compras">
+      <div class="p-head">
+        <h2>Tus <em>compras</em></h2>
+        <span class="p-num" id="compras-resumen">—</span>
+      </div>
+      <div class="compras-list" id="compras-tabla">
+        <span class="h-cell">N.º</span>
+        <span class="h-cell">Img</span>
+        <span class="h-cell">Pieza</span>
+        <span class="h-cell">Fecha</span>
+        <span class="h-cell">Estado</span>
+        <span class="h-cell">Descarga</span>
+      </div>
+    </section>
+
+
+  </main>
+
+  <footer class="site-foot">
+    <div class="ed-mark">
+      <div class="name">ENOUGH<span class="dot">.</span></div>
+      <p class="tag">Editorial sobre atmósfera, materia y la forma de habitar el espacio.</p>
+    </div>
+
+    <div class="ed-seal" aria-hidden="true">
+      <div class="seal-inner">
+        Vol.
+        <b>I</b>
+        MMXXVI
+      </div>
+    </div>
+
+    <div class="ed-colophon">
+      <div class="col">
+        <h5>Editorial</h5>
+        <a href="index.html#manifiesto">Manifiesto</a>
+        <a href="index.html#estudios">Estudios</a>
+        <a href="blog.html">Ensayos</a>
+      </div>
+      <div class="col">
+        <h5>Archivo</h5>
+        <a href="galeria.html">Galería</a>
+        <a href="fragmentos.html">Fragmentos</a>
+      </div>
+      <div class="col">
+        <h5>Cuenta</h5>
+        <a href="dashboard.html">Mi archivo</a>
+        <a href="#" onclick="event.preventDefault(); logout()">Salir</a>
+      </div>
+      <div class="col">
+        <h5>Tipografía</h5>
+        <span>Cormorant Garamond</span>
+        <span>DM Sans</span>
+        <span>Editado en Bucaramanga, CO</span>
+      </div>
+    </div>
+
+    <div class="ed-end">
+      <span>© MMXXVI · Enough Editorial</span>
+      <span class="center">Fin del Volumen I</span>
+      <span><a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos</a></span>
+    </div>
+  </footer>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2/dist/umd/supabase.js"></script>
+  <script>
+    const { createClient } = supabase;
+    const sb = createClient(
+      'https://ewxrqebjqwswhpjufrop.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV3eHJxZWJqcXdzd2hwanVmcm9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ2NzE5NjYsImV4cCI6MjExMDI0Nzk2Nn0.0cVLfsJ0AgJIoDDKPIBDA8dzGQipAtnenlFaoy7qkzg',
+    );
+
+    /* ─── HELPERS ─── */
+    const DIAS  = ['Dom','Lun','Mar','Mié','Jue','Vie','Sáb'];
+    const MESES = ['ene','feb','mar','abr','may','jun','jul','ago','sep','oct','nov','dic'];
+    (function() {
+      const h = new Date();
+      set('head-fecha', `${DIAS[h.getDay()]}, ${h.getDate()} ${MESES[h.getMonth()]}.`);
+    })();
+    function fmtFecha(iso) {
+      const d = new Date(iso);
+      return `${d.getDate()} ${MESES[d.getMonth()]}. ${d.getFullYear()}`;
+    }
+    function set(id, val) {
+      const el = document.getElementById(id);
+      if (el) el.textContent = val;
+    }
+    function esc(s) { const d = document.createElement('div'); d.textContent = String(s ?? ''); return d.innerHTML; }
+    function ocultarLoading() {
+      const loading = document.getElementById('dash-loading');
+      if (loading) {
+        loading.classList.add('fade');
+        setTimeout(() => loading.remove(), 450);
+      }
+    }
+
+    /* ─── POBLAR UI CON DATOS DEL USUARIO ─── */
+    function poblarUsuario(user) {
+      const meta     = user.user_metadata || {};
+      const nombre   = meta.nombre || meta.name || meta.full_name?.split(' ')[0] || user.email.split('@')[0];
+      const apellido = meta.apellido || (meta.full_name?.split(' ').slice(1).join(' ')) || '';
+      const nombreCompleto = apellido ? `${nombre} ${apellido}` : nombre;
+      const plan     = meta.plan || meta.titulo || 'Lector';
+      const desde    = fmtFecha(user.created_at);
+
+      set('user-nombre',    nombre);
+      set('cuenta-nombre',  nombreCompleto);
+      set('cuenta-email',   user.email);
+      set('cuenta-plan',    `${plan} · Vol. I`);
+      set('cuenta-tipo',    plan);
+      set('cuenta-desde',   desde);
+
+      document.getElementById('p-nombre').value   = nombre;
+      document.getElementById('p-apellido').value = apellido;
+      document.getElementById('p-email').value    = user.email;
+      document.getElementById('p-titulo').value   = plan;
+      document.querySelectorAll('.titulo-btn').forEach(b => {
+        b.classList.toggle('on', b.dataset.val === plan);
+      });
+    }
+
+    /* ─── COMPRAS (Supabase) ─── */
+    async function cargarCompras() {
+      const { data: ordenes, error } = await sb
+        .from('ordenes')
+        .select('id, total, referencia, estado, created_at, productos(nombre, archivo_url)')
+        .order('created_at', { ascending: false });
+
+      if (error || !ordenes) return;
+
+      const total     = ordenes.length;
+      const aprobadas = ordenes.filter(o => o.estado === 'APROBADA').length;
+
+      set('stat-compras', total > 0 ? String(total) : '0');
+      set('stat-compras-detalle', total === 0 ? 'Sin compras aún' : `${aprobadas} aprobada${aprobadas !== 1 ? 's' : ''}`);
+      set('compras-resumen', total === 0 ? 'Sin compras' : `${total} pieza${total !== 1 ? 's' : ''}`);
+
+      const tabla = document.getElementById('compras-tabla');
+      tabla.querySelectorAll('.row').forEach(r => r.remove());
+
+      if (total === 0) {
+        const empty = document.createElement('div');
+        empty.style.cssText = 'grid-column:1/-1;padding:24px 0;color:var(--faint);font-family:var(--label-font);font-size:10px;letter-spacing:.2em;text-transform:uppercase;';
+        empty.textContent = '— Sin compras registradas';
+        tabla.appendChild(empty);
+        return;
+      }
+
+      const ESTADO_LABEL = { APROBADA: 'Entregado', PENDIENTE: 'Pendiente', RECHAZADA: 'Rechazada', VOIDED: 'Anulado', ERROR: 'Error' };
+
+      ordenes.forEach((orden, i) => {
+        const prod     = orden.productos || {};
+        const num      = String(total - i).padStart(2, '0');
+        const fecha    = fmtFecha(orden.created_at);
+        const cls      = orden.estado === 'APROBADA' ? 'ok' : 'pen';
+        const label    = ESTADO_LABEL[orden.estado] || orden.estado;
+        const descarga = orden.estado === 'APROBADA' && prod.archivo_url
+          ? `<button class="dl" data-path="${esc(prod.archivo_url)}">Descargar →</button>`
+          : `<span style="color:var(--faint)">—</span>`;
+
+        const row = document.createElement('div');
+        row.className = 'row';
+        row.innerHTML = `
+          <span class="c num">${num}</span>
+          <span class="c"><span class="thumb"></span></span>
+          <span class="c"><span class="name">${esc(prod.nombre || '—')}</span></span>
+          <span class="c tnum">${fecha}</span>
+          <span class="c"><span class="status ${cls}">${esc(label)}</span></span>
+          <span class="c right">${descarga}</span>`;
+        tabla.appendChild(row);
+      });
+    }
+
+    /* ─── DESCARGAS (Signed URL de 60 s — bucket privado) ─── */
+    document.getElementById('compras-tabla').addEventListener('click', e => {
+      const btn = e.target.closest('button.dl[data-path]');
+      if (btn) descargar(btn.dataset.path, btn);
+    });
+
+    async function descargar(path, btn) {
+      btn.textContent = '…';
+      btn.disabled = true;
+      const { data, error } = await sb.storage.from('descargas').createSignedUrl(path, 60);
+      if (error || !data?.signedUrl) {
+        btn.textContent = 'Error';
+        setTimeout(() => { btn.textContent = 'Descargar →'; btn.disabled = false; }, 2000);
+        return;
+      }
+      window.open(data.signedUrl, '_blank', 'noopener');
+      btn.textContent = 'Descargar →';
+      btn.disabled = false;
+    }
+
+    /* ─── MODAL PERFIL ─── */
+    const modal = document.getElementById('modal-perfil');
+
+    function abrirModal() { modal.classList.add('open'); }
+    function cerrarModal() {
+      modal.classList.remove('open');
+      setModalMsg('', '');
+      document.getElementById('p-pass').value = '';
+    }
+    function setModalMsg(txt, tipo) {
+      const el = document.getElementById('modal-msg');
+      el.textContent = txt;
+      el.className = 'modal-msg' + (tipo ? ' ' + tipo : '');
+    }
+
+    document.querySelectorAll('.titulo-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.titulo-btn').forEach(b => b.classList.remove('on'));
+        btn.classList.add('on');
+        document.getElementById('p-titulo').value = btn.dataset.val;
+      });
+    });
+
+    document.getElementById('btn-editar-perfil').addEventListener('click', abrirModal);
+    document.getElementById('modal-close-btn').addEventListener('click', cerrarModal);
+    document.getElementById('modal-cancel-btn').addEventListener('click', cerrarModal);
+    modal.addEventListener('click', e => { if (e.target === modal) cerrarModal(); });
+
+    document.getElementById('btn-guardar-perfil').addEventListener('click', async () => {
+      const nombre   = document.getElementById('p-nombre').value.trim();
+      const apellido = document.getElementById('p-apellido').value.trim();
+      const email    = document.getElementById('p-email').value.trim();
+      const titulo   = document.getElementById('p-titulo').value;
+      const pass     = document.getElementById('p-pass').value;
+
+      if (!nombre) { setModalMsg('— El nombre no puede estar vacío', 'err'); return; }
+      setModalMsg('— Guardando…', '');
+
+      const { error: metaErr } = await sb.auth.updateUser({ data: { nombre, apellido, titulo } });
+      if (metaErr) { setModalMsg('— ' + metaErr.message, 'err'); return; }
+
+      const { data: { user } } = await sb.auth.getUser();
+
+      if (email && email !== user.email) {
+        const { error: emailErr } = await sb.auth.updateUser({ email });
+        if (emailErr) { setModalMsg('— ' + emailErr.message, 'err'); return; }
+        setModalMsg('— Revisa tu nuevo correo para confirmar el cambio', 'ok');
+      }
+
+      if (pass) {
+        if (pass.length < 8) { setModalMsg('— La contraseña debe tener al menos 8 caracteres', 'err'); return; }
+        const { error: passErr } = await sb.auth.updateUser({ password: pass });
+        if (passErr) { setModalMsg('— ' + passErr.message, 'err'); return; }
+      }
+
+      const { data: { user: userActualizado } } = await sb.auth.getUser();
+      poblarUsuario(userActualizado);
+      setModalMsg('— Cambios guardados', 'ok');
+      document.getElementById('p-pass').value = '';
+      setTimeout(cerrarModal, 1600);
+    });
+
+    /* ─── LOGOUT ─── */
+    async function logout() {
+      await sb.auth.signOut();
+      Object.keys(localStorage).forEach(k => { if (k.startsWith('sb-')) localStorage.removeItem(k); });
+      window.location.href = 'acceso.html';
+    }
+    document.getElementById('btn-logout').addEventListener('click', e => { e.preventDefault(); logout(); });
+    document.getElementById('btn-logout-cuenta').addEventListener('click', logout);
+
+    /* ─── INACTIVIDAD: logout a los 30 min ─── */
+    (function() {
+      const LIMITE = 30 * 60 * 1000;
+      async function cerrarPorInactividad() {
+        await sb.auth.signOut();
+        window.location.href = 'acceso.html';
+      }
+      let t = setTimeout(cerrarPorInactividad, LIMITE);
+      ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'click'].forEach(ev =>
+        document.addEventListener(ev, () => { clearTimeout(t); t = setTimeout(cerrarPorInactividad, LIMITE); }, { passive: true })
+      );
+    })();
+
+    /* ─── INIT ─── */
+    sb.auth.onAuthStateChange(async (event, session) => {
+      if (event === 'SIGNED_OUT') {
+        window.location.href = 'acceso.html';
+        return;
+      }
+
+      if (event === 'INITIAL_SESSION') {
+        if (session && session.user) {
+          const { data: { user }, error } = await sb.auth.getUser();
+          if (error || !user) {
+            window.location.href = 'acceso.html';
+            return;
+          }
+          poblarUsuario(user);
+          cargarCompras();
+          ocultarLoading();
+        } else {
+          window.location.href = 'acceso.html';
+        }
+      }
+    });
+  </script>
+</body>
+</html>

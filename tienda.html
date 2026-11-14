@@ -1,0 +1,546 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Tienda · Enough</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Enough — Tienda. Publicaciones, láminas y objetos editoriales. Ediciones limitadas desde Bucaramanga.">
+  <link rel="canonical" href="https://j-thp.github.io/Esto-es-Enough/tienda.html">
+  <meta property="og:title" content="Tienda · Enough — Editorial">
+  <meta property="og:description" content="Publicaciones, láminas y objetos editoriales. Ediciones limitadas.">
+  <meta property="og:image" content="https://j-thp.github.io/Esto-es-Enough/fotos/espacios/tarde-tendida.jpg">
+  <meta property="og:url" content="https://j-thp.github.io/Esto-es-Enough/tienda.html">
+  <meta property="og:type" content="website">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Tienda · Enough — Editorial">
+  <meta name="twitter:description" content="Publicaciones, láminas y objetos editoriales. Ediciones limitadas.">
+  <meta name="twitter:image" content="https://j-thp.github.io/Esto-es-Enough/fotos/espacios/tarde-tendida.jpg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="enough.css">
+
+  <style>
+    /* ─── Tienda — colapsada, catálogo editorial ─── */
+
+    .tienda-controls {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 18px var(--gutter);
+      display: grid;
+      grid-template-columns: repeat(12, 1fr);
+      gap: 24px;
+      align-items: center;
+      border-bottom: 1px solid var(--hair);
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      position: relative;
+      z-index: 3;
+    }
+    .tienda-controls .label { grid-column: 1 / span 2; color: var(--faint); }
+    .tienda-controls .filters { grid-column: 3 / span 6; display: flex; gap: 6px; flex-wrap: wrap; }
+    .tienda-controls .view { grid-column: 9 / span 4; display: flex; justify-content: flex-end; gap: 6px; }
+    .chip {
+      -webkit-appearance: none;
+      appearance: none;
+      background: transparent;
+      border: 1px solid var(--hair-2);
+      padding: 6px 12px;
+      color: var(--muted);
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: border-color .2s, color .2s, background .2s;
+    }
+    .chip:hover { color: var(--text); border-color: var(--text); }
+    .chip.on { background: var(--gold); color: var(--bg); border-color: var(--gold); }
+
+    /* ── GRID VIEW ── */
+    .grid-view {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 28px var(--gutter) 80px;
+      position: relative;
+      z-index: 3;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1px;
+      background: var(--hair);
+      border: 1px solid var(--hair);
+    }
+    .card {
+      background: var(--bg);
+      display: flex;
+      flex-direction: column;
+      text-decoration: none;
+      color: inherit;
+      transition: background .25s;
+      position: relative;
+    }
+    .card:hover { background: var(--bg-soft); }
+    .card-img {
+      width: 100%;
+      aspect-ratio: 3 / 2;
+      background: var(--bg-soft);
+      overflow: hidden;
+      position: relative;
+    }
+    .card-img img {
+      width: 100%; height: 100%;
+      object-fit: cover;
+      filter: brightness(.88) contrast(1.05);
+      transition: transform .9s ease, filter .6s;
+    }
+    .card:hover .card-img img { transform: scale(1.03); filter: brightness(.96); }
+    .card-img.placeholder {
+      background:
+        repeating-linear-gradient(135deg, rgba(28,24,20,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+    }
+    .card-img.tint-warm::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 50%, color-mix(in oklch, var(--turrell-b) 16%, transparent), transparent 70%);
+      mix-blend-mode: soft-light;
+    }
+    .card-img.tint-violet::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at 50% 50%, color-mix(in oklch, var(--turrell-a) 18%, transparent), transparent 70%);
+      mix-blend-mode: soft-light;
+    }
+    .card-body {
+      padding: 18px 18px 16px;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 8px 12px;
+      align-items: baseline;
+    }
+    .card-num {
+      grid-column: 1 / span 2;
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+    }
+    .card-name {
+      font-family: var(--display-font);
+      font-style: normal;
+      font-weight: 400;
+      font-size: 22px;
+      line-height: 1.05;
+      letter-spacing: 0;
+      color: var(--text);
+    }
+    .card-name em { font-style: italic; color: var(--text-soft); }
+    .card-fmt {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--faint);
+      align-self: start;
+      padding-top: 8px;
+    }
+    .card-desc {
+      grid-column: 1 / span 2;
+      font-size: 13px;
+      line-height: 1.65;
+      color: var(--muted);
+    }
+    .card-foot {
+      padding: 12px 18px 18px;
+      border-top: 1px solid var(--hair);
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      margin-top: auto;
+      font-family: var(--label-font);
+    }
+    .card-price {
+      font-size: 11px;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      font-variant-numeric: tabular-nums;
+    }
+    .card-price b {
+      color: var(--text);
+      font-weight: 500;
+      font-size: 14px;
+      letter-spacing: 0;
+      margin-right: 4px;
+    }
+    .card-arrow {
+      font-size: 11px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+      color: var(--gold);
+      transition: transform .2s;
+    }
+    .card:hover .card-arrow { transform: translateX(4px); }
+
+    /* ── LIST VIEW ── */
+    .list-view {
+      max-width: 1480px;
+      margin: 0 auto;
+      padding: 8px var(--gutter) 80px;
+      position: relative;
+      z-index: 3;
+      display: none;
+    }
+    .list-view.on { display: block; }
+    .grid-view.off { display: none; }
+
+    .list-row {
+      display: grid;
+      grid-template-columns: 60px 80px 1fr 180px 140px 80px;
+      gap: 24px;
+      align-items: center;
+      padding: 16px 0;
+      border-bottom: 1px solid var(--hair);
+      text-decoration: none;
+      color: inherit;
+      transition: background .2s, padding-left .2s;
+    }
+    .list-row:hover { background: rgba(28,24,20,.02); padding-left: 8px; }
+    .list-row .l-num {
+      font-family: var(--label-font);
+      font-size: 11px;
+      letter-spacing: .22em;
+      color: var(--gold);
+      font-variant-numeric: tabular-nums;
+    }
+    .list-row .l-thumb {
+      width: 80px;
+      aspect-ratio: 1 / 1;
+      background: var(--bg-soft);
+      border: 1px solid var(--hair);
+      overflow: hidden;
+      position: relative;
+    }
+    .list-row .l-thumb.placeholder {
+      background:
+        repeating-linear-gradient(135deg, rgba(28,24,20,.04) 0 1px, transparent 1px 22px),
+        linear-gradient(180deg, var(--bg-soft), var(--panel));
+    }
+    .list-row .l-thumb.tint-warm::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-b) 18%, transparent), transparent 70%);
+      mix-blend-mode: soft-light;
+    }
+    .list-row .l-thumb.tint-violet::after {
+      content:''; position:absolute; inset:0;
+      background: radial-gradient(ellipse at center, color-mix(in oklch, var(--turrell-a) 22%, transparent), transparent 70%);
+      mix-blend-mode: soft-light;
+    }
+    .list-row .l-info { display: flex; flex-direction: column; gap: 4px; }
+    .list-row .l-name {
+      font-family: var(--display-font);
+      font-weight: 400;
+      font-size: 20px;
+      line-height: 1.1;
+      color: var(--text);
+    }
+    .list-row .l-name em { font-style: italic; color: var(--text-soft); }
+    .list-row .l-desc {
+      font-size: 12.5px;
+      line-height: 1.55;
+      color: var(--muted);
+      max-width: 56ch;
+    }
+    .list-row .l-fmt,
+    .list-row .l-price {
+      font-family: var(--label-font);
+      font-size: 10px;
+      letter-spacing: .22em;
+      text-transform: uppercase;
+    }
+    .list-row .l-fmt { color: var(--muted); }
+    .list-row .l-price { color: var(--text); font-variant-numeric: tabular-nums; }
+    .list-row .l-price b { color: var(--text); font-weight: 500; font-size: 13px; letter-spacing: 0; margin-right: 4px; }
+    .list-row .l-arrow {
+      font-family: var(--label-font);
+      font-size: 11px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--gold);
+      text-align: right;
+      transition: transform .2s;
+    }
+    .list-row:hover .l-arrow { transform: translateX(4px); }
+
+    .list-row.head {
+      font-family: var(--label-font);
+      font-size: 9px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--faint);
+      padding: 12px 0;
+      border-bottom: 1px solid var(--hair-2);
+      pointer-events: none;
+    }
+    .list-row.head:hover { background: transparent; padding-left: 0; }
+    .list-row.head .l-thumb { border: none; background: transparent; aspect-ratio: auto; height: auto; }
+
+    .estado {
+      grid-column: 1 / -1;
+      padding: 80px 0;
+      text-align: center;
+      font-family: var(--label-font);
+      font-size: 11px;
+      letter-spacing: .25em;
+      text-transform: uppercase;
+      color: var(--faint);
+    }
+
+    @media (max-width: 920px) {
+      .tienda-controls { grid-template-columns: 1fr; gap: 10px; }
+      .tienda-controls .label, .tienda-controls .filters, .tienda-controls .view { grid-column: 1; }
+      .tienda-controls .view { justify-content: flex-start; }
+      .grid-view { grid-template-columns: 1fr; }
+      .list-row { grid-template-columns: 30px 56px 1fr; gap: 16px; }
+      .list-row .l-fmt, .list-row .l-price, .list-row .l-arrow { display: none; }
+      .list-row.head { display: none; }
+    }
+  </style>
+</head>
+<body>
+  <!-- Tienda desactivada temporalmente — redirige a inicio -->
+  <script>window.location.replace('index.html');</script>
+
+  <nav class="site-nav">
+    <a href="index.html" class="mark">ENOUGH<span class="dot">.</span></a>
+    <ul>
+      <li><a href="index.html">Inicio</a></li>
+      <li><a href="galeria.html">Galería</a></li>
+      <li><a href="blog.html">Blog</a></li>
+      <li><a href="tienda.html" aria-current="page">Tienda</a></li>
+      <li><a href="fragmentos.html">Fragmentos</a></li>
+      <li><a href="acceso.html">Acceso</a></li>
+    </ul>
+    <div class="nav-coords"><b>05</b> · Tienda</div>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
+    </button>
+  </nav>
+
+  <header class="page-head">
+    <div class="head-id"><span class="num">03</span>Tienda</div>
+    <h1>Objetos con <em>intención</em>.</h1>
+    <div class="head-meta">5 piezas activas<br>Digital / Edición limitada<br>2024 — 2026</div>
+    <p class="head-eyebrow">Publicaciones, archivos y piezas digitales del proyecto. Todo se hace lento, en serie pequeña y con propósito.</p>
+  </header>
+
+  <div class="tienda-controls">
+    <div class="label">Filtrar</div>
+    <div class="filters" id="filters">
+      <button class="chip on" data-filter="all">Todo · 5</button>
+      <button class="chip" data-filter="ensayo">Ensayos</button>
+      <button class="chip" data-filter="archivo">Archivos</button>
+      <button class="chip" data-filter="wallpaper">Wallpapers</button>
+      <button class="chip" data-filter="impresion">Impresión</button>
+    </div>
+    <div class="view">
+      <button class="chip on" data-view="grid">Grid</button>
+      <button class="chip" data-view="list">Lista</button>
+    </div>
+  </div>
+
+  <main>
+    <div class="grid-view" id="grid"></div>
+    <div class="list-view" id="list"></div>
+  </main>
+
+  <footer class="site-foot">
+    <div class="ed-mark">
+      <div class="name">ENOUGH<span class="dot">.</span></div>
+      <p class="tag">Editorial sobre atmósfera, materia y la forma de habitar el espacio.</p>
+    </div>
+
+    <div class="ed-seal" aria-hidden="true">
+      <div class="seal-inner">Vol. <b>I</b> MMXXVI</div>
+    </div>
+
+    <div class="ed-colophon">
+      <div class="col">
+        <h5>Editorial</h5>
+        <a href="index.html#manifiesto">Manifiesto</a>
+        <a href="index.html#estudios">Estudios</a>
+        <a href="blog.html">Ensayos</a>
+      </div>
+      <div class="col">
+        <h5>Archivo</h5>
+        <a href="galeria.html">Galería</a>
+        <a href="fragmentos.html">Fragmentos</a>
+      </div>
+      <div class="col">
+        <h5>Casa</h5>
+        <a href="index.html#contacto">Contacto</a>
+        <a href="acceso.html">Acceso</a>
+      </div>
+      <div class="col">
+        <h5>Tipografía</h5>
+        <span>Cormorant Garamond</span>
+        <span>DM Sans</span>
+        <span>Editado en Bucaramanga, CO</span>
+      </div>
+    </div>
+
+    <div class="ed-end">
+      <span>© MMXXVI · Enough Editorial</span>
+      <span class="center">Fin del Volumen I</span>
+      <span><a href="privacidad.html">Privacidad</a> · <a href="terminos.html">Términos</a></span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2/dist/umd/supabase.js"></script>
+  <script>
+    const { createClient } = supabase;
+    const sb = createClient(
+      'https://ewxrqebjqwswhpjufrop.supabase.co',
+      'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV3eHJxZWJqcXdzd2hwanVmcm9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ2NzE5NjYsImV4cCI6MjExMDI0Nzk2Nn0.0cVLfsJ0AgJIoDDKPIBDA8dzGQipAtnenlFaoy7qkzg',
+    );
+    sb.auth.getUser().then(({ data: { user }, error }) => {
+      if (error || !user) window.location.href = 'acceso.html';
+    });
+
+    /* ─── INACTIVIDAD: logout a los 30 min ─── */
+    (function() {
+      const LIMITE = 30 * 60 * 1000;
+      async function cerrarPorInactividad() {
+        await sb.auth.signOut();
+        window.location.href = 'acceso.html';
+      }
+      let t = setTimeout(cerrarPorInactividad, LIMITE);
+      ['mousedown', 'mousemove', 'keydown', 'scroll', 'touchstart', 'click'].forEach(ev =>
+        document.addEventListener(ev, () => { clearTimeout(t); t = setTimeout(cerrarPorInactividad, LIMITE); }, { passive: true })
+      );
+    })();
+
+    const products = [
+      { id: 'vol-1', num: '01', name: 'Vol. I — Apertura', em: '', cat: 'ensayo', fmt: 'PDF · 84 p.', price: 2000, tint: 'tint-warm',
+        desc: 'Primer volumen del editorial. Diez ensayos sobre atmósfera, materia y la forma de habitar.' },
+      { id: 'archivo-2024', num: '02', name: 'Archivo 2024', em: '', cat: 'archivo', fmt: 'ZIP · 240 imgs', price: 65000, tint: '',
+        desc: 'Selección curada del archivo fotográfico del año, en alta resolución y con notas.' },
+      { id: 'wallpapers-luz', num: '03', name: 'Wallpapers — Luz', em: 'Luz', cat: 'wallpaper', fmt: '6 archivos', price: 18000, tint: 'tint-violet',
+        desc: 'Seis fondos digitales basados en observaciones lumínicas del archivo.' },
+      { id: 'fragmentos', num: '04', name: 'Fragmentos', em: '', cat: 'ensayo', fmt: 'PDF · 32 p.', price: 22000, tint: '',
+        desc: 'Notas sobre atmósferas, ausencias y umbrales. Sin orden, sin frecuencia.' },
+      { id: 'print-tarde', num: '05', name: 'Print — Tarde tendida', em: 'Tarde tendida', cat: 'impresion', fmt: 'A3 · 280 g/m²', price: 95000, tint: 'tint-warm',
+        desc: 'Impresión giclée numerada. Edición de 30 piezas con certificado.' },
+    ];
+
+    function formatCOP(n) {
+      return new Intl.NumberFormat('es-CO', { maximumFractionDigits: 0 }).format(n);
+    }
+
+    const gridEl = document.getElementById('grid');
+    const listEl = document.getElementById('list');
+    const chips = document.querySelectorAll('#filters .chip');
+    const viewChips = document.querySelectorAll('.view .chip');
+    let filter = 'all';
+    let view = 'grid';
+
+    function visible() {
+      return filter === 'all' ? products : products.filter(p => p.cat === filter);
+    }
+
+    function renderGrid() {
+      const items = visible();
+      if (!items.length) { gridEl.innerHTML = '<div class="estado">— Sin resultados</div>'; return; }
+      gridEl.innerHTML = items.map(p => {
+        const nameHtml = p.em ? p.name.replace(p.em, `<em>${p.em}</em>`) : p.name;
+        const tint = p.tint ? ' ' + p.tint : '';
+        return `
+        <a class="card" href="producto.html?id=${p.id}">
+          <div class="card-img placeholder${tint}"></div>
+          <div class="card-body">
+            <span class="card-num">${p.num} — ${p.cat}</span>
+            <h3 class="card-name">${nameHtml}</h3>
+            <span class="card-fmt">${p.fmt}</span>
+            <p class="card-desc">${p.desc}</p>
+          </div>
+          <div class="card-foot">
+            <span class="card-price"><b>$ ${formatCOP(p.price)}</b>COP</span>
+            <span class="card-arrow">Ver →</span>
+          </div>
+        </a>`;
+      }).join('');
+    }
+
+    function renderList() {
+      const items = visible();
+      const head = `<div class="list-row head">
+        <span class="l-num">N.º</span>
+        <div class="l-thumb"></div>
+        <span>Pieza</span>
+        <span class="l-fmt">Formato</span>
+        <span class="l-price">Precio</span>
+        <span class="l-arrow">Acción</span>
+      </div>`;
+      const rows = items.map(p => {
+        const nameHtml = p.em ? p.name.replace(p.em, `<em>${p.em}</em>`) : p.name;
+        const tint = p.tint ? ' ' + p.tint : '';
+        return `
+        <a class="list-row" href="producto.html?id=${p.id}">
+          <span class="l-num">${p.num}</span>
+          <div class="l-thumb placeholder${tint}"></div>
+          <div class="l-info">
+            <h3 class="l-name">${nameHtml}</h3>
+            <p class="l-desc">${p.desc}</p>
+          </div>
+          <span class="l-fmt">${p.fmt}</span>
+          <span class="l-price"><b>$ ${formatCOP(p.price)}</b>COP</span>
+          <span class="l-arrow">Ver →</span>
+        </a>`;
+      }).join('');
+      listEl.innerHTML = head + (rows || '<div class="estado">— Sin resultados</div>');
+    }
+
+    function render() {
+      renderGrid();
+      renderList();
+      gridEl.classList.toggle('off', view !== 'grid');
+      listEl.classList.toggle('on',  view === 'list');
+    }
+
+    chips.forEach(c => c.addEventListener('click', () => {
+      chips.forEach(x => x.classList.toggle('on', x === c));
+      filter = c.dataset.filter;
+      render();
+    }));
+    viewChips.forEach(c => c.addEventListener('click', () => {
+      viewChips.forEach(x => x.classList.toggle('on', x === c));
+      view = c.dataset.view;
+      render();
+    }));
+
+    render();
+  </script>
+  <script>
+    (function(){
+      var btn = document.querySelector('.nav-toggle');
+      var ul  = document.querySelector('.site-nav ul');
+      if (!btn || !ul) return;
+      btn.addEventListener('click', function(){
+        var open = ul.classList.toggle('nav-open');
+        btn.setAttribute('aria-expanded', open);
+        document.body.style.overflow = open ? 'hidden' : '';
+      });
+      ul.querySelectorAll('a').forEach(function(a){
+        a.addEventListener('click', function(){
+          ul.classList.remove('nav-open');
+          btn.setAttribute('aria-expanded', 'false');
+          document.body.style.overflow = '';
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
