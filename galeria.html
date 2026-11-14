@@ -82,12 +82,14 @@
       z-index: 3;
       display: grid;
       grid-template-columns: repeat(4, 1fr);
-      gap: 1px;
-      background: var(--hair);
-      border: 1px solid var(--hair);
+      gap: 0;
+      /* sin fondo ni borde propio: antes el relleno oscuro enmarcaba todo el bloque */
+      background: transparent;
+      border: 0;
     }
     .frame {
       background: var(--bg);
+      box-shadow: 0 0 0 .5px var(--hair);   /* línea fina entre fotos, sin tintar el fondo */
       position: relative;
       display: flex;
       flex-direction: column;
@@ -314,6 +316,15 @@
     @media (max-width: 520px) {
       .sheet { grid-template-columns: 1fr; }
     }
+
+    /* ═════════ FOTOS QUE SE REVELAN ═════════
+       Cada foto "se enciende" al entrar en pantalla, como si alguien subiera la luz de la sala. */
+    .frame:not(.lit) .frame-img img { opacity: 0; }
+    @keyframes enciende {
+      from { opacity: 0; filter: brightness(.2) contrast(1.05) saturate(.6); scale: 1.05; }
+      to   { opacity: 1; filter: brightness(.88) contrast(1.05) saturate(.9); scale: 1; }
+    }
+    .frame.lit .frame-img img { animation: enciende 1.3s var(--ease-out) var(--d, 0ms) backwards; }
   </style>
 </head>
 <body>
@@ -427,35 +438,35 @@
 
   <script>
     const items = [
-      { src: './fotos/espacios/tarde-tendida.jpg',   tint: 'tint-warm',   num: '01', title: 'Tarde tendida',  loc: 'Bucaramanga', year: 2026, time: '18:47', cat: 'luz',
+      { src: './fotos-optimizadas/espacios/tarde-tendida.jpg',   tint: 'tint-warm',   num: '01', title: 'Tarde tendida',  loc: 'Bucaramanga', year: 2026, time: '18:47', cat: 'luz',
         desc: 'La luz baja en oblicuo y endurece la sombra contra el muro.' },
-      { src: './fotos/galeria/proyecto25.jpg',       tint: 'tint-violet', num: '02', title: 'Aire suspendido', loc: 'Patio',       year: 2026, time: '11:04', cat: 'luz',
+      { src: './fotos-optimizadas/galeria/proyecto25.jpg',       tint: 'tint-violet', num: '02', title: 'Aire suspendido', loc: 'Patio',       year: 2026, time: '11:04', cat: 'luz',
         desc: 'Una columna de luz cae desde el lucernario. El aire se vuelve material. La habitación contiene el día.' },
-      { src: './fotos/galeria/proyecto5.jpg',        tint: 'tint-dusk',   num: '03', title: 'Borde de azul',  loc: 'Umbral',      year: 2026, time: '18:47', cat: 'umbral',
+      { src: './fotos-optimizadas/galeria/proyecto5.jpg',        tint: 'tint-dusk',   num: '03', title: 'Borde de azul',  loc: 'Umbral',      year: 2026, time: '18:47', cat: 'umbral',
         desc: 'La penumbra antes de la noche. El espacio se vuelve denso, lento. El cuerpo se queda más tiempo del previsto.' },
-      { src: './fotos/galeria/proyecto10.jpg',       tint: '',            num: '04', title: 'Profundidad',    loc: 'Panamá',      year: 2026, time: '14:22', cat: 'materia',
+      { src: './fotos-optimizadas/galeria/proyecto10.jpg',       tint: '',            num: '04', title: 'Profundidad',    loc: 'Panamá',      year: 2026, time: '14:22', cat: 'materia',
         desc: 'Texturas, sombras y superficies.' },
-      { src: './fotos/galeria/proyecto12.jpg',       tint: 'tint-warm',   num: '05', title: 'Reposo',         loc: 'Sala',        year: 2025, time: '17:30', cat: 'vacio',
+      { src: './fotos-optimizadas/galeria/proyecto12.jpg',       tint: 'tint-warm',   num: '05', title: 'Reposo',         loc: 'Sala',        year: 2025, time: '17:30', cat: 'vacio',
         desc: 'La calma como cualidad espacial y no solo como estilo.' },
-      { src: './fotos/galeria/proyecto13.jpg',       tint: '',            num: '06', title: 'Materia',        loc: 'Pared',       year: 2025, time: '15:10', cat: 'materia',
+      { src: './fotos-optimizadas/galeria/proyecto13.jpg',       tint: '',            num: '06', title: 'Materia',        loc: 'Pared',       year: 2025, time: '15:10', cat: 'materia',
         desc: 'Observación de acabados, tactilidad y peso visual.' },
-      { src: './fotos/galeria/proyecto14.jpg',       tint: 'tint-violet', num: '07', title: 'Umbral',         loc: 'Pasillo',     year: 2025, time: '12:00', cat: 'umbral',
+      { src: './fotos-optimizadas/galeria/proyecto14.jpg',       tint: 'tint-violet', num: '07', title: 'Umbral',         loc: 'Pasillo',     year: 2025, time: '12:00', cat: 'umbral',
         desc: 'El borde entre entrar y permanecer también diseña experiencia.' },
-      { src: './fotos/galeria/proyecto15.jpg',       tint: '',            num: '08', title: 'Vacío',          loc: 'Habitación',  year: 2025, time: '09:18', cat: 'vacio',
+      { src: './fotos-optimizadas/galeria/proyecto15.jpg',       tint: '',            num: '08', title: 'Vacío',          loc: 'Habitación',  year: 2025, time: '09:18', cat: 'vacio',
         desc: 'Lo que no se llena puede ser también una decisión de carácter.' },
-      { src: './fotos/galeria/proyecto16.jpg',       tint: 'tint-dusk',   num: '09', title: 'Ritmo',          loc: 'Fachada',     year: 2024, time: '16:40', cat: 'ritmo',
+      { src: './fotos-optimizadas/galeria/proyecto16.jpg',       tint: 'tint-dusk',   num: '09', title: 'Ritmo',          loc: 'Fachada',     year: 2024, time: '16:40', cat: 'ritmo',
         desc: 'Una secuencia visual donde la repetición construye atmósfera.' },
-      { src: './fotos/galeria/proyecto8.jpg',        tint: '',            num: '10', title: 'Calma',          loc: 'Patio',       year: 2024, time: '07:05', cat: 'vacio',
+      { src: './fotos-optimizadas/galeria/proyecto8.jpg',        tint: '',            num: '10', title: 'Calma',          loc: 'Patio',       year: 2024, time: '07:05', cat: 'vacio',
         desc: 'Luz contenida, composición sobria y una presencia silenciosa.' },
-      { src: './fotos/galeria/proyecto19.jpg',       tint: 'tint-warm',   num: '11', title: 'Tensión',        loc: 'Esquina',     year: 2024, time: '13:25', cat: 'materia',
+      { src: './fotos-optimizadas/galeria/proyecto19.jpg',       tint: 'tint-warm',   num: '11', title: 'Tensión',        loc: 'Esquina',     year: 2024, time: '13:25', cat: 'materia',
         desc: 'Contrastes leves para producir una emoción más profunda que lo obvio.' },
-      { src: './fotos/galeria/proyecto20.jpg',       tint: '',            num: '12', title: 'Silencio',       loc: 'Sala',        year: 2024, time: '06:32', cat: 'vacio',
+      { src: './fotos-optimizadas/galeria/proyecto20.jpg',       tint: '',            num: '12', title: 'Silencio',       loc: 'Sala',        year: 2024, time: '06:32', cat: 'vacio',
         desc: 'Espacios que no necesitan exceso para sentirse completos.' },
-      { src: './fotos/galeria/proyecto9.jpg',        tint: 'tint-violet', num: '13', title: 'Huella',         loc: 'Piso',        year: 2024, time: '10:50', cat: 'materia',
+      { src: './fotos-optimizadas/galeria/proyecto9.jpg',        tint: 'tint-violet', num: '13', title: 'Huella',         loc: 'Piso',        year: 2024, time: '10:50', cat: 'materia',
         desc: 'Rastros de uso, desgaste y memoria como parte del lenguaje espacial.' },
-      { src: './fotos/galeria/proyecto23.jpg',       tint: '',            num: '14', title: 'Densidad',       loc: 'Muro',        year: 2024, time: '17:14', cat: 'materia',
+      { src: './fotos-optimizadas/galeria/proyecto23.jpg',       tint: '',            num: '14', title: 'Densidad',       loc: 'Muro',        year: 2024, time: '17:14', cat: 'materia',
         desc: 'Capas de materia y sombra que agregan espesor emocional.' },
-      { src: './fotos/galeria/proyecto24.jpg',       tint: 'tint-dusk',   num: '15', title: 'Luz',            loc: 'Ventana',     year: 2024, time: '19:01', cat: 'luz',
+      { src: './fotos-optimizadas/galeria/proyecto24.jpg',       tint: 'tint-dusk',   num: '15', title: 'Luz',            loc: 'Ventana',     year: 2024, time: '19:01', cat: 'luz',
         desc: 'Una observación sobre cómo la luz ordena y da sentido al espacio.' },
     ];
 
@@ -484,7 +495,32 @@
       }).join('');
       sheet.querySelectorAll('.frame').forEach(f => {
         f.addEventListener('click', () => openLB(Number(f.dataset.i)));
+        watchLit(f);
       });
+    }
+
+    // Enciende cada foto cuando ya cargó y está a la vista (las que entran juntas, con 70 ms de diferencia)
+    const reduceMotion = matchMedia('(prefers-reduced-motion: reduce)').matches;
+    let litBatch = 0, litTimer = 0;
+    const litObs = new IntersectionObserver(entries => {
+      entries.forEach(en => {
+        if (!en.isIntersecting) return;
+        const f = en.target;
+        litObs.unobserve(f);
+        const img = f.querySelector('img');
+        const turnOn = () => {
+          f.style.setProperty('--d', Math.min(litBatch++, 6) * 70 + 'ms');
+          f.classList.add('lit');
+          clearTimeout(litTimer);
+          litTimer = setTimeout(() => { litBatch = 0; }, 400);
+        };
+        if (!img || img.complete) turnOn();
+        else { img.addEventListener('load', turnOn, { once: true }); img.addEventListener('error', turnOn, { once: true }); }
+      });
+    }, { threshold: .12 });
+    function watchLit(f) {
+      if (reduceMotion) { f.classList.add('lit'); return; }
+      litObs.observe(f);
     }
 
     chips.forEach(c => c.addEventListener('click', () => {
@@ -520,9 +556,39 @@
       lbCat.textContent = it.cat;
       lbCounter.innerHTML = `<b>${String(lbIndex+1).padStart(2,'0')}</b> / ${String(visibleItems.length).padStart(2,'0')}`;
     }
-    function openLB(i) { lbIndex = i; paintLB(); lb.classList.add('open'); document.body.style.overflow = 'hidden'; }
-    function closeLB() { lb.classList.remove('open'); document.body.style.overflow = ''; }
-    function step(d) { lbIndex = (lbIndex + d + visibleItems.length) % visibleItems.length; paintLB(); }
+    // La foto "crece" desde su miniatura al abrir y regresa a ella al cerrar (técnica FLIP: medir, mover, soltar)
+    const EASE = 'cubic-bezier(0.23, 1, 0.32, 1)';
+    function flip(img, thumb, reverse) {
+      if (reduceMotion || !img || !thumb || !img.animate) return;
+      const t = thumb.getBoundingClientRect(), r = img.getBoundingClientRect();
+      if (!r.width || !r.height || !t.width || !t.height) return;
+      if (t.bottom < 0 || t.top > innerHeight) return;               // miniatura fuera de pantalla: sin viaje
+      const s = Math.max(t.width / r.width, t.height / r.height);
+      const dx = (t.left + t.width / 2) - (r.left + r.width / 2);
+      const dy = (t.top + t.height / 2) - (r.top + r.height / 2);
+      const ix = Math.max(0, (r.width - t.width / s) / 2), iy = Math.max(0, (r.height - t.height / s) / 2);
+      const small = { transform: `translate(${dx}px, ${dy}px) scale(${s})`, clipPath: `inset(${iy}px ${ix}px)` };
+      const full  = { transform: 'none', clipPath: 'inset(0px 0px)' };
+      lbStage.style.overflow = 'visible'; lbStage.style.zIndex = '3';
+      const a = img.animate(reverse ? [full, small] : [small, full], { duration: reverse ? 380 : 560, easing: EASE, fill: 'both' });
+      a.onfinish = a.oncancel = () => { lbStage.style.overflow = ''; lbStage.style.zIndex = ''; if (!reverse) a.cancel(); };
+    }
+    function thumbOf(i) { const f = sheet.querySelector(`.frame[data-i="${i}"] .frame-img`); return f; }
+    function openLB(i) {
+      lbIndex = i; paintLB(); lb.classList.add('open'); document.body.style.overflow = 'hidden';
+      const img = lbStage.querySelector('img');
+      if (img) { if (img.complete) flip(img, thumbOf(i), false); else img.addEventListener('load', () => flip(img, thumbOf(lbIndex), false), { once: true }); }
+    }
+    function closeLB() {
+      const img = lbStage.querySelector('img');
+      flip(img, thumbOf(lbIndex), true);
+      lb.classList.remove('open'); document.body.style.overflow = '';
+    }
+    function step(d) {
+      lbIndex = (lbIndex + d + visibleItems.length) % visibleItems.length; paintLB();
+      const img = lbStage.querySelector('img');
+      if (img && !reduceMotion && img.animate) img.animate([{ opacity: 0, transform: `translateX(${d * 24}px)` }, { opacity: 1, transform: 'none' }], { duration: 380, easing: EASE });
+    }
 
     document.getElementById('lb-close').addEventListener('click', closeLB);
     document.getElementById('lb-prev').addEventListener('click', () => step(-1));

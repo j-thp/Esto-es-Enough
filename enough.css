@@ -15,8 +15,8 @@
   /* TYPE — ink on paper */
   --text:      #11100c;
   --text-soft: #1f1c17;
-  --muted:     rgba(17,16,12,.64);
-  --faint:     rgba(17,16,12,.38);
+  --muted:     rgba(17,16,12,.86);
+  --faint:     rgba(17,16,12,.66);
   --hair:      rgba(17,16,12,.10);
   --hair-2:    rgba(17,16,12,.18);
 
@@ -65,24 +65,35 @@
 
   --pad-y: clamp(56px, 9vh, 110px);
   --pad-x: var(--gutter);
+
+  /* MOTION — curvas con arranque rápido: la interfaz responde al instante */
+  --ease-out:    cubic-bezier(0.23, 1, 0.32, 1);
+  --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 a { color: inherit; text-decoration: none; }
 a:visited { color: inherit; text-decoration: none; }
 html, body { background: var(--bg); }
-html { scroll-behavior: smooth; }
+@media (prefers-reduced-motion: no-preference) {
+  html { scroll-behavior: smooth; }
+}
 
 body {
   font-family: var(--body-font);
   color: var(--text);
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
   text-rendering: geometricPrecision;
-  font-weight: 300;
+  font-weight: 400;
   letter-spacing: .005em;
   min-height: 100vh;
+  /* Letra más gruesa sobre papel: el grano se "come" los trazos finos */
+  -webkit-text-stroke: .2px;
 }
+/* Fondos oscuros y visores: la letra clara ya contrasta; se queda fina */
+.dark-band, .lb, .reader { font-weight: 300; -webkit-text-stroke: 0; }
 
 /* paper grain — multiply blend */
 body::before {
@@ -90,9 +101,8 @@ body::before {
   position: fixed; inset: -2px;
   pointer-events: none;
   z-index: 1;
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .14  0 0 0 0 .10  0 0 0 0 .05  0 0 0 .10 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.70' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .14  0 0 0 0 .10  0 0 0 0 .05  0 0 0 1.1 -.42'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
   opacity: .95;
-  mix-blend-mode: multiply;
 }
 body::after {
   content: '';
@@ -102,6 +112,11 @@ body::after {
   background:
     radial-gradient(1200px 900px at 12% -10%, rgba(34,28,20,.08), transparent 60%),
     radial-gradient(1100px 800px at 92% 8%, rgba(140,106,48,.04), transparent 65%);
+}
+
+main img {
+  outline: 1px solid rgba(17,16,12,.08);
+  outline-offset: -1px;
 }
 
 main {
@@ -162,21 +177,32 @@ nav.site-nav ul {
   text-transform: uppercase;
 }
 nav.site-nav ul a {
+  display: inline-block;
+  padding: 12px 0;
+  margin: -12px 0;
   color: var(--muted);
   text-decoration: none;
-  transition: color .25s;
+  transition: color .25s ease;
   position: relative;
 }
-nav.site-nav ul a:hover { color: var(--text); }
-nav.site-nav ul a[aria-current="page"] { color: var(--text); }
-nav.site-nav ul a[aria-current="page"]::after {
+nav.site-nav ul a::after {
   content: '';
   position: absolute;
   left: 0; right: 0;
-  bottom: -10px;
+  bottom: 2px;
   height: 1px;
   background: var(--gold);
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform .4s var(--ease-out);
 }
+nav.site-nav ul a[aria-current="page"] { color: var(--text); }
+nav.site-nav ul a[aria-current="page"]::after { transform: scaleX(1); }
+@media (hover: hover) and (pointer: fine) {
+  nav.site-nav ul a:hover { color: var(--text); }
+  nav.site-nav ul a:hover::after { transform: scaleX(1); }
+}
+nav.site-nav ul a:focus-visible { outline: 1px solid var(--gold); outline-offset: 4px; }
 nav.site-nav .nav-coords {
   font-family: var(--label-font);
   font-size: 9px;
@@ -185,6 +211,7 @@ nav.site-nav .nav-coords {
   color: var(--faint);
   text-align: right;
   line-height: 1.6;
+  font-variant-numeric: tabular-nums;
 }
 nav.site-nav .nav-coords b { color: var(--gold); font-weight: 500; }
 
@@ -241,6 +268,7 @@ nav.site-nav .nav-coords b { color: var(--gold); font-weight: 500; }
   color: var(--text);
   display: block;
   margin-bottom: 8px;
+  font-variant-numeric: tabular-nums;
 }
 .page-head h1 {
   grid-column: 3 / span 7;
@@ -252,6 +280,7 @@ nav.site-nav .nav-coords b { color: var(--gold); font-weight: 500; }
   text-transform: uppercase;
   color: var(--text);
   align-self: end;
+  text-wrap: balance;
 }
 .page-head h1 em {
   font-style: italic;
@@ -279,7 +308,18 @@ nav.site-nav .nav-coords b { color: var(--gold); font-weight: 500; }
   color: var(--muted);
   max-width: 56ch;
   line-height: 1.5;
+  text-wrap: pretty;
 }
+
+/* Entrada de cabecera: cada pieza llega con ~80ms de diferencia */
+@keyframes head-in {
+  from { opacity: 0; transform: translateY(12px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+.page-head .head-id      { animation: head-in .55s var(--ease-out) both; }
+.page-head h1            { animation: head-in .55s var(--ease-out) .06s both; }
+.page-head .head-meta    { animation: head-in .55s var(--ease-out) .12s both; }
+.page-head .head-eyebrow { animation: head-in .55s var(--ease-out) .18s both; }
 
 /* ───── BUTTONS ───── */
 .btn {
@@ -297,25 +337,32 @@ nav.site-nav .nav-coords b { color: var(--gold); font-weight: 500; }
   text-transform: uppercase;
   text-decoration: none;
   cursor: pointer;
-  transition: border-color .3s, background .3s, color .3s;
+  min-height: 40px;
+  transition: border-color .25s ease, background-color .25s ease, color .25s ease, transform .16s var(--ease-out);
 }
 .btn::after {
   content: '→';
   font-family: var(--body-font);
   letter-spacing: 0;
+  display: inline-block;
+  transition: transform .35s var(--ease-out);
 }
-.btn:hover { border-color: var(--gold); color: var(--gold); }
+.btn:active { transform: scale(.97); }
 .btn-solid {
   background: var(--text);
   color: var(--bg);
   border-color: var(--text);
 }
-.btn-solid:hover { background: var(--gold); border-color: var(--gold); color: var(--bg); }
 .btn-ghost {
   border-color: var(--hair-2);
   color: var(--muted);
 }
-.btn-ghost:hover { color: var(--text); border-color: var(--text); }
+@media (hover: hover) and (pointer: fine) {
+  .btn:hover { border-color: var(--gold); color: var(--gold); }
+  .btn:hover::after { transform: translateX(3px); }
+  .btn-solid:hover { background: var(--gold); border-color: var(--gold); color: var(--bg); }
+  .btn-ghost:hover { color: var(--text); border-color: var(--text); }
+}
 .btn:focus-visible,
 .btn-solid:focus-visible,
 .btn-ghost:focus-visible { outline: 2px solid var(--gold); outline-offset: 3px; }
@@ -369,13 +416,18 @@ nav.site-nav .nav-coords b { color: var(--gold); font-weight: 500; }
   font: 300 14px var(--body-font);
   letter-spacing: .01em;
   outline: none;
-  transition: border-color .25s;
+  transition: border-color .25s ease, box-shadow .25s ease;
   width: 100%;
 }
 .field input::placeholder,
 .field textarea::placeholder { color: var(--faint); }
 .field input:focus,
-.field textarea:focus { border-color: var(--gold); }
+.field textarea:focus { border-color: var(--gold); box-shadow: 0 1px 0 var(--gold); }
+@media (pointer: coarse) {
+  .field input,
+  .field textarea { font-size: 16px; }
+}
+a:focus-visible, button:focus-visible { outline: 1px solid var(--gold); outline-offset: 4px; }
 
 .form-msg {
   font-family: var(--label-font);
@@ -660,7 +712,7 @@ footer.site-foot .ed-end a {
 footer.site-foot .ed-end a:hover { color: var(--gold); border-color: var(--gold); }
 
 /* ───── REVEAL ───── */
-.reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s ease; }
+.reveal { opacity: 0; transform: translateY(16px); transition: opacity .55s var(--ease-out), transform .55s var(--ease-out); }
 .reveal.in { opacity: 1; transform: translateY(0); }
 
 /* ───── RESPONSIVE ───── */
@@ -685,7 +737,8 @@ footer.site-foot .ed-end a:hover { color: var(--gold); border-color: var(--gold)
   }
   nav.site-nav ul::-webkit-scrollbar { display: none; }
   nav.site-nav ul li { flex-shrink: 0; }
-  nav.site-nav ul a { font-size: 10px; letter-spacing: .2em; }
+  nav.site-nav ul a { font-size: 10px; letter-spacing: .2em; padding: 0; margin: 0; }
+  nav.site-nav ul a::after { bottom: -10px; }
   .page-head { padding: 80px var(--gutter) 20px; }
   .page-head .head-id { grid-column: 1 / span 12; margin-bottom: 12px; align-self: start; }
   .page-head h1 { grid-column: 1 / span 12; }
@@ -709,5 +762,18 @@ footer.site-foot .ed-end a:hover { color: var(--gold); border-color: var(--gold)
 }
 
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+  *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+}
+
+/* ═════════ TRANSICIÓN ENTRE PÁGINAS ═════════
+   Como pasar la hoja de una revista: la página sale con un fundido y la nueva llega
+   subiendo un poco. El menú se queda quieto. (Chrome/Edge; el resto navega normal.) */
+@view-transition { navigation: auto; }
+nav.site-nav { view-transition-name: site-nav; }
+::view-transition-old(root) { animation: vt-sale .26s var(--ease-out) both; }
+::view-transition-new(root) { animation: vt-entra .5s var(--ease-out) both; }
+@keyframes vt-sale  { to { opacity: 0; } }
+@keyframes vt-entra { from { opacity: 0; transform: translateY(10px); } }
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
 }

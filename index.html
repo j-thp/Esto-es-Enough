@@ -24,6 +24,8 @@
 
   <style>
     :root {
+      --ease-out: cubic-bezier(0.23, 1, 0.32, 1);
+      --ease-in-out: cubic-bezier(0.77, 0, 0.175, 1);
       /* PAPER — bone, slightly cooler than warm cream */
       --paper:     #e6e0d1;
       --paper-2:   #dcd5c3;
@@ -32,8 +34,8 @@
       /* INK — deeper, more contrast */
       --ink:       #11100c;
       --ink-soft:  #1f1c17;
-      --muted:     rgba(17,16,12,.64);
-      --faint:     rgba(17,16,12,.38);
+      --muted:     rgba(17,16,12,.86);
+      --faint:     rgba(17,16,12,.66);
       --hair:      rgba(17,16,12,.10);
       --hair-2:    rgba(17,16,12,.18);
 
@@ -79,17 +81,24 @@
     a.btn-solid:visited { color: var(--paper); }
     .dark-band a.btn-solid:visited { color: var(--void); }
     html, body { background: var(--paper); }
-    html { scroll-behavior: smooth; }
+    @media (prefers-reduced-motion: no-preference) {
+      html { scroll-behavior: smooth; }
+    }
 
     body {
       font-family: var(--body-font);
       color: var(--ink);
       overflow-x: hidden;
       -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
       text-rendering: geometricPrecision;
-      font-weight: 300;
+      font-weight: 400;
       letter-spacing: .005em;
+      /* Letra más gruesa sobre papel: el grano se "come" los trazos finos */
+      -webkit-text-stroke: .2px;
     }
+    /* Fondos oscuros: la letra clara ya contrasta; se queda fina */
+    .dark-band { font-weight: 300; -webkit-text-stroke: 0; }
 
     /* Paper grain — deeper, more cinematic */
     body::before {
@@ -97,9 +106,8 @@
       position: fixed; inset: -2px;
       pointer-events: none;
       z-index: 1;
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .14  0 0 0 0 .10  0 0 0 0 .05  0 0 0 .10 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='280' height='280'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.70' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 .14  0 0 0 0 .10  0 0 0 0 .05  0 0 0 1.1 -.42'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
       opacity: .95;
-      mix-blend-mode: multiply;
     }
     body::after {
       content: '';
@@ -108,7 +116,8 @@
       z-index: 0;
       background:
         radial-gradient(1200px 900px at 12% -10%, rgba(34,28,20,.10), transparent 60%),
-        radial-gradient(1100px 800px at 92% 8%, rgba(140,106,48,.04), transparent 65%);
+        radial-gradient(1100px 800px at 92% 8%, rgba(140,106,48,.04), transparent 65%),
+        radial-gradient(1100px 720px at 50% -8%, rgba(var(--dia, 172, 98, 178), .17), transparent 72%);
     }
 
     main {
@@ -384,9 +393,11 @@
       flex-direction: column;
       gap: 12px;
       cursor: default;
-      transition: transform .4s ease;
+      transition: transform .5s var(--ease-out);
     }
-    .plate:hover { transform: translateY(-3px); }
+    @media (hover: hover) and (pointer: fine) {
+      .plate:hover { transform: translateY(-3px); }
+    }
     .plate-frame {
       aspect-ratio: 3 / 4;
       background: #0e1518;
@@ -482,9 +493,14 @@
       text-transform: uppercase;
       text-decoration: none;
       cursor: pointer;
-      transition: border-color .3s, background .3s, color .3s;
+      min-height: 40px;
+      transition: border-color .25s ease, background-color .25s ease, color .25s ease, transform .16s var(--ease-out);
     }
-    .btn::after { content: '→'; font-family: var(--body-font); letter-spacing: 0; }
+    .btn::after { content: '→'; font-family: var(--body-font); letter-spacing: 0; display: inline-block; transition: transform .35s var(--ease-out); }
+    .btn:active { transform: scale(.97); }
+    @media (hover: hover) and (pointer: fine) {
+      .btn:hover::after { transform: translateX(3px); }
+    }
     .btn:hover { border-color: var(--gold); color: var(--gold); }
     .btn-solid {
       background: var(--ink);
@@ -591,7 +607,7 @@
       border-left: 1px solid var(--gold);
       font-family: var(--display-font);
       font-style: italic;
-      font-weight: 300;
+      font-weight: 500;
       font-size: 22px;
       line-height: 1.55;
       color: var(--ink);
@@ -662,9 +678,11 @@
       width: 100%; height: 100%;
       object-fit: cover;
       filter: contrast(1.02) saturate(.96);
-      transition: transform .9s ease;
+      transition: transform .9s var(--ease-out);
     }
-    .project:hover .project-img img { transform: scale(1.025); }
+    @media (hover: hover) and (pointer: fine) {
+      .project:hover .project-img img { transform: scale(1.025); }
+    }
 
     .project-img.placeholder {
       background:
@@ -1118,7 +1136,8 @@
     .ed-end .center::before, .ed-end .center::after { content: ' · '; color: var(--faint); margin: 0 12px; }
 
     /* ───── REVEAL ───── */
-    .reveal { opacity: 0; transform: translateY(20px); transition: opacity .8s ease, transform .8s ease; }
+    .reveal { opacity: 0; transform: translateY(16px); transition: opacity .55s var(--ease-out), transform .55s var(--ease-out); }
+    a:focus-visible, button:focus-visible { outline: 1px solid var(--gold); outline-offset: 4px; }
     .reveal.in { opacity: 1; transform: translateY(0); }
 
     /* ───── DARK-BAND CHILD OVERRIDES (estudios + fragmento) ───── */
@@ -1272,7 +1291,125 @@
     }
 
     @media (prefers-reduced-motion: reduce) {
-      *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+      *, *::before, *::after { animation-duration: 0.01ms !important; animation-iteration-count: 1 !important; transition-duration: 0.01ms !important; scroll-behavior: auto !important; }
+    }
+
+    /* ═════════ HERO · UN SOLO PUNTO DE LUZ (inspirado en James Turrell) ═════════
+       Cuarto casi negro + un único círculo de luz violeta-rosa sin bordes + grano como polvo en la sombra.
+       Para mover o cambiar la luz: --luz-r (tamaño), right/top de .hero::before, y los tonos (hue 320-340). */
+    #hero-band {
+      --luz-r: min(17vw, 260px);
+      background: #060607;
+    }
+
+    /* Halo: un rastro violeta en el aire alrededor de la luz */
+    #hero-band::before {
+      background:
+        radial-gradient(ellipse 46vw 56vh at calc(100% - var(--gutter) - 28px - var(--luz-r)) calc(176px + var(--luz-r)),
+          rgba(160,78,170,.15), rgba(90,44,110,.06) 52%, transparent 76%);
+    }
+
+    /* La luz: un círculo que se disuelve solo, sin recuadro ni bordes */
+    #hero-band .hero::before {
+      content: '';
+      position: absolute;
+      right: 28px; top: 20px;
+      width: calc(var(--luz-r) * 2);
+      height: calc(var(--luz-r) * 2);
+      border-radius: 50%;
+      z-index: -1;
+      pointer-events: none;
+      background:
+        radial-gradient(circle closest-side,
+          oklch(91% .06 345 / .95) 0%,
+          oklch(78% .13 338 / .82) 14%,
+          oklch(58% .18 322 / .52) 36%,
+          oklch(38% .13 305 / .22) 58%,
+          transparent 80%);
+      opacity: .9;
+      animation: luz-respira 18s ease-in-out infinite;
+      transform: translate3d(var(--lx, 0px), var(--ly, 0px), 0) scale(var(--ls, 1));
+      will-change: transform, opacity;
+    }
+    @keyframes luz-respira {
+      0%, 100% { opacity: .78; }
+      50%      { opacity: 1; }
+    }
+
+    /* El grano casi desaparece dentro de la luz y queda entero en la sombra */
+    #hero-band::after {
+      -webkit-mask-image: radial-gradient(circle calc(var(--luz-r) * .9) at calc(100% - var(--gutter) - 28px - var(--luz-r)) calc(176px + var(--luz-r)), rgba(0,0,0,.10) 0%, #000 90%);
+      mask-image: radial-gradient(circle calc(var(--luz-r) * .9) at calc(100% - var(--gutter) - 28px - var(--luz-r)) calc(176px + var(--luz-r)), rgba(0,0,0,.10) 0%, #000 90%);
+    }
+
+    /* Un solo foco: las seis láminas se apagan un poco para no competir con la luz */
+    #hero-band .plates-strip { opacity: .78; }
+
+    /* Tablet y móvil: la luz pasa al fondo, más pequeña, sin tapar el texto */
+    @media (max-width: 920px) {
+      #hero-band { --luz-r: 34vw; }
+      #hero-band .hero::before { right: -8vw; top: 8px; opacity: .55; }
+    }
+
+
+    /* ═════════ PALABRAS QUE SE RESALTAN ═════════
+       Como pasar un marcador por el papel: al acercar el mouse, el color "se pinta" de izquierda a derecha.
+       El color es el mismo del día que va cambiando con el scroll. */
+    .res {
+      background-image: linear-gradient(rgba(var(--dia, 172, 98, 178), .42), rgba(var(--dia, 172, 98, 178), .42)),
+                        linear-gradient(rgba(140, 106, 48, .38), rgba(140, 106, 48, .38));
+      background-repeat: no-repeat;
+      background-position: 0 100%, 0 100%;
+      background-size: 0% 100%, 100% 1px;           /* línea fina siempre visible: avisa que hay algo ahí */
+      -webkit-box-decoration-break: clone; box-decoration-break: clone;
+      transition: background-size .5s var(--ease-out), color .3s ease;
+    }
+    .dark-band .res {
+      background-image: linear-gradient(rgba(192, 128, 67, .34), rgba(192, 128, 67, .34)),
+                        linear-gradient(rgba(216, 209, 191, .30), rgba(216, 209, 191, .30));
+    }
+    @media (hover: hover) and (pointer: fine) {
+      .res:hover { background-size: 100% 100%, 100% 1px; color: var(--ink); }
+      .dark-band .res:hover { color: #f1ead9; }
+    }
+    @media (prefers-reduced-motion: reduce) { .res { transition: none; } }
+
+    /* ═════════ INTERACCIÓN · INICIO ═════════ */
+
+    /* ═════════ TRANSICIÓN ENTRE PÁGINAS ═════════
+       Como pasar la hoja de una revista: la página sale con un fundido y la nueva llega
+       subiendo un poco. El menú se queda quieto. (Chrome/Edge; el resto navega normal.) */
+    @view-transition { navigation: auto; }
+    nav.site-nav { view-transition-name: site-nav; }
+    ::view-transition-old(root) { animation: vt-sale .26s var(--ease-out) both; }
+    ::view-transition-new(root) { animation: vt-entra .5s var(--ease-out) both; }
+    @keyframes vt-sale  { to { opacity: 0; } }
+    @keyframes vt-entra { from { opacity: 0; transform: translateY(10px); } }
+    @media (prefers-reduced-motion: reduce) {
+      ::view-transition-group(*), ::view-transition-old(*), ::view-transition-new(*) { animation: none !important; }
+    }
+
+    /* Profundidad: cada capa se mueve a distinta velocidad al hacer scroll (solo con soporte; si no, queda quieto) */
+    @supports (animation-timeline: view()) {
+      @media (prefers-reduced-motion: no-preference) {
+        @keyframes prof-luz { to   { translate: 0 90px; } }
+        @keyframes prof-img { from { translate: 0 -6%; } to { translate: 0 6%; } }
+        @keyframes prof-a   { from { translate: 0 22px; } to { translate: 0 -22px; } }
+        @keyframes prof-b   { from { translate: 0 42px; } to { translate: 0 -42px; } }
+        #hero-band .hero::before {
+          animation: luz-respira 18s ease-in-out infinite, prof-luz linear both;
+          animation-timeline: auto, scroll(root);
+          animation-range: normal, 0px 100vh;
+        }
+        .project-img img {
+          scale: 1.14;
+          animation: prof-img linear both;
+          animation-timeline: view();
+          animation-range: cover 0% cover 100%;
+        }
+        .plate:nth-child(odd)  { animation: prof-a linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+        .plate:nth-child(even) { animation: prof-b linear both; animation-timeline: view(); animation-range: cover 0% cover 100%; }
+      }
     }
   </style>
 </head>
@@ -1313,7 +1450,7 @@
       <h1 class="hero-title">Eno<em>ugh</em><span class="dot">.</span></h1>
 
       <p class="hero-lede">
-        La luz baja. El ruido desaparece. Y el espacio vuelve a sentirse humano.
+        <span class="res">La luz baja.</span> El ruido desaparece. Y el espacio vuelve a sentirse humano.
       </p>
 
       <div class="hero-cta-row">
@@ -1326,37 +1463,37 @@
       <div class="plates-strip" aria-hidden="true">
         <div class="plate">
           <div class="plate-frame">
-            <img src="./fotos/laminas/lamina-1.jpg" alt="Cálida" onerror="this.style.display='none'">
+            <img decoding="async" src="./fotos-optimizadas/laminas/lamina-1.jpg" alt="Cálida" onerror="this.style.display='none'">
           </div>
           <div class="plate-cap"><span class="num">I</span><span class="name">Cálida</span><span class="time">06 : 14</span></div>
         </div>
         <div class="plate">
           <div class="plate-frame">
-            <img src="./fotos/laminas/lamina-2.jpg" alt="Tendida" onerror="this.style.display='none'">
+            <img decoding="async" src="./fotos-optimizadas/laminas/lamina-2.jpg" alt="Tendida" onerror="this.style.display='none'">
           </div>
           <div class="plate-cap"><span class="num">II</span><span class="name">Tendida</span><span class="time">11 : 03</span></div>
         </div>
         <div class="plate">
           <div class="plate-frame">
-            <img src="./fotos/laminas/lamina-3.jpg" alt="Coral" onerror="this.style.display='none'">
+            <img decoding="async" src="./fotos-optimizadas/laminas/lamina-3.jpg" alt="Coral" onerror="this.style.display='none'">
           </div>
           <div class="plate-cap"><span class="num">III</span><span class="name">Coral</span><span class="time">17 : 28</span></div>
         </div>
         <div class="plate">
           <div class="plate-frame">
-            <img src="./fotos/laminas/lamina-4.jpg" alt="Mediodía" onerror="this.style.display='none'">
+            <img decoding="async" src="./fotos-optimizadas/laminas/lamina-4.jpg" alt="Mediodía" onerror="this.style.display='none'">
           </div>
           <div class="plate-cap"><span class="num">IV</span><span class="name">Mediodía</span><span class="time">12 : 00</span></div>
         </div>
         <div class="plate">
           <div class="plate-frame">
-            <img src="./fotos/laminas/lamina-5.jpg" alt="Sage" onerror="this.style.display='none'">
+            <img decoding="async" src="./fotos-optimizadas/laminas/lamina-5.jpg" alt="Sage" onerror="this.style.display='none'">
           </div>
           <div class="plate-cap"><span class="num">V</span><span class="name">Sage</span><span class="time">15 : 47</span></div>
         </div>
         <div class="plate">
           <div class="plate-frame">
-            <img src="./fotos/laminas/lamina-6.jpg" alt="Crepúsculo" onerror="this.style.display='none'">
+            <img decoding="async" src="./fotos-optimizadas/laminas/lamina-6.jpg" alt="Crepúsculo" onerror="this.style.display='none'">
           </div>
           <div class="plate-cap"><span class="num">VI</span><span class="name">Crepúsculo</span><span class="time">18 : 47</span></div>
         </div>
@@ -1374,13 +1511,13 @@
       <h2 class="manifiesto-h">No es <em>perfección.</em><br>Es intención.</h2>
 
       <div class="manifiesto-body">
-        <p>La arquitectura contemporánea aprendió a verse impecable. Superficies limpias. Luces blancas. Materiales costosos. Espacios diseñados para ser fotografiados antes que habitados. Y aun así algo falta.</p>
-        <p>Enough nace desde esa sensación. Desde el momento en que la tarde baja, el ruido desaparece y el espacio vuelve a sentirse presente. Nos interesan los lugares que todavía conservan silencio.</p>
-        <p>La sombra sobre el muro. La textura que cambia con la luz. La tensión entre vacío y permanencia. Esto no es un catálogo de perfección. Es un registro de atmósferas, objetos y espacios que todavía saben sentirse humanos.</p>
+        <p>La arquitectura contemporánea aprendió a verse impecable. Superficies limpias. Luces blancas. Materiales costosos. Espacios diseñados para ser fotografiados antes que habitados. Y aun así <span class="res">algo falta</span>.</p>
+        <p>Enough nace desde esa sensación. Desde el momento en que la tarde baja, el ruido desaparece y el espacio vuelve a sentirse <span class="res">presente</span>. Nos interesan los lugares que todavía conservan <span class="res">silencio</span>.</p>
+        <p><span class="res">La sombra sobre el muro.</span> <span class="res">La textura que cambia con la luz.</span> La tensión entre vacío y permanencia. Esto no es un catálogo de perfección. Es un registro de <span class="res">atmósferas, objetos y espacios</span> que todavía saben sentirse humanos.</p>
       </div>
 
       <aside class="manifiesto-pull">
-        "La sombra pesa. El aire cambia de temperatura. El concreto deja de ser un acabado y se vuelve presencia. El vacío entre los objetos deja de verse vacío."
+        "La sombra pesa. El aire cambia de temperatura. El concreto deja de ser un acabado y se vuelve <span class="res">presencia</span>. El vacío entre los objetos deja de verse vacío."
         <span class="cap">— Enough, Vol. I</span>
       </aside>
     </section>
@@ -1402,31 +1539,31 @@
         <!-- Para cambiar una foto: pon el archivo en ./fotos/espacios/ y actualiza el src -->
         <article class="project project-large project-offset">
           <div class="project-img placeholder tint-rose">
-            <img src="./fotos/espacios/tarde-tendida.jpg" alt="Tarde tendida" onerror="this.style.display='none'">
+            <img decoding="async" loading="lazy" src="./fotos-optimizadas/espacios/tarde-tendida.jpg" alt="Tarde tendida" onerror="this.style.display='none'">
           </div>
           <div class="project-meta"><span>II — Luz</span><span class="year">2026</span></div>
           <h3 class="project-title"><em>Tarde</em> tendida</h3>
-          <p class="project-brief">La luz baja en oblicuo y endurece la sombra contra el muro. El concreto se vuelve dorado por once minutos antes de apagarse</p>
+          <p class="project-brief">La luz baja en oblicuo y endurece la sombra contra el muro. El concreto se vuelve <span class="res">dorado por once minutos</span> antes de apagarse</p>
           <a href="galeria.html" class="project-link">Ver fragmento →</a>
         </article>
 
         <article class="project project-small project-offset">
           <div class="project-img placeholder tint-rose">
-            <img src="./fotos/galeria/proyecto25.jpg" alt="Aire suspendido" onerror="this.style.display='none'">
+            <img decoding="async" loading="lazy" src="./fotos-optimizadas/galeria/proyecto25.jpg" alt="Aire suspendido" onerror="this.style.display='none'">
           </div>
           <div class="project-meta"><span>II — Patio</span><span class="year">2026</span></div>
           <h3 class="project-title"><em>Aire</em> suspendido</h3>
-          <p class="project-brief">Una columna de luz cae desde el lucernario. El aire se vuelve material. La habitación contiene el día.</p>
+          <p class="project-brief">Una columna de luz cae desde el lucernario. <span class="res">El aire se vuelve material.</span> La habitación contiene el día.</p>
           <a href="galeria.html" class="project-link">Ver fragmento →</a>
         </article>
 
         <article class="project project-wide">
           <div class="project-img placeholder">
-            <img src="./fotos/galeria/proyecto5.jpg" alt="Borde de azul" onerror="this.style.display='none'">
+            <img decoding="async" loading="lazy" src="./fotos-optimizadas/galeria/proyecto5.jpg" alt="Borde de azul" onerror="this.style.display='none'">
           </div>
           <div class="project-meta"><span>III — Umbral</span><span class="year">2026</span></div>
           <h3 class="project-title">Borde de <em>azul</em></h3>
-          <p class="project-brief">La penumbra antes de la noche. El espacio se vuelve denso, lento. El cuerpo se queda más tiempo del previsto.</p>
+          <p class="project-brief">La penumbra antes de la noche. El espacio se vuelve <span class="res">denso, lento</span>. El cuerpo se queda más tiempo del previsto.</p>
           <a href="galeria.html" class="project-link">Ver fragmento →</a>
         </article>
 
@@ -1449,18 +1586,18 @@
       <div class="field">
         <article class="field-plate">
           <div class="plate-frame">
-            <img src="./fotos/laminas/lamina-1.jpg" alt="Cálida" onerror="this.style.display='none'">
+            <img decoding="async" loading="lazy" src="./fotos-optimizadas/laminas/lamina-1.jpg" alt="Cálida" onerror="this.style.display='none'">
           </div>
           <div class="pf-info">
             <span class="pf-num">I</span>
             <span class="pf-name">Cálida</span>
             <span class="pf-cap">06 : 14 · Naciente · Cuarto norte</span>
-            <p class="pf-desc">La primera luz cruza el cuarto en oblicuo. El aire tiene temperatura. La pared retiene el frío de la noche.</p>
+            <p class="pf-desc">La primera luz cruza el cuarto en oblicuo. El aire tiene temperatura. La pared <span class="res">retiene el frío de la noche</span>.</p>
           </div>
         </article>
         <article class="field-plate">
           <div class="plate-frame">
-            <img src="./fotos/laminas/lamina-2.jpg" alt="Lavanda" onerror="this.style.display='none'">
+            <img decoding="async" loading="lazy" src="./fotos-optimizadas/laminas/lamina-2.jpg" alt="Lavanda" onerror="this.style.display='none'">
           </div>
           <div class="pf-info">
             <span class="pf-num">II</span>
@@ -1471,13 +1608,13 @@
         </article>
         <article class="field-plate">
           <div class="plate-frame">
-            <img src="./fotos/laminas/lamina-3.jpg" alt="Crepúsculo" onerror="this.style.display='none'">
+            <img decoding="async" loading="lazy" src="./fotos-optimizadas/laminas/lamina-3.jpg" alt="Crepúsculo" onerror="this.style.display='none'">
           </div>
           <div class="pf-info">
             <span class="pf-num">III</span>
             <span class="pf-name">Crepúsculo</span>
             <span class="pf-cap">18 : 47 · Poniente · Borde de azul</span>
-            <p class="pf-desc">Once minutos antes de la noche. La materia se densifica. Quedarse cuesta menos que irse.</p>
+            <p class="pf-desc">Once minutos antes de la noche. La materia se densifica. <span class="res">Quedarse cuesta menos que irse.</span></p>
           </div>
         </article>
       </div>
@@ -1488,7 +1625,7 @@
       <div class="fragmento-inner">
         <div class="fragmento-eyebrow">— Fragmento · cuaderno</div>
         <blockquote class="fragmento-q">
-          <span class="first">"</span>Hay lugares que no necesitan imponerse para permanecer. Un muro atravesado por luz tenue. La densidad de una habitación en penumbra. El desgaste de una superficie que guarda tiempo."
+          <span class="first">"</span>Hay lugares que no necesitan imponerse para permanecer. Un muro atravesado por <span class="res">luz tenue</span>. La densidad de una habitación en <span class="res">penumbra</span>. El desgaste de una superficie que <span class="res">guarda tiempo</span>."
         </blockquote>
         <div class="fragmento-cap">
           <span>Año<b>2026</b></span>
@@ -1600,7 +1737,13 @@
 
     const reveals = document.querySelectorAll('.reveal');
     const ro = new IntersectionObserver((entries) => {
-      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('in'); });
+      let i = 0;
+      entries.forEach(e => {
+        if (!e.isIntersecting) return;
+        e.target.style.transitionDelay = Math.min(i++, 3) * 60 + 'ms';
+        e.target.classList.add('in');
+        ro.unobserve(e.target);
+      });
     }, { threshold: 0.08 });
     reveals.forEach(el => ro.observe(el));
 
@@ -1629,7 +1772,7 @@
         const id = a.getAttribute('href');
         if (id.length > 1) {
           const t = document.querySelector(id);
-          if (t) { e.preventDefault(); t.scrollIntoView({ behavior: 'smooth', block: 'start' }); }
+          if (t) { e.preventDefault(); t.scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'start' }); }
         }
       });
     });
@@ -1659,6 +1802,69 @@
         const l = document.querySelector('.site-nav a[href="acceso.html"]');
         if (l) { l.href = 'dashboard.html'; l.textContent = 'Archivo'; }
       }
+    })();
+  </script>
+  <script>
+    /* INTERACCIÓN · INICIO */
+
+    /* A · La luz del hero se acerca despacio hacia donde mueves el mouse (como mover una lámpara en un cuarto oscuro) */
+    (function () {
+      var hero = document.getElementById('hero');
+      var band = document.getElementById('hero-band');
+      if (!hero || !band) return;
+      if (!matchMedia('(hover: hover) and (pointer: fine)').matches) return;
+      if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      var x = 0, y = 0, s = 1, tx = 0, ty = 0, ts = 1, raf = 0;
+      function clamp(v, a, b) { return Math.max(a, Math.min(b, v)); }
+      function frame() {
+        x += (tx - x) * .07; y += (ty - y) * .07; s += (ts - s) * .07;
+        hero.style.setProperty('--lx', x.toFixed(2) + 'px');
+        hero.style.setProperty('--ly', y.toFixed(2) + 'px');
+        hero.style.setProperty('--ls', s.toFixed(4));
+        raf = (Math.abs(tx - x) > .05 || Math.abs(ty - y) > .05 || Math.abs(ts - s) > .0005) ? requestAnimationFrame(frame) : 0;
+      }
+      function go() { if (!raf) raf = requestAnimationFrame(frame); }
+      band.addEventListener('pointermove', function (e) {
+        var r = hero.getBoundingClientRect();
+        var R = (parseFloat(getComputedStyle(hero, '::before').width) / 2) || 200;
+        var dx = e.clientX - (r.right - 28 - R), dy = e.clientY - (r.top + 20 + R);
+        tx = clamp(dx * .09, -60, 60);
+        ty = clamp(dy * .09, -60, 60);
+        ts = 1 + .10 * clamp(1 - Math.hypot(dx, dy) / (R * 3), 0, 1);
+        go();
+      });
+      band.addEventListener('pointerleave', function () { tx = 0; ty = 0; ts = 1; go(); });
+    })();
+
+    /* B · El día pasa mientras bajas: la hora y el tinte del ambiente van del alba al crepúsculo */
+    (function () {
+      var stops = [[0, [172, 98, 178]], [.25, [218, 152, 92]], [.5, [150, 178, 204]], [.75, [208, 122, 76]], [1, [98, 84, 170]]];
+      var nombres = [[.18, 'Alba'], [.40, 'Mañana'], [.60, 'Mediodía'], [.82, 'Tarde'], [2, 'Crepúsculo']];
+      var coords = document.querySelector('.nav-coords');
+      var root = document.documentElement, tick = false, last = '';
+      function color(p) {
+        for (var i = 1; i < stops.length; i++) {
+          if (p <= stops[i][0]) {
+            var a = stops[i - 1], b = stops[i], t = (p - a[0]) / (b[0] - a[0]);
+            return a[1].map(function (v, k) { return Math.round(v + (b[1][k] - v) * t); });
+          }
+        }
+        return stops[stops.length - 1][1];
+      }
+      function update() {
+        tick = false;
+        var max = document.documentElement.scrollHeight - innerHeight;
+        var p = max > 0 ? Math.min(1, Math.max(0, scrollY / max)) : 0;
+        root.style.setProperty('--dia', color(p).join(','));
+        var mins = Math.round(374 + p * (1248 - 374));            /* 06:14 → 20:48 */
+        var hh = String(Math.floor(mins / 60)).padStart(2, '0'), mm = String(mins % 60).padStart(2, '0');
+        var nombre = nombres.filter(function (n) { return p < n[0]; })[0][1];
+        var label = hh + ' : ' + mm + '|' + nombre;
+        if (coords && label !== last) { last = label; coords.innerHTML = '<b>' + hh + ' : ' + mm + '</b><br>' + nombre; }
+      }
+      addEventListener('scroll', function () { if (!tick) { tick = true; requestAnimationFrame(update); } }, { passive: true });
+      addEventListener('resize', update);
+      update();
     })();
   </script>
 </body>
