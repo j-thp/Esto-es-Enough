@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta property="og:site_name" content="Enough — Editorial">
+  <meta property="og:title" content="Enough — Archivo visual">
+  <meta property="og:image" content="https://j-thp.github.io/Esto-es-Enough/og/og-home.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <title>Lámina — Enough</title>
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Enough — Archivo visual.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./enough.css">
+  <link rel="stylesheet" href="./enough-ux.css">
+</head>
+<body class="lamina">
+
+  <nav class="site-nav">
+    <a href="./index.html" class="mark">ENOUGH<span class="dot">.</span></a>
+    <ul>
+      <li><a href="./index.html">Inicio</a></li>
+      <li><a href="./galeria.html" aria-current="page">Galería</a></li>
+      <li><a href="./blog.html">Blog</a></li>
+      <li><a href="./fragmentos.html">Fragmentos</a></li>
+      <li><a href="./acceso.html">Acceso</a></li>
+    </ul>
+    <div class="nav-coords" id="lam-coords"></div>
+    <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
+  </nav>
+
+  <main class="lam" id="lam">
+    <a class="lam-back" id="lam-back" href="./galeria.html">← Archivo visual</a>
+    <figure class="lam-fig"><img id="lam-img" alt="" fetchpriority="high"></figure>
+    <article class="lam-text" id="lam-text"></article>
+    <nav class="lam-pager" id="lam-pager" aria-label="Otras láminas"></nav>
+  </main>
+
+  <footer class="site-foot">
+    <div class="ed-mark">
+      <div class="name">ENOUGH<span class="dot">.</span></div>
+      <p class="tag">Editorial sobre atmósfera, materia y la forma de habitar el espacio.</p>
+    </div>
+    <div class="ed-seal" aria-hidden="true"><div class="seal-inner">Vol.<b>I</b>MMXXVI</div></div>
+    <div class="ed-colophon">
+      <div class="col"><h5>Editorial</h5><a href="./index.html#manifiesto">Manifiesto</a><a href="./index.html#estudios">Estudios</a><a href="./blog.html">Ensayos</a></div>
+      <div class="col"><h5>Archivo</h5><a href="./galeria.html">Galería</a><a href="./fragmentos.html">Fragmentos</a></div>
+      <div class="col"><h5>Casa</h5><a href="./index.html#contacto">Contacto</a><a href="./acceso.html">Acceso</a></div>
+      <div class="col"><h5>Tipografía</h5><span>Cormorant Garamond</span><span>DM Sans</span><span>Editado en Bucaramanga, CO</span></div>
+    </div>
+    <div class="ed-end">
+      <span>© MMXXVI · Enough Editorial</span>
+      <span class="center">Fin del Volumen I</span>
+      <span><a href="./privacidad.html">Privacidad</a> · <a href="./terminos.html">Términos</a></span>
+    </div>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2/dist/umd/supabase.js"></script>
+  <script>
+  (async function () {
+    var sb = supabase.createClient('https://ewxrqebjqwswhpjufrop.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV3eHJxZWJqcXdzd2hwanVmcm9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ2NzE5NjYsImV4cCI6MjExMDI0Nzk2Nn0.0cVLfsJ0AgJIoDDKPIBDA8dzGQipAtnenlFaoy7qkzg');
+    var q = new URLSearchParams(location.search).get('f') || '';
+    var $ = function (id) { return document.getElementById(id); };
+    function el(tag, cls, txt) { var e = document.createElement(tag); if (cls) e.className = cls; if (txt) e.textContent = txt; return e; }
+    function tono() { var s = document.createElement('script'); s.src = './enough-ux.js'; document.body.appendChild(s); }
+    function noEncontrada() {
+      $('lam-text').replaceChildren(el('p', 'lam-lede', 'No encontramos esa lámina.'));
+      $('lam-img').closest('figure').remove(); tono();
+    }
+    if (!q) return noEncontrada();
+    var esUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(q);
+    var r = await sb.from('fotos').select('*').eq(esUuid ? 'id' : 'slug', q).maybeSingle();
+    var f = r.data; if (!f) return noEncontrada();
+    var todas = (await sb.from('fotos').select('id,slug,orden,titulo').eq('grupo', f.grupo).order('orden', { ascending: true })).data || [f];
+    var idx = todas.findIndex(function (x) { return x.id === f.id; });
+    var esEst = f.grupo === 'estudio';
+    var etiqueta = (esEst ? 'Estudio de luz ' : 'Lámina ') + String(idx + 1).padStart(2, '0');
+    function nombre(x, i) { return x.titulo || ((esEst ? 'Estudio ' : 'Lámina ') + String(i + 1).padStart(2, '0')); }
+
+    document.title = (f.titulo ? f.titulo + ' · ' + etiqueta : etiqueta) + ' — Enough';
+    document.querySelector('meta[property="og:title"]').content = document.title;
+    if (f.hora) document.body.setAttribute('data-hora', f.hora);
+    $('lam-coords').textContent = [f.hora, f.titulo].filter(Boolean).join(' · ') || etiqueta;
+    $('lam-back').href = esEst ? './index.html#estudios' : './galeria.html#' + (f.slug || f.id);
+    $('lam-back').textContent = '← ' + (esEst ? 'Estudios de luz' : 'Archivo visual');
+    var img = $('lam-img'); img.src = f.src; img.alt = f.titulo || etiqueta;
+    if (f.ancho && f.alto) { img.width = f.ancho; img.height = f.alto; }
+
+    var t = $('lam-text'); t.replaceChildren();
+    var k = el('p', 'lam-kicker'); k.append(el('span', '', etiqueta)); if (f.categoria) k.append(document.createTextNode(' · ' + f.categoria)); t.append(k);
+    var h1 = el('h1', '', f.titulo || etiqueta); if (!f.titulo) h1.style.cssText = 'position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)'; t.append(h1);
+    var meta = [f.hora, f.lugar, f.anio].filter(Boolean).join(' · '); if (meta) t.append(el('p', 'lam-meta', meta));
+    if (f.descripcion) { var cuerpo = el('div', 'lam-body'); f.descripcion.split(/\n{2,}/).forEach(function (p) { cuerpo.append(el('p', '', p)); }); t.append(cuerpo); }
+
+    var pg = $('lam-pager'); pg.replaceChildren();
+    if (todas.length > 1) {
+      [[-1, 'lam-prev', '← Anterior', 'prev'], [1, 'lam-next', 'Siguiente →', 'next']].forEach(function (c) {
+        var j = (idx + c[0] + todas.length) % todas.length, x = todas[j];
+        var a = el('a', c[1]); a.href = './lamina.html?f=' + encodeURIComponent(x.slug || x.id); a.rel = c[3];
+        a.append(el('span', 'lam-pn', c[2]), el('span', 'lam-pt', nombre(x, j))); pg.append(a);
+      });
+    }
+    tono();
+  })();
+  </script>
+  <script>
+    (function(){ if (localStorage.getItem('sb-ewxrqebjqwswhpjufrop-auth-token')) {
+      var l = document.querySelector('.site-nav a[href="./acceso.html"]');
+      if (l) { l.href = '../dashboard.html'; l.textContent = 'Archivo'; } } })();
+  </script>
+</body>
+</html>

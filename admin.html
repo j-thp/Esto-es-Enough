@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <title>Panel · Enough</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex, nofollow">
+  <link rel="icon" type="image/svg+xml" href="./favicon.svg">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg: #e6e0d1; --bg-soft: #dcd5c3; --panel: #ccc3ab;
+      --text: #11100c; --gold: #8c6a30;
+      --muted: rgba(17,16,12,.64); --hair: rgba(17,16,12,.14);
+      --ok: #3d5a3a; --bad: #8a3b2d;
+    }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font-family: 'DM Sans', sans-serif; font-weight: 400; line-height: 1.5; }
+    a { color: inherit; }
+    .wrap { max-width: 1100px; margin: 0 auto; padding: 28px 24px 80px; }
+    header.top { display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap; padding-bottom: 22px; border-bottom: 1px solid var(--hair); }
+    .brand { font-family: 'Cormorant Garamond', serif; font-weight: 500; font-size: 22px; letter-spacing: .16em; text-decoration: none; }
+    .brand .dot { color: var(--gold); }
+    .who { font-size: 12px; letter-spacing: .08em; color: var(--muted); display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+    h1 { font-family: 'Cormorant Garamond', serif; font-weight: 400; font-size: 38px; margin: 34px 0 6px; line-height: 1.1; }
+    .lede { color: var(--muted); margin: 0 0 26px; max-width: 60ch; }
+    button, .btn { font: inherit; font-size: 12px; letter-spacing: .14em; text-transform: uppercase; padding: 11px 18px; border: 1px solid var(--text); background: transparent; color: var(--text); cursor: pointer; min-height: 44px; }
+    button:hover, .btn:hover { background: var(--text); color: var(--bg); }
+    button.solid { background: var(--text); color: var(--bg); }
+    button.solid:hover { background: var(--gold); border-color: var(--gold); }
+    button.small { padding: 8px 12px; min-height: 40px; min-width: 40px; }
+    button.danger { border-color: var(--bad); color: var(--bad); }
+    button.danger:hover, button.danger.sure { background: var(--bad); color: #fff; }
+    button:disabled { opacity: .45; cursor: default; }
+    button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible { outline: 2px solid var(--gold); outline-offset: 2px; }
+    label { display: block; font-size: 10px; letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+    input[type=text], input[type=email], input[type=password], textarea { width: 100%; font: inherit; font-size: 15px; padding: 10px 12px; background: rgba(255,255,255,.35); border: 1px solid var(--hair); color: var(--text); border-radius: 0; }
+    textarea { resize: vertical; min-height: 84px; }
+
+    /* login */
+    #vista-login { max-width: 420px; margin: 70px auto 0; }
+    #vista-login form { display: grid; gap: 16px; margin-top: 22px; }
+    .sep { text-align: center; font-size: 11px; letter-spacing: .2em; color: var(--muted); margin: 6px 0; }
+
+    /* tabs */
+    .tabs { display: flex; gap: 8px; margin-bottom: 22px; flex-wrap: wrap; }
+    .tabs button[aria-selected=true] { background: var(--text); color: var(--bg); }
+
+    /* subida */
+    #drop { border: 1px dashed var(--gold); padding: 34px 20px; text-align: center; background: rgba(255,255,255,.22); margin-bottom: 30px; }
+    #drop.over { background: rgba(140,106,48,.14); }
+    #drop p { margin: 0 0 14px; color: var(--muted); }
+    #progreso { margin-top: 14px; font-size: 13px; color: var(--muted); }
+
+    /* tarjetas */
+    #lista { display: grid; gap: 18px; }
+    .card { display: grid; grid-template-columns: 200px 1fr; gap: 20px; padding: 16px; background: var(--bg-soft); border: 1px solid var(--hair); }
+    .card.oculta { opacity: .6; }
+    .card .thumb { width: 100%; aspect-ratio: 4/5; object-fit: cover; background: var(--panel); display: block; }
+    .card .num { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--gold); margin-bottom: 6px; }
+    .campos { display: grid; gap: 12px; }
+    .fila2 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; }
+    .acciones { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+    .acciones .grow { flex: 1; }
+    .chk { display: flex; align-items: center; gap: 8px; font-size: 13px; letter-spacing: 0; text-transform: none; color: var(--text); margin: 0; }
+    .estado { font-size: 12px; color: var(--muted); min-width: 90px; }
+    .estado.ok { color: var(--ok); } .estado.mal { color: var(--bad); }
+    .vacio { padding: 40px; text-align: center; color: var(--muted); border: 1px dashed var(--hair); }
+
+    #aviso { position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%); background: var(--text); color: var(--bg); padding: 12px 20px; font-size: 14px; z-index: 20; max-width: 90vw; display: none; }
+    #aviso.mal { background: var(--bad); }
+    .oculto { display: none !important; }
+    @media (max-width: 720px) {
+      .card { grid-template-columns: 1fr; }
+      .card .thumb { aspect-ratio: 16/10; }
+      .fila2 { grid-template-columns: 1fr; }
+      h1 { font-size: 32px; }
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <header class="top">
+      <a class="brand" href="index.html">ENOUGH<span class="dot">.</span></a>
+      <div class="who">
+        <span id="quien"></span>
+        <a href="galeria.html" target="_blank" rel="noopener">Ver galería</a>
+        <button class="small oculto" id="btn-salir">Salir</button>
+      </div>
+    </header>
+
+    <!-- LOGIN -->
+    <section id="vista-login">
+      <h1>Panel</h1>
+      <p class="lede">Entra con tu cuenta para subir y editar las fotos del archivo.</p>
+      <form id="form-login">
+        <div><label for="email">Correo</label><input type="email" id="email" autocomplete="username" required></div>
+        <div><label for="clave">Contraseña</label><input type="password" id="clave" autocomplete="current-password" required></div>
+        <button class="solid" type="submit">Entrar</button>
+        <div class="sep">— o —</div>
+        <button type="button" id="btn-google">Entrar con Google</button>
+        <div id="login-msg" class="estado mal" role="alert"></div>
+      </form>
+    </section>
+
+    <!-- SIN PERMISO -->
+    <section id="vista-nopermiso" class="oculto">
+      <h1>Sin permiso</h1>
+      <p class="lede">Esta cuenta no es administradora del archivo. Sal e ingresa con la cuenta correcta.</p>
+    </section>
+
+    <!-- PANEL -->
+    <section id="vista-panel" class="oculto">
+      <h1>Archivo visual</h1>
+      <p class="lede">Sube fotos y escribe los textos que quieras. Si dejas un campo vacío, no se muestra nada en la web. Los cambios se ven al instante.</p>
+
+      <div class="tabs" role="tablist">
+        <button role="tab" id="tab-galeria" aria-selected="true" data-grupo="galeria">Galería</button>
+        <button role="tab" id="tab-estudio" aria-selected="false" data-grupo="estudio">Estudios de luz</button>
+      </div>
+
+      <div id="drop">
+        <p>Arrastra aquí tus fotos, o elígelas desde tu equipo. Se reducen solas para que la web cargue rápido.</p>
+        <input type="file" id="archivos" accept="image/jpeg,image/png,image/webp" multiple class="oculto">
+        <button class="solid" id="btn-elegir" type="button">Elegir fotos</button>
+        <div id="progreso" aria-live="polite"></div>
+      </div>
+
+      <div id="lista"></div>
+      <datalist id="cats">
+        <option value="luz"><option value="materia"><option value="vacio"><option value="umbral"><option value="ritmo">
+      </datalist>
+    </section>
+  </div>
+  <div id="aviso" role="status"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2/dist/umd/supabase.js"></script>
+  <script>
+    const SUPA_URL = 'https://ewxrqebjqwswhpjufrop.supabase.co';
+    const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV3eHJxZWJqcXdzd2hwanVmcm9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ2NzE5NjYsImV4cCI6MjExMDI0Nzk2Nn0.0cVLfsJ0AgJIoDDKPIBDA8dzGQipAtnenlFaoy7qkzg';
+    const sb = supabase.createClient(SUPA_URL, SUPA_KEY);
+    const $ = id => document.getElementById(id);
+    const MAX_LADO = 2000, CALIDAD = 0.86;
+    let grupo = 'galeria', fotos = [], usuario = null;
+
+    function aviso(txt, mal) {
+      const a = $('aviso'); a.textContent = txt; a.className = mal ? 'mal' : ''; a.style.display = 'block';
+      clearTimeout(aviso.t); aviso.t = setTimeout(() => { a.style.display = 'none'; }, 3500);
+    }
+    function vista(v) {
+      ['login', 'nopermiso', 'panel'].forEach(n => $('vista-' + n).classList.toggle('oculto', n !== v));
+      $('btn-salir').classList.toggle('oculto', v === 'login');
+    }
+
+    /* ── Sesión ── */
+    async function entrar(user) {
+      usuario = user;
+      if (!user) { $('quien').textContent = ''; vista('login'); return; }
+      $('quien').textContent = user.email || '';
+      const { data, error } = await sb.from('admins').select('user_id').eq('user_id', user.id).maybeSingle();
+      if (error || !data) { vista('nopermiso'); return; }
+      vista('panel'); cargar();
+    }
+    sb.auth.onAuthStateChange((ev, session) => {
+      if (ev === 'INITIAL_SESSION' || ev === 'SIGNED_IN' || ev === 'SIGNED_OUT') {
+        setTimeout(() => entrar(session && session.user), 0);
+      }
+    });
+    $('form-login').addEventListener('submit', async e => {
+      e.preventDefault(); $('login-msg').textContent = '';
+      const { error } = await sb.auth.signInWithPassword({ email: $('email').value.trim(), password: $('clave').value });
+      if (error) $('login-msg').textContent = 'No se pudo entrar: ' + error.message;
+    });
+    $('btn-google').addEventListener('click', async () => {
+      const { error } = await sb.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: location.href.split('#')[0] } });
+      if (error) $('login-msg').textContent = 'No se pudo entrar con Google: ' + error.message;
+    });
+    $('btn-salir').addEventListener('click', async () => { await sb.auth.signOut(); });
+
+    /* ── Pestañas ── */
+    document.querySelectorAll('.tabs button').forEach(b => b.addEventListener('click', () => {
+      grupo = b.dataset.grupo;
+      document.querySelectorAll('.tabs button').forEach(x => x.setAttribute('aria-selected', x === b));
+      cargar();
+    }));
+
+    /* ── Datos ── */
+    async function cargar() {
+      const { data, error } = await sb.from('fotos').select('*').eq('grupo', grupo).order('orden', { ascending: true });
+      if (error) { aviso('No se pudieron cargar las fotos: ' + error.message, true); return; }
+      fotos = data; pintar();
+    }
+
+    function campo(rotulo, el) {
+      const d = document.createElement('div'); const l = document.createElement('label'); l.textContent = rotulo;
+      d.append(l, el); return d;
+    }
+    function inp(valor, ph, lista) {
+      const i = document.createElement('input'); i.type = 'text'; i.value = valor || ''; if (ph) i.placeholder = ph;
+      if (lista) i.setAttribute('list', lista); return i;
+    }
+
+    function pintar() {
+      const cont = $('lista'); cont.replaceChildren();
+      if (!fotos.length) { const v = document.createElement('div'); v.className = 'vacio'; v.textContent = 'Todavía no hay fotos aquí. Sube la primera.'; cont.append(v); return; }
+      fotos.forEach((f, idx) => {
+        const card = document.createElement('article'); card.className = 'card' + (f.visible ? '' : ' oculta');
+        const img = document.createElement('img'); img.className = 'thumb'; img.src = f.src; img.alt = 'Foto ' + (idx + 1); img.loading = 'lazy';
+        const campos = document.createElement('div'); campos.className = 'campos';
+        const num = document.createElement('div'); num.className = 'num'; num.textContent = String(idx + 1).padStart(2, '0');
+        const titulo = inp(f.titulo, 'Sin título');
+        const desc = document.createElement('textarea'); desc.value = f.descripcion || ''; desc.placeholder = 'Sin descripción';
+        const cat = inp(f.categoria, 'luz, materia…', 'cats');
+        const lugar = inp(f.lugar, 'Opcional');
+        const hora = inp(f.hora, 'HH:MM');
+        const fila = document.createElement('div'); fila.className = 'fila2';
+        fila.append(campo('Categoría', cat), campo('Lugar', lugar), campo('Hora (da el tono)', hora));
+        const vis = document.createElement('input'); vis.type = 'checkbox'; vis.checked = f.visible;
+        const visL = document.createElement('label'); visL.className = 'chk'; visL.append(vis, document.createTextNode('Visible en la web'));
+        const estado = document.createElement('span'); estado.className = 'estado';
+        const guardar = document.createElement('button'); guardar.className = 'solid'; guardar.textContent = 'Guardar';
+        const sube = document.createElement('button'); sube.className = 'small'; sube.textContent = '↑'; sube.setAttribute('aria-label', 'Subir de posición'); sube.disabled = idx === 0;
+        const baja = document.createElement('button'); baja.className = 'small'; baja.textContent = '↓'; baja.setAttribute('aria-label', 'Bajar de posición'); baja.disabled = idx === fotos.length - 1;
+        const borrar = document.createElement('button'); borrar.className = 'danger small'; borrar.textContent = 'Borrar';
+        const grow = document.createElement('span'); grow.className = 'grow';
+        const acc = document.createElement('div'); acc.className = 'acciones'; acc.append(guardar, sube, baja, visL, grow, estado, borrar);
+        campos.append(num, campo('Título', titulo), campo('Descripción', desc), fila, acc);
+        card.append(img, campos); cont.append(card);
+
+        const marcar = () => { estado.textContent = 'Sin guardar'; estado.className = 'estado'; };
+        [titulo, desc, cat, lugar, hora, vis].forEach(el => el.addEventListener('input', marcar));
+
+        guardar.addEventListener('click', async () => {
+          guardar.disabled = true; estado.textContent = 'Guardando…';
+          const cambios = { titulo: titulo.value.trim(), descripcion: desc.value.trim(), categoria: cat.value.trim(), lugar: lugar.value.trim(), hora: hora.value.trim(), visible: vis.checked };
+          const { error } = await sb.from('fotos').update(cambios).eq('id', f.id);
+          guardar.disabled = false;
+          if (error) { estado.textContent = 'Error'; estado.className = 'estado mal'; aviso('No se guardó: ' + error.message, true); return; }
+          Object.assign(f, cambios); card.classList.toggle('oculta', !f.visible);
+          estado.textContent = 'Guardado ✓'; estado.className = 'estado ok';
+        });
+        sube.addEventListener('click', () => mover(idx, -1));
+        baja.addEventListener('click', () => mover(idx, 1));
+        let seguro = false;
+        borrar.addEventListener('click', async () => {
+          if (!seguro) { seguro = true; borrar.textContent = '¿Seguro?'; borrar.classList.add('sure'); setTimeout(() => { seguro = false; borrar.textContent = 'Borrar'; borrar.classList.remove('sure'); }, 3500); return; }
+          borrar.disabled = true;
+          const { error } = await sb.from('fotos').delete().eq('id', f.id);
+          if (error) { borrar.disabled = false; aviso('No se borró: ' + error.message, true); return; }
+          if (f.storage_path) await sb.storage.from('fotos').remove([f.storage_path]);
+          aviso('Foto borrada'); cargar();
+        });
+      });
+    }
+
+    async function mover(idx, d) {
+      const a = fotos[idx], b = fotos[idx + d]; if (!a || !b) return;
+      const [r1, r2] = await Promise.all([
+        sb.from('fotos').update({ orden: b.orden }).eq('id', a.id),
+        sb.from('fotos').update({ orden: a.orden }).eq('id', b.id)
+      ]);
+      if (r1.error || r2.error) { aviso('No se pudo cambiar el orden', true); return; }
+      cargar();
+    }
+
+    /* ── Subida con compresión ── */
+    function reducir(file) {
+      return new Promise((res, rej) => {
+        const url = URL.createObjectURL(file); const im = new Image();
+        im.onload = () => {
+          let w = im.naturalWidth, h = im.naturalHeight; const k = Math.min(1, MAX_LADO / Math.max(w, h));
+          w = Math.round(w * k); h = Math.round(h * k);
+          const c = document.createElement('canvas'); c.width = w; c.height = h;
+          const x = c.getContext('2d'); x.fillStyle = '#fff'; x.fillRect(0, 0, w, h); x.drawImage(im, 0, 0, w, h);
+          URL.revokeObjectURL(url);
+          c.toBlob(b => b ? res({ blob: b, w, h }) : rej(new Error('No se pudo reducir la imagen')), 'image/jpeg', CALIDAD);
+        };
+        im.onerror = () => { URL.revokeObjectURL(url); rej(new Error('No se pudo leer ' + file.name)); };
+        im.src = url;
+      });
+    }
+
+    async function subir(lista) {
+      const arch = [...lista].filter(f => /^image\/(jpeg|png|webp)$/.test(f.type));
+      if (!arch.length) { aviso('Elige fotos JPG, PNG o WebP', true); return; }
+      const prog = $('progreso'); let ok = 0;
+      let orden = fotos.reduce((m, f) => Math.max(m, f.orden), 0);
+      for (let i = 0; i < arch.length; i++) {
+        prog.textContent = 'Subiendo ' + (i + 1) + ' de ' + arch.length + '…';
+        try {
+          const { blob, w, h } = await reducir(arch[i]);
+          const ruta = grupo + '/' + crypto.randomUUID() + '.jpg';
+          const { error: e1 } = await sb.storage.from('fotos').upload(ruta, blob, { contentType: 'image/jpeg', cacheControl: '31536000' });
+          if (e1) throw e1;
+          const { data: pub } = sb.storage.from('fotos').getPublicUrl(ruta);
+          const { error: e2 } = await sb.from('fotos').insert({ grupo, orden: ++orden, src: pub.publicUrl, storage_path: ruta, ancho: w, alto: h });
+          if (e2) { await sb.storage.from('fotos').remove([ruta]); throw e2; }
+          ok++;
+        } catch (e) { aviso('Falló "' + arch[i].name + '": ' + (e.message || e), true); }
+      }
+      prog.textContent = ok ? ok + (ok === 1 ? ' foto subida ✓' : ' fotos subidas ✓') : '';
+      $('archivos').value = ''; cargar();
+    }
+
+    $('btn-elegir').addEventListener('click', () => $('archivos').click());
+    $('archivos').addEventListener('change', e => subir(e.target.files));
+    const drop = $('drop');
+    ['dragenter', 'dragover'].forEach(n => drop.addEventListener(n, e => { e.preventDefault(); drop.classList.add('over'); }));
+    ['dragleave', 'drop'].forEach(n => drop.addEventListener(n, e => { e.preventDefault(); drop.classList.remove('over'); }));
+    drop.addEventListener('drop', e => subir(e.dataTransfer.files));
+  </script>
+</body>
+</html>

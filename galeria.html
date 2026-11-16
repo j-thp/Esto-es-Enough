@@ -453,8 +453,9 @@
     </div>
   </footer>
 
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2/dist/umd/supabase.js"></script>
   <script>
-    const items = [
+    let items = [
       { src: './fotos-optimizadas/espacios/tarde-tendida.jpg',   tint: 'tint-warm',   num: '01', title: '',  loc: '', year: '', time: '', cat: 'luz',
         desc: '' },
       { src: './fotos-optimizadas/galeria/proyecto25.jpg',       tint: 'tint-violet', num: '02', title: '', loc: '',       year: '', time: '', cat: 'luz',
@@ -488,7 +489,7 @@
     ];
 
     const sheet = document.getElementById('sheet');
-    const chips = document.querySelectorAll('.chip');
+    const chipsBox = document.getElementById('chips');
     const ids = ["tarde-tendida", "aire-suspendido", "borde-de-azul", "profundidad", "reposo", "materia", "umbral", "vacio", "ritmo", "calma", "tension", "silencio", "huella", "densidad", "luz"];
     items.forEach((it, i) => { it.id = ids[i]; });
     let currentFilter = 'all';
@@ -542,11 +543,12 @@
       litObs.observe(f);
     }
 
-    chips.forEach(c => c.addEventListener('click', () => {
-      chips.forEach(x => x.classList.toggle('on', x === c));
+    chipsBox.addEventListener('click', e => {
+      const c = e.target.closest('.chip'); if (!c) return;
+      chipsBox.querySelectorAll('.chip').forEach(x => x.classList.toggle('on', x === c));
       currentFilter = c.dataset.filter;
       render();
-    }));
+    });
 
     // Lightbox
     const lb = document.getElementById('lb');
@@ -570,7 +572,7 @@
         : `<div class="lb-frame placeholder${tint}"></div>`;
       lbTitle.textContent = it.title;
       lbDesc.textContent = it.desc;
-      lbMore.href = 'laminas/' + it.id + '.html';
+      lbMore.href = 'lamina.html?f=' + encodeURIComponent(it.id);
       lbLoc.textContent = it.loc;
       lbYear.textContent = it.year;
       lbTime.textContent = it.time;
@@ -623,12 +625,37 @@
       if (e.key === 'ArrowRight') step(1);
     });
 
+
+    /* ── Fotos desde Supabase (se editan en admin.html). Si falla, se usan las de arriba ── */
+    const NOMBRES_CAT = { vacio: 'Vacío', luz: 'Luz', materia: 'Materia', umbral: 'Umbral', ritmo: 'Ritmo' };
+    function armarChips() {
+      const cats = [...new Set(items.map(i => i.cat).filter(Boolean))];
+      chipsBox.innerHTML = '<button class="chip on" data-filter="all">Todo · ' + items.length + '</button>' +
+        cats.map(c => '<button class="chip" data-filter="' + c.replace(/"/g, '&quot;') + '"></button>').join('');
+      chipsBox.querySelectorAll('.chip:not([data-filter=all])').forEach(b => {
+        const c = b.dataset.filter; b.textContent = NOMBRES_CAT[c] || c.charAt(0).toUpperCase() + c.slice(1);
+      });
+      const meta = document.querySelector('.head-meta');
+      if (meta) meta.firstChild.textContent = items.length + (items.length === 1 ? ' pieza' : ' piezas');
+    }
+    async function cargarDB() {
+      try {
+        const sb = supabase.createClient('https://ewxrqebjqwswhpjufrop.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV3eHJxZWJqcXdzd2hwanVmcm9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ2NzE5NjYsImV4cCI6MjExMDI0Nzk2Nn0.0cVLfsJ0AgJIoDDKPIBDA8dzGQipAtnenlFaoy7qkzg');
+        const { data, error } = await sb.from('fotos').select('*').eq('grupo', 'galeria').order('orden', { ascending: true });
+        if (error || !data || !data.length) return;
+        items = data.map((f, i) => ({ src: f.src, tint: '', num: String(i + 1).padStart(2, '0'), title: f.titulo, loc: f.lugar, year: f.anio, time: f.hora, cat: f.categoria, desc: f.descripcion, id: f.slug || f.id }));
+        visibleItems = items; currentFilter = 'all'; armarChips();
+      } catch (e) { /* se queda con las fotos locales */ }
+    }
+
+    cargarDB().then(() => {
     render();
     /* ancla dinámica: galeria.html#densidad lleva a esa pieza */
     if (location.hash) {
       const el = document.getElementById(decodeURIComponent(location.hash.slice(1)));
       if (el && el.classList.contains('frame')) setTimeout(() => el.scrollIntoView({ block: 'center' }), 60);
     }
+    });
   </script>
   <script>
     (function(){

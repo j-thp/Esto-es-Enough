@@ -1553,7 +1553,7 @@
           <div class="project-meta"><span></span><span class="year"></span></div>
           <h3 class="project-title"></h3>
           <p class="project-brief"></p>
-          <a href="laminas/tarde-tendida.html" class="project-link">Ver lámina →</a>
+          <a href="lamina.html?f=tarde-tendida" class="project-link">Ver lámina →</a>
         </article>
 
         <article class="project project-small project-offset">
@@ -1563,7 +1563,7 @@
           <div class="project-meta"><span></span><span class="year"></span></div>
           <h3 class="project-title"></h3>
           <p class="project-brief"></p>
-          <a href="laminas/aire-suspendido.html" class="project-link">Ver lámina →</a>
+          <a href="lamina.html?f=aire-suspendido" class="project-link">Ver lámina →</a>
         </article>
 
         <article class="project project-wide">
@@ -1573,7 +1573,7 @@
           <div class="project-meta"><span></span><span class="year"></span></div>
           <h3 class="project-title"></h3>
           <p class="project-brief"></p>
-          <a href="laminas/borde-de-azul.html" class="project-link">Ver lámina →</a>
+          <a href="lamina.html?f=borde-de-azul" class="project-link">Ver lámina →</a>
         </article>
 
       </div>
@@ -1602,7 +1602,7 @@
             <span class="pf-name"></span>
             <span class="pf-cap"></span>
             <p class="pf-desc"></p>
-            <a href="laminas/estudio-1-calida.html" class="project-link pf-link">Ver estudio →</a>
+            <a href="lamina.html?f=estudio-1-calida" class="project-link pf-link">Ver estudio →</a>
           </div>
         </article>
         <article class="field-plate">
@@ -1614,7 +1614,7 @@
             <span class="pf-name"></span>
             <span class="pf-cap"></span>
             <p class="pf-desc"></p>
-            <a href="laminas/estudio-2-lavanda.html" class="project-link pf-link">Ver estudio →</a>
+            <a href="lamina.html?f=estudio-2-lavanda" class="project-link pf-link">Ver estudio →</a>
           </div>
         </article>
         <article class="field-plate">
@@ -1626,7 +1626,7 @@
             <span class="pf-name"></span>
             <span class="pf-cap"></span>
             <p class="pf-desc"></p>
-            <a href="laminas/estudio-3-crepusculo.html" class="project-link pf-link">Ver estudio →</a>
+            <a href="lamina.html?f=estudio-3-crepusculo" class="project-link pf-link">Ver estudio →</a>
           </div>
         </article>
       </div>
@@ -1880,5 +1880,34 @@
     })();
   </script>
   <script src="enough-ux.js" defer></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2/dist/umd/supabase.js"></script>
+  <script>
+    /* Las fotos del inicio salen de Supabase (se editan en admin.html). Si falla, se quedan las de arriba. */
+    (async function () {
+      try {
+        var sb = supabase.createClient('https://ewxrqebjqwswhpjufrop.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV3eHJxZWJqcXdzd2hwanVmcm9wIiwicm9sZSI6ImFub24iLCJpYXQiOjE3OTQ2NzE5NjYsImV4cCI6MjExMDI0Nzk2Nn0.0cVLfsJ0AgJIoDDKPIBDA8dzGQipAtnenlFaoy7qkzg');
+        var r = await sb.from('fotos').select('*').order('orden', { ascending: true });
+        if (r.error || !r.data) return;
+        var gal = r.data.filter(function (f) { return f.grupo === 'galeria'; });
+        var est = r.data.filter(function (f) { return f.grupo === 'estudio'; });
+        function poner(img, f, i) { if (!f) return; img.src = f.src; img.alt = f.titulo || ('Fotografía ' + (i + 1)); img.style.display = ''; }
+        function enlace(a, f) { if (a && f) a.href = 'lamina.html?f=' + encodeURIComponent(f.slug || f.id); }
+        function txt(n, v) { if (n) n.textContent = v || ''; }
+        document.querySelectorAll('.spaces-grid .project').forEach(function (c, i) {
+          var f = gal[i]; if (!f) { c.style.display = 'none'; return; }
+          poner(c.querySelector('img'), f, i); enlace(c.querySelector('.project-link'), f);
+          var m = c.querySelectorAll('.project-meta span'); txt(m[0], f.categoria); txt(m[1], f.anio);
+          txt(c.querySelector('.project-title'), f.titulo); txt(c.querySelector('.project-brief'), f.descripcion);
+        });
+        document.querySelectorAll('.field-plate').forEach(function (c, i) {
+          var f = est[i]; if (!f) { c.style.display = 'none'; return; }
+          poner(c.querySelector('img'), f, i); enlace(c.querySelector('.pf-link'), f);
+          txt(c.querySelector('.pf-name'), f.titulo); txt(c.querySelector('.pf-cap'), [f.hora, f.categoria, f.lugar].filter(Boolean).join(' · '));
+          txt(c.querySelector('.pf-desc'), f.descripcion);
+        });
+        document.querySelectorAll('.plates-strip .plate').forEach(function (c, i) { poner(c.querySelector('img'), est[i], i); });
+      } catch (e) {}
+    })();
+  </script>
 </body>
 </html>

@@ -50,10 +50,12 @@
 - **URL:** `https://ewxrqebjqwswhpjufrop.supabase.co`
 - **Anon key:** está en el código de las páginas (es pública por diseño). Se consulta en el panel de Supabase → Settings → API. Usar la llave **anon (JWT)**, no `sb_publishable_`.
 - **SDK CDN:** `https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.106.2/dist/umd/supabase.js`
-- **Tablas:** `productos · ordenes` (con RLS). `entradas` no existe en el proyecto nuevo (ningún código la usa).
+- **Tablas:** `productos · ordenes · fotos · admins` (todas con RLS). `entradas` no existe en el proyecto nuevo (ningún código la usa).
 - **Storage:** bucket `descargas` PRIVADO — signed URLs 60s en dashboard.html; solo descargan quienes tengan una orden APROBADA del producto
 - **Clave localStorage de sesión:** `sb-ewxrqebjqwswhpjufrop-auth-token` (usada en los scripts de nav)
 - **NUNCA** poner llaves `service_role` ni secretos de Wompi en el repo (es público)
+
+**Panel de fotos (`admin.html`, noindex):** login con correo/contraseña o Google; solo quien esté en la tabla `admins` puede escribir. Sube fotos (se reducen a máx. 2000 px / JPEG 86 % en el navegador) al bucket **público** `fotos` y guarda texto en la tabla `fotos` (`grupo` = `galeria` | `estudio`, `orden`, `src`, `storage_path`, `titulo`, `descripcion`, `categoria`, `lugar`, `hora`, `anio`, `visible`). `galeria.html`, `index.html` y `lamina.html?f=<slug|id>` leen de esa tabla; si falla la consulta, usan las fotos locales. Un campo vacío no se muestra. `hora` solo da el tono de color de la lámina.
 
 **Patrones de auth:**
 - `tienda.html`, `producto.html` → `getUser()` + redirect a `acceso.html` si no hay sesión (hoy ambas redirigen a `index.html`: tienda desactivada)
@@ -97,6 +99,8 @@ El proyecto nuevo no tiene ninguna. Los secretos (llaves de Wompi, Resend) se gu
 | `fragmentos.html` | Notas/fragmentos | ❌ público | enough.css |
 | `tienda.html` | Catálogo de productos, filtros, vista grid/lista | ✅ getUser | enough.css |
 | `producto.html` | Ficha producto + checkout via wompi-checkout | ✅ getUser | enough.css |
+| `admin.html` | Panel privado para subir/editar fotos (Supabase) | ✅ tabla admins | propio |
+| `lamina.html` | Lámina individual dinámica (`?f=`) | ❌ público | enough.css + enough-ux.css |
 | `dashboard.html` | Archivo personal, signed URLs, inactividad 30min | ✅ INITIAL_SESSION | enough.css |
 | `acceso.html` | Login/registro, OAuth Google, toggle Lector/Lectora | ❌ público | enough.css |
 | `gracias.html` | Confirmación de compra | ❌ público | enough.css |
