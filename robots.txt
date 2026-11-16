@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://j-thp.github.io/Esto-es-Enough/sitemap.xml

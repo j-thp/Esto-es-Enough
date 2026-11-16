@@ -26,7 +26,7 @@ function fetchBinary(url) {
 
 (async () => {
   console.log('Descargando fuente Cormorant Garamond...');
-  const css = await fetchText('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@300&display=swap');
+  const css = await fetchText('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@600&display=swap');
   const urlMatch = css.match(/src:\s*url\(([^)]+)\)\s*format\('([^']+)'\)/);
   if (!urlMatch) { console.error('No se encontró la URL de la fuente'); process.exit(1); }
 
@@ -37,7 +37,7 @@ function fetchBinary(url) {
 
   const fontBuf = await fetchBinary(fontUrl);
   const b64 = fontBuf.toString('base64');
-  const fontFace = `@font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 300; src: url('data:${mime};base64,${b64}') format('${fontFormat}'); }`;
+  const fontFace = `@font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 600; src: url('data:${mime};base64,${b64}') format('${fontFormat}'); }`;
 
   const svgOriginal = fs.readFileSync(SVG, 'utf8');
   const svgWithFont = svgOriginal.replace(

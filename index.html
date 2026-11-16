@@ -7,16 +7,21 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Enough — Editorial. Un archivo sobre atmósferas, materia y la forma de habitar el mundo. Desde Bucaramanga.">
   <link rel="canonical" href="https://j-thp.github.io/Esto-es-Enough/">
-
-  <meta property="og:title" content="Enough — Editorial">
-  <meta property="og:description" content="Un archivo sobre atmósferas, materia y la forma de habitar el mundo. Desde Bucaramanga.">
-  <meta property="og:image" content="https://j-thp.github.io/Esto-es-Enough/fotos/espacios/tarde-tendida.jpg">
-  <meta property="og:url" content="https://j-thp.github.io/Esto-es-Enough/">
+  <meta property="og:site_name" content="Enough — Editorial">
+  <meta property="og:locale" content="es_CO">
   <meta property="og:type" content="website">
+  <meta property="og:title" content="Enough — Editorial">
+  <meta property="og:description" content="Enough — Editorial. Un archivo sobre atmósferas, materia y la forma de habitar el mundo. Desde Bucaramanga.">
+  <meta property="og:url" content="https://j-thp.github.io/Esto-es-Enough/">
+  <meta property="og:image" content="https://j-thp.github.io/Esto-es-Enough/og/og-inicio.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Enough — una luz violeta que se abre sobre un fondo oscuro">
   <meta name="twitter:card" content="summary_large_image">
   <meta name="twitter:title" content="Enough — Editorial">
-  <meta name="twitter:description" content="Un archivo sobre atmósferas, materia y la forma de habitar el mundo.">
-  <meta name="twitter:image" content="https://j-thp.github.io/Esto-es-Enough/fotos/espacios/tarde-tendida.jpg">
+  <meta name="twitter:description" content="Enough — Editorial. Un archivo sobre atmósferas, materia y la forma de habitar el mundo. Desde Bucaramanga.">
+  <meta name="twitter:image" content="https://j-thp.github.io/Esto-es-Enough/og/og-inicio.jpg">
+
 
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -188,9 +193,9 @@
       align-items: center;
       gap: 14px;
       font-family: var(--display-font);
-      font-weight: 400;
+      font-weight: 500;
       font-size: 19px;
-      letter-spacing: .22em;
+      letter-spacing: .16em;
       text-transform: uppercase;
       color: var(--bone);
       text-decoration: none;
@@ -739,6 +744,9 @@
       transition: color .2s, border-color .2s;
     }
     .project-link:hover { color: var(--gold); border-color: var(--gold); }
+    .pf-link { margin-top: 14px; }
+    .dark-band .pf-link { color: var(--bone); border-color: rgba(216,209,191,.28); }
+    .dark-band .pf-link:hover { color: var(--ember); border-color: var(--ember); }
 
     /* ───── 03 — LIGHT FIELD (plates as their own section) ───── */
     .field {
@@ -1412,6 +1420,7 @@
       }
     }
   </style>
+  <link rel="stylesheet" href="enough-ux.css">
 </head>
 <body>
 
@@ -1507,17 +1516,17 @@
         <span class="num">01</span>
         Manifiesto<br>Lectura
       </div>
-      <div class="sec-eyebrow">— Sobre la perfección ↔ la intención</div>
-      <h2 class="manifiesto-h">No es <em>perfección.</em><br>Es intención.</h2>
+      <div class="sec-eyebrow">— Una postura frente al diseño contemporáneo</div>
+      <h2 class="manifiesto-h">No todo <em>está.</em><br>en la imagen.</h2>
 
       <div class="manifiesto-body">
-        <p>La arquitectura contemporánea aprendió a verse impecable. Superficies limpias. Luces blancas. Materiales costosos. Espacios diseñados para ser fotografiados antes que habitados. Y aun así <span class="res">algo falta</span>.</p>
-        <p>Enough nace desde esa sensación. Desde el momento en que la tarde baja, el ruido desaparece y el espacio vuelve a sentirse <span class="res">presente</span>. Nos interesan los lugares que todavía conservan <span class="res">silencio</span>.</p>
-        <p><span class="res">La sombra sobre el muro.</span> <span class="res">La textura que cambia con la luz.</span> La tensión entre vacío y permanencia. Esto no es un catálogo de perfección. Es un registro de <span class="res">atmósferas, objetos y espacios</span> que todavía saben sentirse humanos.</p>
+        <p>Muchos espacios contemporáneos parecen tenerlo todo: superficies impecables, luces cuidadosamente dispuestas y materiales que llaman la atención. Sin embargo, a veces cuesta <span class="res">encontrar algo que invite a quedarse.</span></p>
+        <p>Enough nace de esa inquietud. De mirar los espacios más allá de su apariencia, de prestar atención a lo que sucede cuando <span class="res">la luz cambia,</span> cuando los materiales revelan otras texturas o cuando los objetos empiezan a formar <span class="res">parte de la vida cotidiana.</span></p>
+        <p><span>Nos interesan las huellas del tiempo, las </span> <span class="res">combinaciones inesperadas</span>, los espacios que reflejan a quienes los habitan y los detalles que, <span class="res">aunque pequeños,</span> terminan cambiando nuestra manera de percibir un lugar.</p>
       </div>
 
       <aside class="manifiesto-pull">
-        "La sombra pesa. El aire cambia de temperatura. El concreto deja de ser un acabado y se vuelve <span class="res">presencia</span>. El vacío entre los objetos deja de verse vacío."
+        "La sombra adquiere peso. El aire cambia de temperatura. El concreto deja de ser un acabado y se convierte en presencia. El espacio entre los objetos deja de ser simplemente vacío."
         <span class="cap">— Enough, Vol. I</span>
       </aside>
     </section>
@@ -1544,7 +1553,7 @@
           <div class="project-meta"><span>II — Luz</span><span class="year">2026</span></div>
           <h3 class="project-title"><em>Tarde</em> tendida</h3>
           <p class="project-brief">La luz baja en oblicuo y endurece la sombra contra el muro. El concreto se vuelve <span class="res">dorado por once minutos</span> antes de apagarse</p>
-          <a href="galeria.html" class="project-link">Ver fragmento →</a>
+          <a href="laminas/tarde-tendida.html" class="project-link">Ver lámina →</a>
         </article>
 
         <article class="project project-small project-offset">
@@ -1554,7 +1563,7 @@
           <div class="project-meta"><span>II — Patio</span><span class="year">2026</span></div>
           <h3 class="project-title"><em>Aire</em> suspendido</h3>
           <p class="project-brief">Una columna de luz cae desde el lucernario. <span class="res">El aire se vuelve material.</span> La habitación contiene el día.</p>
-          <a href="galeria.html" class="project-link">Ver fragmento →</a>
+          <a href="laminas/aire-suspendido.html" class="project-link">Ver lámina →</a>
         </article>
 
         <article class="project project-wide">
@@ -1564,7 +1573,7 @@
           <div class="project-meta"><span>III — Umbral</span><span class="year">2026</span></div>
           <h3 class="project-title">Borde de <em>azul</em></h3>
           <p class="project-brief">La penumbra antes de la noche. El espacio se vuelve <span class="res">denso, lento</span>. El cuerpo se queda más tiempo del previsto.</p>
-          <a href="galeria.html" class="project-link">Ver fragmento →</a>
+          <a href="laminas/borde-de-azul.html" class="project-link">Ver lámina →</a>
         </article>
 
       </div>
@@ -1593,6 +1602,7 @@
             <span class="pf-name">Cálida</span>
             <span class="pf-cap">06 : 14 · Naciente · Cuarto norte</span>
             <p class="pf-desc">La primera luz cruza el cuarto en oblicuo. El aire tiene temperatura. La pared <span class="res">retiene el frío de la noche</span>.</p>
+            <a href="laminas/estudio-1-calida.html" class="project-link pf-link">Ver estudio →</a>
           </div>
         </article>
         <article class="field-plate">
@@ -1604,6 +1614,7 @@
             <span class="pf-name">Lavanda</span>
             <span class="pf-cap">11 : 03 · Vertical · Lucernario</span>
             <p class="pf-desc">La luz desciende limpia desde arriba. La habitación contiene el día. El cuerpo se quieta.</p>
+            <a href="laminas/estudio-2-lavanda.html" class="project-link pf-link">Ver estudio →</a>
           </div>
         </article>
         <article class="field-plate">
@@ -1615,6 +1626,7 @@
             <span class="pf-name">Crepúsculo</span>
             <span class="pf-cap">18 : 47 · Poniente · Borde de azul</span>
             <p class="pf-desc">Once minutos antes de la noche. La materia se densifica. <span class="res">Quedarse cuesta menos que irse.</span></p>
+            <a href="laminas/estudio-3-crepusculo.html" class="project-link pf-link">Ver estudio →</a>
           </div>
         </article>
       </div>
@@ -1867,5 +1879,6 @@
       update();
     })();
   </script>
+  <script src="enough-ux.js" defer></script>
 </body>
 </html>

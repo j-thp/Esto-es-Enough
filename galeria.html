@@ -7,18 +7,23 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="description" content="Enough — Galería. Archivo fotográfico sobre luz, espacio y presencia. Desde Bucaramanga.">
   <link rel="canonical" href="https://j-thp.github.io/Esto-es-Enough/galeria.html">
-  <meta property="og:title" content="Galería · Enough — Editorial">
-  <meta property="og:description" content="Archivo fotográfico sobre luz, espacio y presencia.">
-  <meta property="og:image" content="https://j-thp.github.io/Esto-es-Enough/fotos/espacios/tarde-tendida.jpg">
-  <meta property="og:url" content="https://j-thp.github.io/Esto-es-Enough/galeria.html">
+  <meta property="og:site_name" content="Enough — Editorial">
+  <meta property="og:locale" content="es_CO">
   <meta property="og:type" content="website">
+  <meta property="og:title" content="Galería · Enough">
+  <meta property="og:description" content="Enough — Galería. Archivo fotográfico sobre luz, espacio y presencia. Desde Bucaramanga.">
+  <meta property="og:url" content="https://j-thp.github.io/Esto-es-Enough/galeria.html">
+  <meta property="og:image" content="https://j-thp.github.io/Esto-es-Enough/og/og-galeria.jpg">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:alt" content="Cuatro fotografías del archivo de Enough: luz, umbral y materia">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="Galería · Enough — Editorial">
-  <meta name="twitter:description" content="Archivo fotográfico sobre luz, espacio y presencia.">
-  <meta name="twitter:image" content="https://j-thp.github.io/Esto-es-Enough/fotos/espacios/tarde-tendida.jpg">
+  <meta name="twitter:title" content="Galería · Enough">
+  <meta name="twitter:description" content="Enough — Galería. Archivo fotográfico sobre luz, espacio y presencia. Desde Bucaramanga.">
+  <meta name="twitter:image" content="https://j-thp.github.io/Esto-es-Enough/og/og-galeria.jpg">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="enough.css">
   <style>
     /* ─── Galería — colapsada, tipo archivo / contact-sheet ─── */
@@ -248,6 +253,16 @@
       line-height: 1.85;
       color: var(--muted);
     }
+    .lb-more {
+      align-self: flex-start; margin: 4px 0 0;
+      font-family: var(--label-font); font-size: 10px; letter-spacing: .22em; text-transform: uppercase;
+      color: var(--gold); text-decoration: none;
+      border-bottom: 1px solid currentColor; padding-bottom: 4px;
+      transition: color .3s, border-color .3s;
+    }
+    .lb-more:visited { color: var(--gold); }
+    .lb-more:hover, .lb-more:visited:hover { color: var(--text); }
+    .frame:target .frame-img { outline: 1px solid var(--gold); outline-offset: 6px; }
     .lb-cap {
       margin-top: auto;
       display: grid;
@@ -326,6 +341,7 @@
     }
     .frame.lit .frame-img img { animation: enciende 1.3s var(--ease-out) var(--d, 0ms) backwards; }
   </style>
+  <link rel="stylesheet" href="enough-ux.css">
 </head>
 <body>
 
@@ -377,6 +393,7 @@
       <div class="lb-eyebrow">Enough · Archivo</div>
       <h2 class="lb-title" id="lb-title"></h2>
       <p class="lb-desc" id="lb-desc"></p>
+      <a class="lb-more" id="lb-more" href="#">Ver lámina completa →</a>
       <div class="lb-cap">
         <div>Locación<b id="lb-loc"></b></div>
         <div>Año<b id="lb-year"></b></div>
@@ -472,6 +489,8 @@
 
     const sheet = document.getElementById('sheet');
     const chips = document.querySelectorAll('.chip');
+    const ids = ["tarde-tendida", "aire-suspendido", "borde-de-azul", "profundidad", "reposo", "materia", "umbral", "vacio", "ritmo", "calma", "tension", "silencio", "huella", "densidad", "luz"];
+    items.forEach((it, i) => { it.id = ids[i]; });
     let currentFilter = 'all';
     let visibleItems = items;
 
@@ -484,7 +503,7 @@
           : '';
         const placeholder = it.src ? '' : ' placeholder';
         return `
-          <article class="frame" data-i="${idx}">
+          <article class="frame" id="${it.id}" data-i="${idx}">
             <div class="frame-img${placeholder}${tint}">${img}</div>
             <div class="frame-meta">
               <span class="frame-num">${it.num}</span>
@@ -534,6 +553,7 @@
     const lbStage = document.getElementById('lb-stage');
     const lbTitle = document.getElementById('lb-title');
     const lbDesc = document.getElementById('lb-desc');
+    const lbMore = document.getElementById('lb-more');
     const lbLoc = document.getElementById('lb-loc');
     const lbYear = document.getElementById('lb-year');
     const lbTime = document.getElementById('lb-time');
@@ -550,6 +570,7 @@
         : `<div class="lb-frame placeholder${tint}"></div>`;
       lbTitle.textContent = it.title;
       lbDesc.textContent = it.desc;
+      lbMore.href = 'laminas/' + it.id + '.html';
       lbLoc.textContent = it.loc;
       lbYear.textContent = it.year;
       lbTime.textContent = it.time;
@@ -602,6 +623,11 @@
     });
 
     render();
+    /* ancla dinámica: galeria.html#densidad lleva a esa pieza */
+    if (location.hash) {
+      const el = document.getElementById(decodeURIComponent(location.hash.slice(1)));
+      if (el && el.classList.contains('frame')) setTimeout(() => el.scrollIntoView({ block: 'center' }), 60);
+    }
   </script>
   <script>
     (function(){
@@ -630,5 +656,6 @@
       }
     })();
   </script>
+  <script src="enough-ux.js" defer></script>
 </body>
 </html>
