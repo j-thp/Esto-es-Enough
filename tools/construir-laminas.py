@@ -17,15 +17,24 @@ def pagina(i, d, grupo):
     etiqueta = ('Estudio de luz ' if es_est else 'Lámina ') + d['num']
     cat = d['cat'].capitalize() if not es_est else d['cat']
     volver = ('../index.html#estudios', 'Estudios de luz') if es_est else ('../galeria.html#' + d['id'], 'Archivo visual')
-    titulo = f"{d['title']} · {etiqueta} — Enough"
-    desc = d['resumen']
+    nombre = d['title'] or etiqueta
+    titulo = f"{nombre} — Enough" if not d['title'] else f"{d['title']} · {etiqueta} — Enough"
+    desc = d['resumen'] or 'Enough — Archivo visual.'
+    hora = d.get('hora') or d['time']
+    meta = ' · '.join(x for x in (d['time'], d['loc'], str(d['year']) if d['year'] else '') if x)
+    coords = ' · '.join(x for x in (f'<b>{e(d["time"])}</b>' if d['time'] else '', e(d['title'])) if x) or e(etiqueta)
     url = f"{BASE}laminas/{d['id']}.html"
     img = f"{BASE}og/lamina-{d['id']}.jpg"
     parrafos = '\n'.join(f'        <p>{e(p)}</p>' for p in d['narrativa'])
+    cuerpo = f'      <div class="lam-body">\n{parrafos}\n      </div>' if parrafos else ''
+    lede = f'<p class="lam-lede">{e(d["resumen"])}</p>' if d['resumen'] else ''
+    h1 = f'<h1>{e(d["title"])}</h1>' if d['title'] else f'<h1 style="position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)">{e(etiqueta)}</h1>'
+    metahtml = f'<p class="lam-meta">{e(meta)}</p>' if meta else ''
+    altfoto = e(etiqueta)
     def enlace(x, cls, flecha_i, flecha_d):
         return (f'<a class="{cls}" href="{x["id"]}.html" rel="{"prev" if cls=="lam-prev" else "next"}">'
                 f'<span class="lam-pn">{flecha_i}{"Anterior" if cls=="lam-prev" else "Siguiente"}{flecha_d}</span>'
-                f'<span class="lam-pt">{e(x["title"])}</span><span class="lam-ph">{e(x["time"])}</span></a>')
+                f'<span class="lam-pt">{e(x["title"] or ("Estudio " if x["grupo"]=="estudio" else "Lámina ") + x["num"])}</span><span class="lam-ph">{e(x["time"])}</span></a>')
     return f'''<!DOCTYPE html>
 <html lang="es">
 <head>
@@ -38,15 +47,15 @@ def pagina(i, d, grupo):
   <meta property="og:site_name" content="Enough — Editorial">
   <meta property="og:locale" content="es_CO">
   <meta property="og:type" content="article">
-  <meta property="og:title" content="{e(d['title'])} · {e(etiqueta)} — Enough">
+  <meta property="og:title" content="{e(titulo)}">
   <meta property="og:description" content="{e(desc)}">
   <meta property="og:url" content="{url}">
   <meta property="og:image" content="{img}">
   <meta property="og:image:width" content="1200">
   <meta property="og:image:height" content="630">
-  <meta property="og:image:alt" content="{e(d['title'])}, {e(d['time'])}, {e(d['loc'])}">
+  <meta property="og:image:alt" content="{altfoto}">
   <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:title" content="{e(d['title'])} · {e(etiqueta)} — Enough">
+  <meta name="twitter:title" content="{e(titulo)}">
   <meta name="twitter:description" content="{e(desc)}">
   <meta name="twitter:image" content="{img}">
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -55,7 +64,7 @@ def pagina(i, d, grupo):
   <link rel="stylesheet" href="../enough.css">
   <link rel="stylesheet" href="../enough-ux.css">
 </head>
-<body class="lamina" data-hora="{e(d['time'])}">
+<body class="lamina" data-hora="{e(hora)}">
 
   <nav class="site-nav">
     <a href="../index.html" class="mark">ENOUGH<span class="dot">.</span></a>
@@ -66,7 +75,7 @@ def pagina(i, d, grupo):
       <li><a href="../fragmentos.html">Fragmentos</a></li>
       <li><a href="../acceso.html">Acceso</a></li>
     </ul>
-    <div class="nav-coords"><b>{e(d['time'])}</b> · {e(d['title'])}</div>
+    <div class="nav-coords">{coords}</div>
     <button class="nav-toggle" aria-label="Abrir menú" aria-expanded="false"><span></span><span></span><span></span></button>
   </nav>
 
@@ -74,17 +83,15 @@ def pagina(i, d, grupo):
     <a class="lam-back" href="{volver[0]}">← {volver[1]}</a>
 
     <figure class="lam-fig">
-      <img src="../{foto}" width="{w}" height="{h}" alt="{e(d['title'])} — {e(d['loc'])}, {e(d['time'])}" fetchpriority="high">
+      <img src="../{foto}" width="{w}" height="{h}" alt="{altfoto}" fetchpriority="high">
     </figure>
 
     <article class="lam-text">
       <p class="lam-kicker"><span>{e(etiqueta)}</span> · {e(cat)}</p>
-      <h1>{e(d['title'])}</h1>
-      <p class="lam-meta"><b>{e(d['time'])}</b> · {e(d['loc'])} · {e(d['year'])}</p>
-      <p class="lam-lede">{e(d['resumen'])}</p>
-      <div class="lam-body">
-{parrafos}
-      </div>
+      {h1}
+      {metahtml}
+      {lede}
+{cuerpo}
     </article>
 
     <nav class="lam-pager" aria-label="Otras láminas">

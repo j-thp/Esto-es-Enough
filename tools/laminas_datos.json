@@ -3,336 +3,525 @@
   "id": "tarde-tendida",
   "grupo": "galeria",
   "num": "01",
-  "title": "Tarde tendida",
-  "loc": "Bucaramanga",
-  "year": 2026,
-  "time": "18:47",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "luz",
   "foto": "fotos-optimizadas/espacios/tarde-tendida.jpg",
-  "resumen": "La luz baja en oblicuo y endurece la sombra contra el muro. El concreto se vuelve dorado por once minutos antes de apagarse.",
-  "narrativa": [
-   "A esta hora la luz deja de iluminar y empieza a dibujar. Entra baja, casi horizontal, y obliga a cada borde a declararse: el filo de la escalera, el plano de la fachada, la hoja que cruza el cielo.",
-   "Dura poco. Once minutos en los que el concreto se vuelve dorado y el edificio parece, por fin, habitado. Después la sombra gana la pared y el espacio vuelve a ser silencio."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "18:47",
+  "_borrador": {
+   "title": "Tarde tendida",
+   "resumen": "La luz baja en oblicuo y endurece la sombra contra el muro. El concreto se vuelve dorado por once minutos antes de apagarse.",
+   "narrativa": [
+    "A esta hora la luz deja de iluminar y empieza a dibujar. Entra baja, casi horizontal, y obliga a cada borde a declararse: el filo de la escalera, el plano de la fachada, la hoja que cruza el cielo.",
+    "Dura poco. Once minutos en los que el concreto se vuelve dorado y el edificio parece, por fin, habitado. Después la sombra gana la pared y el espacio vuelve a ser silencio."
+   ],
+   "loc": "Bucaramanga",
+   "time": "18:47",
+   "year": 2026
+  }
  },
  {
   "id": "aire-suspendido",
   "grupo": "galeria",
   "num": "02",
-  "title": "Aire suspendido",
-  "loc": "Patio",
-  "year": 2026,
-  "time": "11:04",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "luz",
   "foto": "fotos-optimizadas/galeria/proyecto25.jpg",
-  "resumen": "Una columna de luz cae desde el lucernario. El aire se vuelve material. La habitación contiene el día.",
-  "narrativa": [
-   "Hay un momento, hacia las once, en que el lucernario deja caer una columna de luz y el aire se vuelve visible. No se mueve nada, pero todo parece flotar un poco.",
-   "La habitación no se llena: se sostiene. La luz hace de techo, de pared y de reloj. Quien entra baja la voz sin saber por qué."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "11:04",
+  "_borrador": {
+   "title": "Aire suspendido",
+   "resumen": "Una columna de luz cae desde el lucernario. El aire se vuelve material. La habitación contiene el día.",
+   "narrativa": [
+    "Hay un momento, hacia las once, en que el lucernario deja caer una columna de luz y el aire se vuelve visible. No se mueve nada, pero todo parece flotar un poco.",
+    "La habitación no se llena: se sostiene. La luz hace de techo, de pared y de reloj. Quien entra baja la voz sin saber por qué."
+   ],
+   "loc": "Patio",
+   "time": "11:04",
+   "year": 2026
+  }
  },
  {
   "id": "borde-de-azul",
   "grupo": "galeria",
   "num": "03",
-  "title": "Borde de azul",
-  "loc": "Umbral",
-  "year": 2026,
-  "time": "18:47",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "umbral",
   "foto": "fotos-optimizadas/galeria/proyecto5.jpg",
-  "resumen": "La penumbra antes de la noche. El espacio se vuelve denso, lento. El cuerpo se queda más tiempo del previsto.",
-  "narrativa": [
-   "Es la hora en que el día ya se fue y la noche todavía no llega. El agua, la madera y el verde se enfrían al mismo tiempo, y todo adquiere ese borde de azul que dura apenas un rato.",
-   "El espacio se vuelve denso y lento. Nadie se apura en salir. El cuerpo se queda más tiempo del previsto, como si irse costara un poco más que quedarse."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "18:47",
+  "_borrador": {
+   "title": "Borde de azul",
+   "resumen": "La penumbra antes de la noche. El espacio se vuelve denso, lento. El cuerpo se queda más tiempo del previsto.",
+   "narrativa": [
+    "Es la hora en que el día ya se fue y la noche todavía no llega. El agua, la madera y el verde se enfrían al mismo tiempo, y todo adquiere ese borde de azul que dura apenas un rato.",
+    "El espacio se vuelve denso y lento. Nadie se apura en salir. El cuerpo se queda más tiempo del previsto, como si irse costara un poco más que quedarse."
+   ],
+   "loc": "Umbral",
+   "time": "18:47",
+   "year": 2026
+  }
  },
  {
   "id": "profundidad",
   "grupo": "galeria",
   "num": "04",
-  "title": "Profundidad",
-  "loc": "Panamá",
-  "year": 2026,
-  "time": "14:22",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "materia",
   "foto": "fotos-optimizadas/galeria/proyecto10.jpg",
-  "resumen": "Texturas, sombras y superficies.",
-  "narrativa": [
-   "Mirar hacia arriba cambia el edificio. Las superficies dejan de ser fachada y se vuelven capas: concreto, baranda, vidrio, cielo. Cada una detrás de la otra, cada una con su propia sombra.",
-   "En blanco y negro, la profundidad se lee por contraste. Lo que importa no es el color sino cuánta luz alcanza a llegar hasta el fondo."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "14:22",
+  "_borrador": {
+   "title": "Profundidad",
+   "resumen": "Texturas, sombras y superficies.",
+   "narrativa": [
+    "Mirar hacia arriba cambia el edificio. Las superficies dejan de ser fachada y se vuelven capas: concreto, baranda, vidrio, cielo. Cada una detrás de la otra, cada una con su propia sombra.",
+    "En blanco y negro, la profundidad se lee por contraste. Lo que importa no es el color sino cuánta luz alcanza a llegar hasta el fondo."
+   ],
+   "loc": "Panamá",
+   "time": "14:22",
+   "year": 2026
+  }
  },
  {
   "id": "reposo",
   "grupo": "galeria",
   "num": "05",
-  "title": "Reposo",
-  "loc": "Sala",
-  "year": 2025,
-  "time": "17:30",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "vacio",
   "foto": "fotos-optimizadas/galeria/proyecto12.jpg",
-  "resumen": "La calma como cualidad espacial y no solo como estilo.",
-  "narrativa": [
-   "La calma no se decora: se construye con lo que se deja de poner. Una sala que descansa tiene pocos objetos, una luz que no pide atención y el espacio justo para respirar.",
-   "A las cinco y media de la tarde el cuarto ya no espera nada. Eso, más que cualquier estilo, es lo que se llama reposo."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "17:30",
+  "_borrador": {
+   "title": "Reposo",
+   "resumen": "La calma como cualidad espacial y no solo como estilo.",
+   "narrativa": [
+    "La calma no se decora: se construye con lo que se deja de poner. Una sala que descansa tiene pocos objetos, una luz que no pide atención y el espacio justo para respirar.",
+    "A las cinco y media de la tarde el cuarto ya no espera nada. Eso, más que cualquier estilo, es lo que se llama reposo."
+   ],
+   "loc": "Sala",
+   "time": "17:30",
+   "year": 2025
+  }
  },
  {
   "id": "materia",
   "grupo": "galeria",
   "num": "06",
-  "title": "Materia",
-  "loc": "Pared",
-  "year": 2025,
-  "time": "15:10",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "materia",
   "foto": "fotos-optimizadas/galeria/proyecto13.jpg",
-  "resumen": "Observación de acabados, tactilidad y peso visual.",
-  "narrativa": [
-   "Algunas paredes se miran con las manos. Antes de tocarlas, la luz rasante ya cuenta cómo son: porosas, ásperas, frías, pesadas.",
-   "Esta lámina observa el acabado como si fuera un paisaje. El peso visual no está en lo que la pared dice, sino en lo que su superficie guarda."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "15:10",
+  "_borrador": {
+   "title": "Materia",
+   "resumen": "Observación de acabados, tactilidad y peso visual.",
+   "narrativa": [
+    "Algunas paredes se miran con las manos. Antes de tocarlas, la luz rasante ya cuenta cómo son: porosas, ásperas, frías, pesadas.",
+    "Esta lámina observa el acabado como si fuera un paisaje. El peso visual no está en lo que la pared dice, sino en lo que su superficie guarda."
+   ],
+   "loc": "Pared",
+   "time": "15:10",
+   "year": 2025
+  }
  },
  {
   "id": "umbral",
   "grupo": "galeria",
   "num": "07",
-  "title": "Umbral",
-  "loc": "Pasillo",
-  "year": 2025,
-  "time": "12:00",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "umbral",
   "foto": "fotos-optimizadas/galeria/proyecto14.jpg",
-  "resumen": "El borde entre entrar y permanecer también diseña experiencia.",
-  "narrativa": [
-   "Un pasillo es el espacio donde todavía no se ha llegado. Es el borde entre entrar y permanecer, y casi nunca se le presta atención.",
-   "Sin embargo ahí se decide mucho: cuánta luz recibe quien llega, cuánto silencio, cuánto tiempo tarda el cuerpo en acomodarse. El umbral también diseña experiencia."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "12:00",
+  "_borrador": {
+   "title": "Umbral",
+   "resumen": "El borde entre entrar y permanecer también diseña experiencia.",
+   "narrativa": [
+    "Un pasillo es el espacio donde todavía no se ha llegado. Es el borde entre entrar y permanecer, y casi nunca se le presta atención.",
+    "Sin embargo ahí se decide mucho: cuánta luz recibe quien llega, cuánto silencio, cuánto tiempo tarda el cuerpo en acomodarse. El umbral también diseña experiencia."
+   ],
+   "loc": "Pasillo",
+   "time": "12:00",
+   "year": 2025
+  }
  },
  {
   "id": "vacio",
   "grupo": "galeria",
   "num": "08",
-  "title": "Vacío",
-  "loc": "Habitación",
-  "year": 2025,
-  "time": "09:18",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "vacio",
   "foto": "fotos-optimizadas/galeria/proyecto15.jpg",
-  "resumen": "Lo que no se llena puede ser también una decisión de carácter.",
-  "narrativa": [
-   "Una habitación sin llenar no está inacabada. A veces el vacío es la decisión más difícil: dejar que el espacio hable sin ayuda.",
-   "A las nueve y cuarto de la mañana la luz recorre el cuarto sin obstáculos. Lo que no está ahí también compone la imagen."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "09:18",
+  "_borrador": {
+   "title": "Vacío",
+   "resumen": "Lo que no se llena puede ser también una decisión de carácter.",
+   "narrativa": [
+    "Una habitación sin llenar no está inacabada. A veces el vacío es la decisión más difícil: dejar que el espacio hable sin ayuda.",
+    "A las nueve y cuarto de la mañana la luz recorre el cuarto sin obstáculos. Lo que no está ahí también compone la imagen."
+   ],
+   "loc": "Habitación",
+   "time": "09:18",
+   "year": 2025
+  }
  },
  {
   "id": "ritmo",
   "grupo": "galeria",
   "num": "09",
-  "title": "Ritmo",
-  "loc": "Fachada",
-  "year": 2024,
-  "time": "16:40",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "ritmo",
   "foto": "fotos-optimizadas/galeria/proyecto16.jpg",
-  "resumen": "Una secuencia visual donde la repetición construye atmósfera.",
-  "narrativa": [
-   "La repetición también es una forma de silencio. Cuando una fachada repite el mismo gesto, la mirada deja de buscar y empieza a seguir.",
-   "Ese ritmo, con la luz de las cuatro y cuarenta, construye atmósfera: no por lo que muestra, sino por la cadencia con que lo muestra."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "16:40",
+  "_borrador": {
+   "title": "Ritmo",
+   "resumen": "Una secuencia visual donde la repetición construye atmósfera.",
+   "narrativa": [
+    "La repetición también es una forma de silencio. Cuando una fachada repite el mismo gesto, la mirada deja de buscar y empieza a seguir.",
+    "Ese ritmo, con la luz de las cuatro y cuarenta, construye atmósfera: no por lo que muestra, sino por la cadencia con que lo muestra."
+   ],
+   "loc": "Fachada",
+   "time": "16:40",
+   "year": 2024
+  }
  },
  {
   "id": "calma",
   "grupo": "galeria",
   "num": "10",
-  "title": "Calma",
-  "loc": "Patio",
-  "year": 2024,
-  "time": "07:05",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "vacio",
   "foto": "fotos-optimizadas/galeria/proyecto8.jpg",
-  "resumen": "Luz contenida, composición sobria y una presencia silenciosa.",
-  "narrativa": [
-   "Las siete de la mañana en un patio: la luz todavía está contenida, la composición es sobria y nada pide ser mirado.",
-   "La calma aquí no es ausencia de movimiento sino presencia silenciosa. Algo permanece, sin esfuerzo, mientras el día termina de despertar."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "07:05",
+  "_borrador": {
+   "title": "Calma",
+   "resumen": "Luz contenida, composición sobria y una presencia silenciosa.",
+   "narrativa": [
+    "Las siete de la mañana en un patio: la luz todavía está contenida, la composición es sobria y nada pide ser mirado.",
+    "La calma aquí no es ausencia de movimiento sino presencia silenciosa. Algo permanece, sin esfuerzo, mientras el día termina de despertar."
+   ],
+   "loc": "Patio",
+   "time": "07:05",
+   "year": 2024
+  }
  },
  {
   "id": "tension",
   "grupo": "galeria",
   "num": "11",
-  "title": "Tensión",
-  "loc": "Esquina",
-  "year": 2024,
-  "time": "13:25",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "materia",
   "foto": "fotos-optimizadas/galeria/proyecto19.jpg",
-  "resumen": "Contrastes leves para producir una emoción más profunda que lo obvio.",
-  "narrativa": [
-   "Una esquina concentra fuerzas: dos planos que se encuentran, una sombra que cae en el lugar exacto. La tensión no necesita gritar.",
-   "Bastan contrastes leves para producir una emoción más profunda que lo obvio. Esta lámina trabaja con lo que casi no se nota."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "13:25",
+  "_borrador": {
+   "title": "Tensión",
+   "resumen": "Contrastes leves para producir una emoción más profunda que lo obvio.",
+   "narrativa": [
+    "Una esquina concentra fuerzas: dos planos que se encuentran, una sombra que cae en el lugar exacto. La tensión no necesita gritar.",
+    "Bastan contrastes leves para producir una emoción más profunda que lo obvio. Esta lámina trabaja con lo que casi no se nota."
+   ],
+   "loc": "Esquina",
+   "time": "13:25",
+   "year": 2024
+  }
  },
  {
   "id": "silencio",
   "grupo": "galeria",
   "num": "12",
-  "title": "Silencio",
-  "loc": "Sala",
-  "year": 2024,
-  "time": "06:32",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "vacio",
   "foto": "fotos-optimizadas/galeria/proyecto20.jpg",
-  "resumen": "Espacios que no necesitan exceso para sentirse completos.",
-  "narrativa": [
-   "A las seis y media la sala todavía no ha sido usada por el día. Es el momento más silencioso del espacio: todo está en su sitio y nada intenta demostrarlo.",
-   "Hay lugares que no necesitan exceso para sentirse completos. Aquí, el silencio es el mejor material."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "06:32",
+  "_borrador": {
+   "title": "Silencio",
+   "resumen": "Espacios que no necesitan exceso para sentirse completos.",
+   "narrativa": [
+    "A las seis y media la sala todavía no ha sido usada por el día. Es el momento más silencioso del espacio: todo está en su sitio y nada intenta demostrarlo.",
+    "Hay lugares que no necesitan exceso para sentirse completos. Aquí, el silencio es el mejor material."
+   ],
+   "loc": "Sala",
+   "time": "06:32",
+   "year": 2024
+  }
  },
  {
   "id": "huella",
   "grupo": "galeria",
   "num": "13",
-  "title": "Huella",
-  "loc": "Piso",
-  "year": 2024,
-  "time": "10:50",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "materia",
   "foto": "fotos-optimizadas/galeria/proyecto9.jpg",
-  "resumen": "Rastros de uso, desgaste y memoria como parte del lenguaje espacial.",
-  "narrativa": [
-   "El piso recuerda. Cada paso, cada arrastre, cada mancha de sol queda en la superficie como un registro lento de quienes pasaron.",
-   "El desgaste no es un defecto: es memoria. Esta lámina lo mira como parte del lenguaje espacial, no como algo que haya que corregir."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "10:50",
+  "_borrador": {
+   "title": "Huella",
+   "resumen": "Rastros de uso, desgaste y memoria como parte del lenguaje espacial.",
+   "narrativa": [
+    "El piso recuerda. Cada paso, cada arrastre, cada mancha de sol queda en la superficie como un registro lento de quienes pasaron.",
+    "El desgaste no es un defecto: es memoria. Esta lámina lo mira como parte del lenguaje espacial, no como algo que haya que corregir."
+   ],
+   "loc": "Piso",
+   "time": "10:50",
+   "year": 2024
+  }
  },
  {
   "id": "densidad",
   "grupo": "galeria",
   "num": "14",
-  "title": "Densidad",
-  "loc": "Muro",
-  "year": 2024,
-  "time": "17:14",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "materia",
   "foto": "fotos-optimizadas/galeria/proyecto23.jpg",
-  "resumen": "Capas de materia y sombra que agregan espesor emocional.",
-  "narrativa": [
-   "Un muro puede tener espesor emocional. Cuando la luz baja, las capas de materia y de sombra se superponen y el plano deja de ser plano.",
-   "A las cinco y catorce el muro parece más grueso de lo que es. La densidad no se mide: se siente al mirar."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "17:14",
+  "_borrador": {
+   "title": "Densidad",
+   "resumen": "Capas de materia y sombra que agregan espesor emocional.",
+   "narrativa": [
+    "Un muro puede tener espesor emocional. Cuando la luz baja, las capas de materia y de sombra se superponen y el plano deja de ser plano.",
+    "A las cinco y catorce el muro parece más grueso de lo que es. La densidad no se mide: se siente al mirar."
+   ],
+   "loc": "Muro",
+   "time": "17:14",
+   "year": 2024
+  }
  },
  {
   "id": "luz",
   "grupo": "galeria",
   "num": "15",
-  "title": "Luz",
-  "loc": "Ventana",
-  "year": 2024,
-  "time": "19:01",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "luz",
   "foto": "fotos-optimizadas/galeria/proyecto24.jpg",
-  "resumen": "Una observación sobre cómo la luz ordena y da sentido al espacio.",
-  "narrativa": [
-   "Una ventana es la forma más simple de elegir qué parte del día entra. A las siete de la tarde, lo que entra es poco y lo ordena todo.",
-   "Esta lámina observa cómo la luz da sentido al espacio: decide qué se ve primero, qué queda en penumbra y cuánto dura cada cosa."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "19:01",
+  "_borrador": {
+   "title": "Luz",
+   "resumen": "Una observación sobre cómo la luz ordena y da sentido al espacio.",
+   "narrativa": [
+    "Una ventana es la forma más simple de elegir qué parte del día entra. A las siete de la tarde, lo que entra es poco y lo ordena todo.",
+    "Esta lámina observa cómo la luz da sentido al espacio: decide qué se ve primero, qué queda en penumbra y cuánto dura cada cosa."
+   ],
+   "loc": "Ventana",
+   "time": "19:01",
+   "year": 2024
+  }
  },
  {
   "id": "estudio-1-calida",
   "grupo": "estudio",
   "num": "I",
-  "title": "Cálida",
-  "loc": "Cuarto norte",
-  "year": 2026,
-  "time": "06:14",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "Naciente",
   "foto": "fotos-optimizadas/laminas/lamina-1.jpg",
-  "resumen": "La primera luz cruza el cuarto en oblicuo. El aire tiene temperatura. La pared retiene el frío de la noche.",
-  "narrativa": [
-   "Seis y catorce: la primera luz cruza el cuarto en oblicuo. Todavía no calienta, pero ya tiene color, y el aire cambia de temperatura al recibirla.",
-   "La pared aún retiene el frío de la noche. Entre ese frío y esa luz naciente ocurre el estudio entero: un cuarto que se despierta despacio."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "06:14",
+  "_borrador": {
+   "title": "Cálida",
+   "resumen": "La primera luz cruza el cuarto en oblicuo. El aire tiene temperatura. La pared retiene el frío de la noche.",
+   "narrativa": [
+    "Seis y catorce: la primera luz cruza el cuarto en oblicuo. Todavía no calienta, pero ya tiene color, y el aire cambia de temperatura al recibirla.",
+    "La pared aún retiene el frío de la noche. Entre ese frío y esa luz naciente ocurre el estudio entero: un cuarto que se despierta despacio."
+   ],
+   "loc": "Cuarto norte",
+   "time": "06:14",
+   "year": 2026
+  }
  },
  {
   "id": "estudio-2-lavanda",
   "grupo": "estudio",
   "num": "II",
-  "title": "Lavanda",
-  "loc": "Lucernario",
-  "year": 2026,
-  "time": "11:03",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "Vertical",
   "foto": "fotos-optimizadas/laminas/lamina-2.jpg",
-  "resumen": "La luz desciende limpia desde arriba. La habitación contiene el día. El cuerpo se aquieta.",
-  "narrativa": [
-   "A las once y tres minutos la luz desciende limpia desde arriba, por el lucernario, sin rebotes ni adornos. Tiñe el aire de un violeta casi imperceptible.",
-   "La habitación contiene el día. El cuerpo se aquieta de manera casi automática, como cuando se baja la voz al entrar a un lugar que lo pide."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "11:03",
+  "_borrador": {
+   "title": "Lavanda",
+   "resumen": "La luz desciende limpia desde arriba. La habitación contiene el día. El cuerpo se aquieta.",
+   "narrativa": [
+    "A las once y tres minutos la luz desciende limpia desde arriba, por el lucernario, sin rebotes ni adornos. Tiñe el aire de un violeta casi imperceptible.",
+    "La habitación contiene el día. El cuerpo se aquieta de manera casi automática, como cuando se baja la voz al entrar a un lugar que lo pide."
+   ],
+   "loc": "Lucernario",
+   "time": "11:03",
+   "year": 2026
+  }
  },
  {
   "id": "estudio-3-crepusculo",
   "grupo": "estudio",
   "num": "III",
-  "title": "Crepúsculo",
-  "loc": "Borde de azul",
-  "year": 2026,
-  "time": "18:47",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "Poniente",
   "foto": "fotos-optimizadas/laminas/lamina-3.jpg",
-  "resumen": "Once minutos antes de la noche. La materia se densifica. Quedarse cuesta menos que irse.",
-  "narrativa": [
-   "La luz se retira y la materia se densifica: el muro, el piso y el aire parecen hechos del mismo material. Las sillas dejan de ser objetos y se vuelven silueta.",
-   "Es el estudio que cierra el día: lo que queda cuando ya casi no queda luz, y la sensación de que quedarse es lo más fácil."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "18:47",
+  "_borrador": {
+   "title": "Crepúsculo",
+   "resumen": "Once minutos antes de la noche. La materia se densifica. Quedarse cuesta menos que irse.",
+   "narrativa": [
+    "La luz se retira y la materia se densifica: el muro, el piso y el aire parecen hechos del mismo material. Las sillas dejan de ser objetos y se vuelven silueta.",
+    "Es el estudio que cierra el día: lo que queda cuando ya casi no queda luz, y la sensación de que quedarse es lo más fácil."
+   ],
+   "loc": "Borde de azul",
+   "time": "18:47",
+   "year": 2026
+  }
  },
  {
   "id": "estudio-4-mediodia",
   "grupo": "estudio",
   "num": "IV",
-  "title": "Mediodía",
-  "loc": "Patio",
-  "year": 2026,
-  "time": "12:00",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "Cenital",
   "foto": "fotos-optimizadas/laminas/lamina-4.jpg",
-  "resumen": "La luz cae recta y todo queda a la vista. Las sombras casi desaparecen.",
-  "narrativa": [
-   "A las doce la luz cae recta y las sombras casi desaparecen. Todo queda a la vista, y por eso casi nada se esconde.",
-   "Es la hora menos misteriosa y quizá la más honesta: el espacio se muestra como es, sin ninguna ayuda del ángulo."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "12:00",
+  "_borrador": {
+   "title": "Mediodía",
+   "resumen": "La luz cae recta y todo queda a la vista. Las sombras casi desaparecen.",
+   "narrativa": [
+    "A las doce la luz cae recta y las sombras casi desaparecen. Todo queda a la vista, y por eso casi nada se esconde.",
+    "Es la hora menos misteriosa y quizá la más honesta: el espacio se muestra como es, sin ninguna ayuda del ángulo."
+   ],
+   "loc": "Patio",
+   "time": "12:00",
+   "year": 2026
+  }
  },
  {
   "id": "estudio-5-sage",
   "grupo": "estudio",
   "num": "V",
-  "title": "Sage",
-  "loc": "Jardín",
-  "year": 2026,
-  "time": "15:47",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "Filtrada",
   "foto": "fotos-optimizadas/laminas/lamina-5.jpg",
-  "resumen": "La luz atraviesa el verde y se vuelve tranquila. El aire parece más fresco de lo que es.",
-  "narrativa": [
-   "A las tres y cuarenta y siete la luz atraviesa las hojas y llega ya cansada y verde. El aire parece más fresco de lo que es.",
-   "Este estudio mira la luz filtrada: lo que sobrevive del sol cuando pasa por algo vivo antes de tocar el suelo."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "15:47",
+  "_borrador": {
+   "title": "Sage",
+   "resumen": "La luz atraviesa el verde y se vuelve tranquila. El aire parece más fresco de lo que es.",
+   "narrativa": [
+    "A las tres y cuarenta y siete la luz atraviesa las hojas y llega ya cansada y verde. El aire parece más fresco de lo que es.",
+    "Este estudio mira la luz filtrada: lo que sobrevive del sol cuando pasa por algo vivo antes de tocar el suelo."
+   ],
+   "loc": "Jardín",
+   "time": "15:47",
+   "year": 2026
+  }
  },
  {
   "id": "estudio-6-noche-temprana",
   "grupo": "estudio",
   "num": "VI",
-  "title": "Noche temprana",
-  "loc": "Ventana",
-  "year": 2026,
-  "time": "19:12",
+  "title": "",
+  "loc": "",
+  "year": "",
+  "time": "",
   "cat": "Poniente",
   "foto": "fotos-optimizadas/laminas/lamina-6.jpg",
-  "resumen": "La luz ya se fue y el cuarto todavía la recuerda. El azul se vuelve tinta.",
-  "narrativa": [
-   "Cuando la luz ya se fue, el cuarto todavía la recuerda. El azul del cielo entra por la ventana y se vuelve casi tinta sobre el piso.",
-   "Es el último estudio de la serie: no muestra la luz, muestra lo que deja detrás."
-  ]
+  "resumen": "",
+  "narrativa": [],
+  "hora": "19:12",
+  "_borrador": {
+   "title": "Noche temprana",
+   "resumen": "La luz ya se fue y el cuarto todavía la recuerda. El azul se vuelve tinta.",
+   "narrativa": [
+    "Cuando la luz ya se fue, el cuarto todavía la recuerda. El azul del cielo entra por la ventana y se vuelve casi tinta sobre el piso.",
+    "Es el último estudio de la serie: no muestra la luz, muestra lo que deja detrás."
+   ],
+   "loc": "Ventana",
+   "time": "19:12",
+   "year": 2026
+  }
  }
 ]
