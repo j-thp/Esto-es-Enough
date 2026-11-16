@@ -442,7 +442,7 @@
       const { data, error } = await sb.auth.signUp({
         email,
         password: pass,
-        options: { data: { nombre: document.getElementById('r-nombre').value, titulo: document.getElementById('r-titulo').value } }
+        options: { emailRedirectTo: 'https://j-thp.github.io/Esto-es-Enough/dashboard.html', data: { nombre: document.getElementById('r-nombre').value, titulo: document.getElementById('r-titulo').value } }
       });
       if (error) { setMsg('msg-registro', '— ' + error.message, 'error'); return; }
       if (data?.session) {
