@@ -216,7 +216,7 @@
         const lugar = inp(f.lugar, 'Opcional');
         const hora = inp(f.hora, 'HH:MM');
         const fila = document.createElement('div'); fila.className = 'fila2';
-        fila.append(campo('Categoría', cat), campo('Lugar', lugar), campo('Hora (da el tono)', hora));
+        fila.append(campo('Categoría', cat), campo('Localización', lugar), campo('Hora (da el tono)', hora));
         const vis = document.createElement('input'); vis.type = 'checkbox'; vis.checked = f.visible;
         const visL = document.createElement('label'); visL.className = 'chk'; visL.append(vis, document.createTextNode('Visible en la web'));
         const estado = document.createElement('span'); estado.className = 'estado';
